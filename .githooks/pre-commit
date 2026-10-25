@@ -1,0 +1,10 @@
+#!/bin/sh
+# Aborts the commit if detekt reports any code smells.
+echo "Running detekt..."
+
+if ! ./gradlew detekt --quiet; then
+    echo ""
+    echo "detekt found issues, commit aborted."
+    echo "Run ./gradlew detektFormat to auto correct formatting issues."
+    exit 1
+fi

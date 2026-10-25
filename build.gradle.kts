@@ -25,6 +25,12 @@ detekt {
     parallel = true
 }
 
+// Points git to the versioned hooks, so they are active after the first Gradle sync
+providers.exec {
+    commandLine("git", "config", "core.hooksPath", ".githooks")
+    isIgnoreExitValue = true
+}.result.get()
+
 dependencies {
     detektPlugins(libs.detekt.ktlintWrapper)
     detektPlugins(libs.detekt.composeRules)
