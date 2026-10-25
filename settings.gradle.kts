@@ -29,4 +29,5 @@ dependencyResolutionManagement {
 
 include(":androidApp")
 include(":demo")
+include(":theme")
 include(":strata:draggable")

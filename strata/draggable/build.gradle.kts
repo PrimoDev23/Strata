@@ -24,6 +24,12 @@ kotlin {
     sourceSets {
         commonMain.dependencies {
             api(libs.compose.foundation)
+            implementation(libs.compose.uiToolingPreview)
+            implementation(project(":theme"))
         }
     }
+}
+
+dependencies {
+    androidRuntimeClasspath(libs.compose.uiTooling)
 }

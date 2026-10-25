@@ -1,9 +1,9 @@
 package dev.leonp.strata
 
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
+import dev.leonp.strata.theme.StrataTheme
 
 @Composable
 fun App() {
-    MaterialTheme {}
+    StrataTheme {}
 }
