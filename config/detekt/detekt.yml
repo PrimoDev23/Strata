@@ -1,0 +1,95 @@
+ktlint:
+  active: true
+  autoCorrect: true
+  code_style: 'android_studio'
+  # https://detekt.dev/docs/rules/ktlint/#finalnewline
+  FinalNewline:
+    active: false
+  # https://detekt.dev/docs/rules/ktlint/#multilineifelse
+  MultiLineIfElse:
+    active: true
+  # https://detekt.dev/docs/rules/ktlint/#argumentlistwrapping
+  ArgumentListWrapping:
+    active: true
+  # https://detekt.dev/docs/rules/ktlint/#maximumlinelength
+  # Disabled because it is also contained in style rules
+  MaximumLineLength:
+    active: false
+  # https://detekt.dev/docs/rules/ktlint/#annotationonseparateline
+  # Disabled because also multiple annotations on function parameters are reported
+  AnnotationOnSeparateLine:
+    active: false
+  # https://detekt.dev/docs/rules/ktlint/#trailingcommaoncallsite
+  TrailingCommaOnCallSite:
+    active: true
+  # https://detekt.dev/docs/rules/ktlint/#trailingcommaondeclarationsite
+  TrailingCommaOnDeclarationSite:
+    active: true
+  PackageName:
+    active: false
+naming:
+  # https://detekt.dev/docs/rules/naming/#invalidpackagedeclaration
+  InvalidPackageDeclaration:
+    active: true
+  # https://detekt.dev/docs/rules/naming/#functionnaming
+  FunctionNaming:
+    ignoreAnnotated: [ 'Composable' ]
+  TopLevelPropertyNaming:
+    active: false
+  PackageNaming:
+    active: false
+style:
+  # https://detekt.dev/docs/rules/style/#newlineatendoffile
+  NewLineAtEndOfFile:
+    active: false
+  # https://detekt.dev/docs/rules/style/#forbiddencomment
+  ForbiddenComment:
+    active: false
+  # https://detekt.dev/docs/rules/style/#wildcardimport
+  WildcardImport:
+    active: false
+  # https://detekt.dev/docs/rules/style#unusedprivatefunction
+  UnusedPrivateFunction:
+    ignoreAnnotated: [ 'Preview', 'PreviewLightDark' ]
+  MaxLineLength:
+    # Test method names might be too long, but you cannot break method names into multiple lines
+    excludes: [ '**/test/**' ]
+exceptions:
+  active: true
+  # https://detekt.dev/docs/rules/exceptions/#toogenericexceptioncaught
+  TooGenericExceptionCaught:
+    active: false
+complexity:
+  # https://detekt.dev/docs/rules/complexity#longparameterlist
+  LongParameterList:
+    active: false
+  # https://detekt.dev/docs/rules/complexity/#longmethod
+  LongMethod:
+    ignoreAnnotated: [ 'Composable' ]
+    allowedLines: 200
+  # https://detekt.dev/docs/rules/complexity/#cyclomaticcomplexmethod
+  CyclomaticComplexMethod:
+    allowedComplexity: 20
+    ignoreAnnotated: [ 'Composable' ]
+    # Ignores a complex method if it only contains a single when expression.
+    ignoreSingleWhenExpression: true
+    # Ignores simple (braceless) when entries
+    ignoreSimpleWhenEntries: true
+  LargeClass:
+    excludes: [ '**/commonTest/**' ]
+  TooManyFunctions:
+    excludes: [ '**/commonTest/**', '**/*ViewModel.kt', '**/*Screen.kt', '**/*Dao.kt', '**/*DataSource.kt', '**/*DataSourceImpl.kt', '**/*Repository.kt', '**/*RepositoryImpl.kt', '**/*StateFactory.kt', "**/MockHelper.kt" ]
+Compose:
+  # https://mrmans0n.github.io/compose-rules/rules/#naming-multipreview-annotations-properly
+  PreviewNaming:
+    active: false
+    # to stay aligned with "official" preview names
+  # https://mrmans0n.github.io/compose-rules/rules/#avoid-using-unstable-collections
+  UnstableCollections:
+    active: false
+  ParameterNaming:
+    active: false
+  MultipleEmitters:
+    active: false
+  CompositionLocalAllowlist:
+    active: false
