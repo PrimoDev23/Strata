@@ -40,6 +40,7 @@ kotlin {
             implementation(libs.compose.components.resources)
             implementation(libs.compose.uiToolingPreview)
             implementation(project(":theme"))
+            implementation(project(":strata:draggable"))
         }
     }
 }
