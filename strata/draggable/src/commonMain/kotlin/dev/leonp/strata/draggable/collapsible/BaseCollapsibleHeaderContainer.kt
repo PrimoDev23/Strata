@@ -1,7 +1,5 @@
 package dev.leonp.strata.draggable.collapsible
 
-import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.SharedTransitionScope
 import androidx.compose.foundation.gestures.Orientation
 import androidx.compose.foundation.gestures.anchoredDraggable
 import androidx.compose.foundation.layout.Box
@@ -14,7 +12,6 @@ import androidx.compose.foundation.layout.only
 import androidx.compose.foundation.layout.systemBars
 import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.layout.Layout
@@ -70,23 +67,4 @@ internal fun BaseCollapsibleHeaderContainer(
             }
         }
     )
-}
-
-@Composable
-private fun DummyCollapsibleHeaderScope(content: @Composable CollapsibleHeaderScope.() -> Unit) {
-    SharedTransitionScope { modifier ->
-        AnimatedVisibility(
-            modifier = modifier,
-            visible = true
-        ) {
-            val scope = remember(this@SharedTransitionScope, this) {
-                CollapsibleHeaderScope(
-                    sharedTransitionScope = this@SharedTransitionScope,
-                    animatedVisibilityScope = this
-                )
-            }
-
-            scope.content()
-        }
-    }
 }
