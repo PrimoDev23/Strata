@@ -79,7 +79,6 @@ internal class CollapsibleHeaderContainerMeasurePolicy(
         } else {
             state.draggableState.offset.toInt()
         }
-        println("Height: $currentHeaderHeight")
         val realHeaderConstraints = constraints.copy(
             minHeight = currentHeaderHeight,
             maxHeight = currentHeaderHeight
