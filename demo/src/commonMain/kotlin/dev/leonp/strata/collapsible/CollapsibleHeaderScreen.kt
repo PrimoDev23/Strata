@@ -1,6 +1,7 @@
 package dev.leonp.strata.collapsible
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -11,6 +12,7 @@ import androidx.compose.material3.ListItem
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import dev.leonp.strata.draggable.collapsible.CollapsibleHeaderContainer
@@ -18,6 +20,9 @@ import dev.leonp.strata.draggable.collapsible.CollapsibleHeaderContainer
 @Composable
 fun CollapsibleHeaderScreen(modifier: Modifier = Modifier) {
     CollapsibleHeaderContainer(
+        modifier = modifier
+            .fillMaxSize()
+            .background(MaterialTheme.colorScheme.background),
         expandedHeader = { padding ->
             Column(
                 modifier = Modifier
@@ -39,22 +44,26 @@ fun CollapsibleHeaderScreen(modifier: Modifier = Modifier) {
             }
         },
         collapsedHeader = { padding ->
-            Text(
-                text = "Collapsible header",
-                style = MaterialTheme.typography.titleMedium,
-                color = MaterialTheme.colorScheme.onPrimaryContainer,
+            Box(
                 modifier = Modifier
                     .fillMaxWidth()
                     .background(MaterialTheme.colorScheme.primaryContainer)
-                    .padding(padding)
-                    .padding(all = 16.dp)
-            )
-        },
-        modifier = modifier
-            .fillMaxSize()
-            .background(MaterialTheme.colorScheme.background)
+                    .padding(padding),
+                contentAlignment = Alignment.CenterStart
+            ) {
+                Text(
+                    modifier = Modifier.padding(16.dp),
+                    text = "Collapsible header",
+                    style = MaterialTheme.typography.titleMedium,
+                    color = MaterialTheme.colorScheme.onPrimaryContainer
+                )
+            }
+        }
     ) { padding ->
-        LazyColumn(contentPadding = padding) {
+        LazyColumn(
+            modifier = Modifier.fillMaxSize(),
+            contentPadding = padding
+        ) {
             items(count = 50) { index ->
                 ListItem(headlineContent = { Text(text = "Item ${index + 1}") })
                 HorizontalDivider()

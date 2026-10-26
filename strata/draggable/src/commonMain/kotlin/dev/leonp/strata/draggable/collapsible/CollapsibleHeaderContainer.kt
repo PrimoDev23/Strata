@@ -69,7 +69,10 @@ fun CollapsibleHeaderContainer(
                 expandedHeader(topPaddingValues)
             }
 
-            Box(modifier = Modifier.layoutId(CollapsibleHeaderLayoutId.Header)) {
+            Box(
+                modifier = Modifier.layoutId(CollapsibleHeaderLayoutId.Header),
+                propagateMinConstraints = true
+            ) {
                 if (collapsedHeader == null) {
                     expandedHeader(topPaddingValues)
                 } else {
