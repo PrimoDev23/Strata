@@ -48,19 +48,18 @@ fun SharedTransitionScope.AnimatableCollapsibleHeaderContainer(
     BaseCollapsibleHeaderContainer(
         modifier = modifier,
         header = { headerState ->
-            val topInsets = insets.only(WindowInsetsSides.Top)
-            val topPadding = topInsets.asPaddingValues()
+            val headerInsets = insets.only(WindowInsetsSides.Horizontal + WindowInsetsSides.Top)
+            val headerPadding = headerInsets.asPaddingValues()
 
             if (isMeasuring) {
                 DummyAnimatedCollapsibleHeaderScope {
                     when (headerState) {
                         CollapsibleHeaderState.Collapsed -> collapsedHeader?.invoke(
                             this,
-                            topPadding
-                        )
-                            ?: InsetSpacer(insets = topInsets)
+                            headerPadding
+                        ) ?: InsetSpacer(insets = headerInsets)
 
-                        CollapsibleHeaderState.Expanded -> expandedHeader(topPadding)
+                        CollapsibleHeaderState.Expanded -> expandedHeader(headerPadding)
                     }
                 }
             } else {
@@ -88,11 +87,10 @@ fun SharedTransitionScope.AnimatableCollapsibleHeaderContainer(
                             when (animatedHeaderState) {
                                 CollapsibleHeaderState.Collapsed -> collapsedHeader?.invoke(
                                     this,
-                                    topPadding
-                                )
-                                    ?: expandedHeader(topPadding)
+                                    headerPadding
+                                ) ?: expandedHeader(headerPadding)
 
-                                CollapsibleHeaderState.Expanded -> expandedHeader(topPadding)
+                                CollapsibleHeaderState.Expanded -> expandedHeader(headerPadding)
                             }
                         }
                     }

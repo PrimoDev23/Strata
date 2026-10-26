@@ -33,22 +33,22 @@ fun CollapsibleHeaderContainer(
     BaseCollapsibleHeaderContainer(
         modifier = modifier,
         header = { headerState ->
-            val topInsets = insets.only(WindowInsetsSides.Top)
-            val topPadding = topInsets.asPaddingValues()
+            val headerInsets = insets.only(WindowInsetsSides.Horizontal + WindowInsetsSides.Top)
+            val headerPadding = headerInsets.asPaddingValues()
 
             if (isMeasuring) {
                 when (headerState) {
-                    CollapsibleHeaderState.Collapsed -> collapsedHeader?.invoke(topPadding)
-                        ?: InsetSpacer(insets = topInsets)
+                    CollapsibleHeaderState.Collapsed -> collapsedHeader?.invoke(headerPadding)
+                        ?: InsetSpacer(insets = headerInsets)
 
-                    CollapsibleHeaderState.Expanded -> expandedHeader(topPadding)
+                    CollapsibleHeaderState.Expanded -> expandedHeader(headerPadding)
                 }
             } else {
                 when (headerState) {
-                    CollapsibleHeaderState.Collapsed -> collapsedHeader?.invoke(topPadding)
-                        ?: expandedHeader(topPadding)
+                    CollapsibleHeaderState.Collapsed -> collapsedHeader?.invoke(headerPadding)
+                        ?: expandedHeader(headerPadding)
 
-                    CollapsibleHeaderState.Expanded -> expandedHeader(topPadding)
+                    CollapsibleHeaderState.Expanded -> expandedHeader(headerPadding)
                 }
             }
         },

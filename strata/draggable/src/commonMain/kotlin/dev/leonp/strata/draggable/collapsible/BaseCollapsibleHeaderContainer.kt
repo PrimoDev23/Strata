@@ -10,7 +10,6 @@ import androidx.compose.foundation.layout.asPaddingValues
 import androidx.compose.foundation.layout.consumeWindowInsets
 import androidx.compose.foundation.layout.only
 import androidx.compose.foundation.layout.systemBars
-import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clipToBounds
@@ -29,13 +28,9 @@ internal fun BaseCollapsibleHeaderContainer(
     insets: WindowInsets = WindowInsets.systemBars,
     content: @Composable (PaddingValues) -> Unit
 ) {
-    val horizontalInsets = insets.only(WindowInsetsSides.Horizontal)
-    val verticalInsets = insets.only(WindowInsetsSides.Vertical)
-
     Layout(
         modifier = modifier
-            .windowInsetsPadding(horizontalInsets)
-            .consumeWindowInsets(verticalInsets)
+            .consumeWindowInsets(insets)
             .nestedScroll(rememberCollapsibleHeaderContainerScrollConnection(state = state)),
         measurePolicy = rememberCollapsibleHeaderContainerMeasurePolicy(state = state),
         content = {
@@ -64,9 +59,11 @@ internal fun BaseCollapsibleHeaderContainer(
                     )
                     .layoutId(CollapsibleHeaderLayoutId.Content)
             ) {
-                val bottomInsets = insets.only(WindowInsetsSides.Bottom)
+                val contentInsets = insets.only(
+                    WindowInsetsSides.Bottom + WindowInsetsSides.Horizontal
+                )
 
-                content(bottomInsets.asPaddingValues())
+                content(contentInsets.asPaddingValues())
             }
         }
     )
