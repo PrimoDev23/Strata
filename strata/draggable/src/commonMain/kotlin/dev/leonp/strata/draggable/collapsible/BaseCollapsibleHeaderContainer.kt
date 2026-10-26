@@ -13,6 +13,7 @@ import androidx.compose.foundation.layout.systemBars
 import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clipToBounds
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.layout.Layout
 import androidx.compose.ui.layout.layoutId
@@ -47,7 +48,9 @@ internal fun BaseCollapsibleHeaderContainer(
             }
 
             Box(
-                modifier = Modifier.layoutId(CollapsibleHeaderLayoutId.Header),
+                modifier = Modifier
+                    .layoutId(CollapsibleHeaderLayoutId.Header)
+                    .clipToBounds(),
                 propagateMinConstraints = true
             ) {
                 BaseCollapsibleHeaderScope.PlacementScope.header(state.draggableState.currentValue)

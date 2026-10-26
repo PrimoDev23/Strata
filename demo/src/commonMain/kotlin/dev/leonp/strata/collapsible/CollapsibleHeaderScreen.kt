@@ -62,11 +62,11 @@ fun CollapsibleHeaderScreen(modifier: Modifier = Modifier) {
                 ) {
                     Text(
                         modifier = Modifier
+                            .padding(16.dp)
                             .sharedBounds(
                                 sharedContentState = rememberSharedContentState(HEADER_TEXT_KEY),
                                 animatedVisibilityScope = this@AnimatableCollapsibleHeaderContainer
-                            )
-                            .padding(16.dp),
+                            ),
                         text = "Collapsible header",
                         style = MaterialTheme.typography.titleMedium,
                         color = MaterialTheme.colorScheme.onPrimaryContainer

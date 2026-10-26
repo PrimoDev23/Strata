@@ -46,16 +46,19 @@ internal class CollapsibleHeaderContainerScrollConnection(
     }
 
     override suspend fun onPostFling(consumed: Velocity, available: Velocity): Velocity {
-        state.draggableState.animateToWithDecay(
+        val used = state.draggableState.animateToWithDecay(
             targetValue = state.draggableState.targetValue,
             velocity = available.y
         )
 
-        return available
+        return Velocity(
+            x = 0f,
+            y = used
+        )
     }
 }
 
 @Composable
 internal fun rememberCollapsibleHeaderContainerScrollConnection(
     state: CollapsibleHeaderContainerState
-) = remember { CollapsibleHeaderContainerScrollConnection(state = state) }
+) = remember(state) { CollapsibleHeaderContainerScrollConnection(state = state) }
