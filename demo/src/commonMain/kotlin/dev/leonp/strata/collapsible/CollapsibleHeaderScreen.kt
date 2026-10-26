@@ -17,6 +17,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import dev.leonp.strata.draggable.collapsible.CollapsibleHeaderContainer
 
+private const val HEADER_TEXT_KEY = "HeaderText"
+
 @Composable
 fun CollapsibleHeaderScreen(modifier: Modifier = Modifier) {
     CollapsibleHeaderContainer(

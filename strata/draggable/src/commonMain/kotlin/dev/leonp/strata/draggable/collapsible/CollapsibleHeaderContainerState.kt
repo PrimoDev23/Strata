@@ -1,5 +1,6 @@
 package dev.leonp.strata.draggable.collapsible
 
+import androidx.compose.animation.core.SeekableTransitionState
 import androidx.compose.foundation.gestures.AnchoredDraggableState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Stable
@@ -11,6 +12,7 @@ class CollapsibleHeaderContainerState internal constructor(
     initialValue: CollapsibleHeaderState = CollapsibleHeaderState.Expanded
 ) {
     internal val draggableState = AnchoredDraggableState(initialValue = initialValue)
+    internal val transitionState = SeekableTransitionState(initialState = initialValue)
 
     internal companion object {
         val Saver = mapSaver(
