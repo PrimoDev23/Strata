@@ -7,26 +7,18 @@ import androidx.compose.animation.ExitTransition
 import androidx.compose.animation.SharedTransitionScope
 import androidx.compose.animation.core.rememberTransition
 import androidx.compose.animation.togetherWith
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.WindowInsetsSides
 import androidx.compose.foundation.layout.asPaddingValues
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.only
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.systemBars
 import androidx.compose.foundation.layout.wrapContentHeight
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
 import dev.leonp.strata.draggable.common.DraggableLayoutState
 import dev.leonp.strata.draggable.common.DraggableLayoutTransitionEffect
 import dev.leonp.strata.draggable.header.CollapsibleHeaderContainer
@@ -34,7 +26,6 @@ import dev.leonp.strata.draggable.header.base.BaseCollapsibleHeaderContainer
 import dev.leonp.strata.draggable.header.common.CollapsibleHeaderContainerState
 import dev.leonp.strata.draggable.header.common.InsetSpacer
 import dev.leonp.strata.draggable.header.common.rememberCollapsibleHeaderContainerState
-import dev.leonp.strata.theme.StrataTheme
 
 // The header slots are intentionally composed multiple times at once: hidden copies are used to
 // measure the collapsed and expanded heights while another copy is the visible header.
@@ -192,47 +183,6 @@ private fun DummyAnimatedCollapsibleHeaderScope(
             }
 
             scope.content()
-        }
-    }
-}
-
-@Preview
-@Composable
-private fun CollapsibleHeaderContainerPreview() {
-    StrataTheme {
-        CollapsibleHeaderContainer(
-            expandedHeader = { padding ->
-                Text(
-                    text = "Expanded header",
-                    style = MaterialTheme.typography.headlineMedium,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .background(MaterialTheme.colorScheme.primaryContainer)
-                        .padding(padding)
-                        .padding(all = 24.dp),
-                )
-            },
-            collapsedHeader = { padding ->
-                Text(
-                    text = "Collapsed header",
-                    style = MaterialTheme.typography.titleMedium,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .background(MaterialTheme.colorScheme.primaryContainer)
-                        .padding(padding)
-                        .padding(all = 16.dp),
-                )
-            },
-            modifier = Modifier.background(MaterialTheme.colorScheme.background),
-        ) { padding ->
-            LazyColumn(contentPadding = padding) {
-                items(count = 30) { index ->
-                    Text(
-                        text = "Item $index",
-                        modifier = Modifier.padding(all = 16.dp),
-                    )
-                }
-            }
         }
     }
 }

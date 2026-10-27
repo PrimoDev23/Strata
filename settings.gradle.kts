@@ -30,4 +30,5 @@ dependencyResolutionManagement {
 include(":androidApp")
 include(":demo")
 include(":theme")
-include(":strata:draggable")
+include(":strata:gesture:draggable")
+include(":strata:gesture:draggable-previews")

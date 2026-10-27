@@ -43,7 +43,7 @@ kotlin {
             implementation(libs.navigation3.ui)
             implementation(libs.kotlinx.serialization.core)
             implementation(project(":theme"))
-            implementation(project(":strata:draggable"))
+            implementation(project(":strata:gesture:draggable"))
         }
     }
 }

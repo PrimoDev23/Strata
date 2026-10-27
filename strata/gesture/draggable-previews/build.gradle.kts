@@ -1,5 +1,6 @@
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
+// Not published: keeps the preview and theme dependencies out of the draggable artifact
 plugins {
     alias(libs.plugins.kotlinMultiplatform)
     alias(libs.plugins.androidMultiplatformLibrary)
@@ -12,7 +13,7 @@ kotlin {
     iosSimulatorArm64()
 
     android {
-        namespace = "dev.leonp.strata.draggable"
+        namespace = "dev.leonp.strata.draggable.previews"
         compileSdk = libs.versions.android.compileSdk.get().toInt()
         minSdk = libs.versions.android.minSdk.get().toInt()
 
@@ -23,9 +24,9 @@ kotlin {
 
     sourceSets {
         commonMain.dependencies {
-            api(libs.compose.foundation)
             implementation(libs.compose.uiToolingPreview)
             implementation(project(":theme"))
+            implementation(project(":strata:gesture:draggable"))
         }
     }
 }

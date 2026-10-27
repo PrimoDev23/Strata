@@ -52,18 +52,15 @@ All components settle in one of the two `DraggableLayoutState`s: `Collapsed` or 
 
 ## 📦 Installation
 
-Strata is not published to a Maven repository yet. Until it is, include the library module in
-your build:
+Strata is published to Maven Central. Add the dependency to the common source set of your shared
+module:
 
 ```kotlin
-// settings.gradle.kts
-include(":strata:draggable")
-
 // build.gradle.kts of your shared module
 kotlin {
     sourceSets {
         commonMain.dependencies {
-            implementation(project(":strata:draggable"))
+            implementation("dev.leonp.strata:gesture-draggable:<version>")
         }
     }
 }
@@ -240,7 +237,8 @@ screen. Navigation is built with [Navigation 3](https://developer.android.com/gu
 
 | Module | Contents |
 | --- | --- |
-| [`strata/draggable`](./strata/draggable) | The library: collapsible headers and expandable content. |
+| [`strata/gesture/draggable`](./strata/gesture/draggable) | The library, published as `gesture-draggable`: collapsible headers and expandable content. |
+| [`strata/gesture/draggable-previews`](./strata/gesture/draggable-previews) | The unpublished Compose previews of the library. |
 | [`theme`](./theme) | The shared Material 3 theme of the demo and the previews. |
 | [`demo`](./demo) | The shared demo app with Navigation 3. |
 | [`androidApp`](./androidApp), [`iosApp`](./iosApp) | The platform entry points of the demo. |

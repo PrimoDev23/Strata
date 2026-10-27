@@ -4,36 +4,21 @@ import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.EnterTransition
 import androidx.compose.animation.ExitTransition
-import androidx.compose.animation.SharedTransitionLayout
 import androidx.compose.animation.SharedTransitionScope
-import androidx.compose.animation.core.LinearEasing
 import androidx.compose.animation.core.rememberTransition
-import androidx.compose.animation.core.tween
-import androidx.compose.animation.fadeIn
-import androidx.compose.animation.fadeOut
 import androidx.compose.animation.togetherWith
-import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.Orientation
 import androidx.compose.foundation.gestures.anchoredDraggable
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clipToBounds
 import androidx.compose.ui.layout.Layout
 import androidx.compose.ui.layout.layoutId
 import androidx.compose.ui.semantics.clearAndSetSemantics
-import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
 import dev.leonp.strata.draggable.common.DraggableLayoutState
 import dev.leonp.strata.draggable.common.DraggableLayoutTransitionEffect
-import dev.leonp.strata.theme.StrataTheme
 
 // The content slot is intentionally composed multiple times at once: a hidden copy is used to
 // measure the collapsed height while another copy is the visible content.
@@ -174,68 +159,6 @@ private fun DummyExpandableContentScope(content: @Composable ExpandableContentSc
             }
 
             scope.content()
-        }
-    }
-}
-
-private const val PREVIEW_SEEK_DURATION = 1000
-private const val PREVIEW_FADE_DURATION = 200
-
-@Preview(widthDp = 360, heightDp = 640)
-@Composable
-private fun ExpandableContentPreview() {
-    StrataTheme {
-        SharedTransitionLayout(
-            modifier = Modifier
-                .fillMaxSize()
-                .background(MaterialTheme.colorScheme.background),
-        ) {
-            Box(modifier = Modifier.fillMaxSize()) {
-                // The background belongs to the container, so it grows with the drag right away
-                // while only the content fades.
-                ExpandableContent(
-                    modifier = Modifier
-                        .align(Alignment.BottomCenter)
-                        .background(MaterialTheme.colorScheme.primaryContainer),
-                ) { layoutState ->
-                    // Seeking maps the drag progress onto the total duration of all animations, so
-                    // both states share one timeline: the outgoing content fades out during the
-                    // first 20 % of the drag and the incoming content fades in during the last 20 %.
-                    val contentModifier = Modifier.animateEnterExit(
-                        enter = fadeIn(
-                            animationSpec = tween(
-                                durationMillis = PREVIEW_FADE_DURATION,
-                                delayMillis = PREVIEW_SEEK_DURATION - PREVIEW_FADE_DURATION,
-                                easing = LinearEasing,
-                            ),
-                        ),
-                        exit = fadeOut(
-                            animationSpec = tween(
-                                durationMillis = PREVIEW_FADE_DURATION,
-                                easing = LinearEasing,
-                            ),
-                        ),
-                    )
-
-                    when (layoutState) {
-                        DraggableLayoutState.Collapsed -> Text(
-                            text = "Collapsed content",
-                            style = MaterialTheme.typography.titleMedium,
-                            modifier = contentModifier
-                                .fillMaxWidth()
-                                .padding(all = 16.dp),
-                        )
-
-                        DraggableLayoutState.Expanded -> Text(
-                            text = "Expanded content",
-                            style = MaterialTheme.typography.headlineMedium,
-                            modifier = contentModifier
-                                .fillMaxSize()
-                                .padding(all = 24.dp),
-                        )
-                    }
-                }
-            }
         }
     }
 }
