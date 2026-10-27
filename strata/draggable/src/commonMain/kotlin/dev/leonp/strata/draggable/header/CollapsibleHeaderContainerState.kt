@@ -8,6 +8,15 @@ import androidx.compose.runtime.saveable.mapSaver
 import androidx.compose.runtime.saveable.rememberSaveable
 import dev.leonp.strata.draggable.common.DraggableLayoutState
 
+/**
+ * The state of [CollapsibleHeaderContainer] and [AnimatableCollapsibleHeaderContainer].
+ *
+ * Holds the current header height, driven by scroll and drag gestures, and the transition between
+ * the collapsed and the expanded header. Only the settled [DraggableLayoutState] is saved, so a
+ * header that was restored while a gesture was in progress starts at its last settled state.
+ *
+ * Create it with [rememberCollapsibleHeaderContainerState].
+ */
 @Stable
 class CollapsibleHeaderContainerState internal constructor(
     initialValue: DraggableLayoutState = DraggableLayoutState.Expanded
@@ -31,6 +40,11 @@ class CollapsibleHeaderContainerState internal constructor(
     }
 }
 
+/**
+ * Creates and remembers a [CollapsibleHeaderContainerState] that starts expanded.
+ *
+ * The settled state survives configuration changes and process death.
+ */
 @Composable
 fun rememberCollapsibleHeaderContainerState() =
     rememberSaveable(saver = CollapsibleHeaderContainerState.Saver) {

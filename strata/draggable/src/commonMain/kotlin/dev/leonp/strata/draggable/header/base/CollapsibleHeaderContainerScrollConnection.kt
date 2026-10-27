@@ -9,6 +9,14 @@ import androidx.compose.ui.input.nestedscroll.NestedScrollSource
 import androidx.compose.ui.unit.Velocity
 import dev.leonp.strata.draggable.header.CollapsibleHeaderContainerState
 
+/**
+ * Connects scrollable content to the header height.
+ *
+ * - Scrolling towards the end of the content collapses the header before the content scrolls.
+ * - Scrolling towards the start expands the header with whatever the content did not consume,
+ *   so the header only expands once the content reached its start.
+ * - After a fling, the header settles at its closest state.
+ */
 internal class CollapsibleHeaderContainerScrollConnection(
     private val state: CollapsibleHeaderContainerState
 ) : NestedScrollConnection {

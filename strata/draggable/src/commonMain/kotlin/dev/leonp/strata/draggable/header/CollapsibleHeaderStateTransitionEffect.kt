@@ -5,6 +5,12 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.snapshotFlow
 import dev.leonp.strata.draggable.common.DraggableLayoutState
 
+/**
+ * Drives [CollapsibleHeaderContainerState.transitionState] with the drag progress of the header.
+ *
+ * While the header is between both states, the transition is seeked towards the other state by the
+ * drag progress. Once the header reaches a state exactly, the transition snaps to it.
+ */
 @Composable
 internal fun CollapsibleHeaderStateTransitionEffect(state: CollapsibleHeaderContainerState) {
     LaunchedEffect(state) {

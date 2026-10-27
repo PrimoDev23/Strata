@@ -13,6 +13,15 @@ import androidx.compose.ui.unit.Constraints
 import dev.leonp.strata.draggable.common.DraggableLayoutState
 import dev.leonp.strata.draggable.header.CollapsibleHeaderContainerState
 
+/**
+ * Measures the collapsible header container.
+ *
+ * Measures the hidden header copies with their natural height to update the anchors of
+ * [CollapsibleHeaderContainerState.draggableState], measures the visible header with the current
+ * drag offset as its exact height and gives [CollapsibleHeaderLayoutId.Content] the remaining
+ * height below it. The offset is read during measurement, so dragging remeasures the container
+ * without recomposing it.
+ */
 internal class CollapsibleHeaderContainerMeasurePolicy(
     private val state: CollapsibleHeaderContainerState
 ) : MeasurePolicy {
