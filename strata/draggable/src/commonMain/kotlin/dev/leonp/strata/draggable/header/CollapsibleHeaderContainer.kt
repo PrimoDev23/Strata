@@ -1,4 +1,4 @@
-package dev.leonp.strata.draggable.collapsible
+package dev.leonp.strata.draggable.header
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.PaddingValues
@@ -16,6 +16,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import dev.leonp.strata.draggable.InsetSpacer
+import dev.leonp.strata.draggable.header.base.BaseCollapsibleHeaderContainer
 import dev.leonp.strata.theme.StrataTheme
 
 // The header slots are intentionally composed multiple times at once: hidden copies are used to

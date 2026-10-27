@@ -18,7 +18,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import dev.leonp.strata.draggable.collapsible.AnimatableCollapsibleHeaderContainer
+import dev.leonp.strata.draggable.header.AnimatableCollapsibleHeaderContainer
 
 private const val HEADER_TEXT_KEY = "HeaderText"
 

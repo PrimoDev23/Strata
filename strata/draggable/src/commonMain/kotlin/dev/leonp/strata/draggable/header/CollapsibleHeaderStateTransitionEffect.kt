@@ -1,4 +1,4 @@
-package dev.leonp.strata.draggable.collapsible
+package dev.leonp.strata.draggable.header
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect

@@ -1,4 +1,4 @@
-package dev.leonp.strata.draggable.collapsible
+package dev.leonp.strata.draggable.header.base
 
 internal enum class CollapsibleHeaderLayoutId {
     CollapsedHeader,

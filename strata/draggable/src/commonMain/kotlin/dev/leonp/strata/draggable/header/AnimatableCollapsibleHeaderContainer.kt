@@ -1,4 +1,4 @@
-package dev.leonp.strata.draggable.collapsible
+package dev.leonp.strata.draggable.header
 
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.AnimatedVisibility
@@ -27,6 +27,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import dev.leonp.strata.draggable.InsetSpacer
+import dev.leonp.strata.draggable.header.base.BaseCollapsibleHeaderContainer
 import dev.leonp.strata.theme.StrataTheme
 
 // The header slots are intentionally composed multiple times at once: hidden copies are used to
@@ -34,10 +36,10 @@ import dev.leonp.strata.theme.StrataTheme
 @Suppress("ContentSlotReused")
 @Composable
 fun SharedTransitionScope.AnimatableCollapsibleHeaderContainer(
-    expandedHeader: @Composable AnimatedCollapsibleHeaderScope.(PaddingValues) -> Unit,
+    expandedHeader: @Composable AnimatableCollapsibleHeaderScope.(PaddingValues) -> Unit,
     modifier: Modifier = Modifier,
     state: CollapsibleHeaderContainerState = rememberCollapsibleHeaderContainerState(),
-    collapsedHeader: (@Composable AnimatedCollapsibleHeaderScope.(PaddingValues) -> Unit)? = null,
+    collapsedHeader: (@Composable AnimatableCollapsibleHeaderScope.(PaddingValues) -> Unit)? = null,
     insets: WindowInsets = WindowInsets.systemBars,
     content: @Composable (PaddingValues) -> Unit
 ) {
@@ -69,7 +71,7 @@ fun SharedTransitionScope.AnimatableCollapsibleHeaderContainer(
                     }
                 ) { animatedHeaderState ->
                     val scope = remember {
-                        AnimatedCollapsibleHeaderScope(
+                        AnimatableCollapsibleHeaderScope(
                             sharedTransitionScope = this@AnimatableCollapsibleHeaderContainer,
                             animatedVisibilityScope = this
                         )
@@ -105,7 +107,7 @@ fun SharedTransitionScope.AnimatableCollapsibleHeaderContainer(
 
 @Composable
 private fun DummyAnimatedCollapsibleHeaderScope(
-    content: @Composable AnimatedCollapsibleHeaderScope.() -> Unit
+    content: @Composable AnimatableCollapsibleHeaderScope.() -> Unit
 ) {
     SharedTransitionScope { modifier ->
         AnimatedVisibility(
@@ -113,7 +115,7 @@ private fun DummyAnimatedCollapsibleHeaderScope(
             visible = true
         ) {
             val scope = remember(this@SharedTransitionScope, this) {
-                AnimatedCollapsibleHeaderScope(
+                AnimatableCollapsibleHeaderScope(
                     sharedTransitionScope = this@SharedTransitionScope,
                     animatedVisibilityScope = this
                 )

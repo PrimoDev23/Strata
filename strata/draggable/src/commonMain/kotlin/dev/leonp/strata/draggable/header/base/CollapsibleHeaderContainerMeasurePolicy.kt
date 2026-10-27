@@ -1,4 +1,4 @@
-package dev.leonp.strata.draggable.collapsible
+package dev.leonp.strata.draggable.header.base
 
 import androidx.compose.foundation.gestures.DraggableAnchors
 import androidx.compose.runtime.Composable
@@ -10,6 +10,8 @@ import androidx.compose.ui.layout.MeasureScope
 import androidx.compose.ui.layout.Placeable
 import androidx.compose.ui.layout.layoutId
 import androidx.compose.ui.unit.Constraints
+import dev.leonp.strata.draggable.header.CollapsibleHeaderContainerState
+import dev.leonp.strata.draggable.header.CollapsibleHeaderState
 
 internal class CollapsibleHeaderContainerMeasurePolicy(
     private val state: CollapsibleHeaderContainerState

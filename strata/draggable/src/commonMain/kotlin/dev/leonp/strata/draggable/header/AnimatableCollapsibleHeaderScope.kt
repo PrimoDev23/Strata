@@ -1,9 +1,9 @@
-package dev.leonp.strata.draggable.collapsible
+package dev.leonp.strata.draggable.header
 
 import androidx.compose.animation.AnimatedVisibilityScope
 import androidx.compose.animation.SharedTransitionScope
 
-data class AnimatedCollapsibleHeaderScope internal constructor(
+data class AnimatableCollapsibleHeaderScope internal constructor(
     private val sharedTransitionScope: SharedTransitionScope,
     private val animatedVisibilityScope: AnimatedVisibilityScope
 ) : SharedTransitionScope by sharedTransitionScope,

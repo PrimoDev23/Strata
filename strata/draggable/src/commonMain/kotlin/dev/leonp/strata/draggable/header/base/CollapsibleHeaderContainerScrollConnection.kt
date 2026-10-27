@@ -1,4 +1,4 @@
-package dev.leonp.strata.draggable.collapsible
+package dev.leonp.strata.draggable.header.base
 
 import androidx.compose.foundation.gestures.animateToWithDecay
 import androidx.compose.runtime.Composable
@@ -7,6 +7,7 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.input.nestedscroll.NestedScrollConnection
 import androidx.compose.ui.input.nestedscroll.NestedScrollSource
 import androidx.compose.ui.unit.Velocity
+import dev.leonp.strata.draggable.header.CollapsibleHeaderContainerState
 
 internal class CollapsibleHeaderContainerScrollConnection(
     private val state: CollapsibleHeaderContainerState

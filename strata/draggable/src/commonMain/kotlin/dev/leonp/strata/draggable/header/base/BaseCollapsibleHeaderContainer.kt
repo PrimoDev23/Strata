@@ -1,4 +1,4 @@
-package dev.leonp.strata.draggable.collapsible
+package dev.leonp.strata.draggable.header.base
 
 import androidx.compose.foundation.gestures.Orientation
 import androidx.compose.foundation.gestures.anchoredDraggable
@@ -16,6 +16,9 @@ import androidx.compose.ui.draw.clipToBounds
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.layout.Layout
 import androidx.compose.ui.layout.layoutId
+import dev.leonp.strata.draggable.header.CollapsibleHeaderContainerState
+import dev.leonp.strata.draggable.header.CollapsibleHeaderState
+import dev.leonp.strata.draggable.header.rememberCollapsibleHeaderContainerState
 
 // The header slots are intentionally composed multiple times at once: hidden copies are used to
 // measure the collapsed and expanded heights while another copy is the visible header.
