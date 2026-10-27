@@ -27,8 +27,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import dev.leonp.strata.draggable.InsetSpacer
 import dev.leonp.strata.draggable.common.DraggableLayoutState
+import dev.leonp.strata.draggable.common.DraggableLayoutTransitionEffect
 import dev.leonp.strata.draggable.header.base.BaseCollapsibleHeaderContainer
 import dev.leonp.strata.theme.StrataTheme
 
@@ -105,7 +105,10 @@ fun SharedTransitionScope.AnimatableCollapsibleHeaderContainer(
     insets: WindowInsets = WindowInsets.systemBars,
     content: @Composable (PaddingValues) -> Unit
 ) {
-    CollapsibleHeaderStateTransitionEffect(state = state)
+    DraggableLayoutTransitionEffect(
+        draggableState = state.draggableState,
+        transitionState = state.transitionState
+    )
 
     val transition = rememberTransition(state.transitionState)
 
@@ -167,6 +170,7 @@ fun SharedTransitionScope.AnimatableCollapsibleHeaderContainer(
     )
 }
 
+// TODO: This is duplicated for now
 @Composable
 private fun DummyAnimatedCollapsibleHeaderScope(
     content: @Composable AnimatableCollapsibleHeaderScope.() -> Unit

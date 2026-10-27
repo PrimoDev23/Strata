@@ -8,9 +8,9 @@ import androidx.compose.ui.layout.MeasurePolicy
 import androidx.compose.ui.layout.MeasureResult
 import androidx.compose.ui.layout.MeasureScope
 import androidx.compose.ui.layout.Placeable
-import androidx.compose.ui.layout.layoutId
 import androidx.compose.ui.unit.Constraints
 import dev.leonp.strata.draggable.common.DraggableLayoutState
+import dev.leonp.strata.draggable.common.getPlaceableById
 import dev.leonp.strata.draggable.header.CollapsibleHeaderContainerState
 
 /**
@@ -101,11 +101,6 @@ internal class CollapsibleHeaderContainerMeasurePolicy(
 
         return headerPlaceable
     }
-
-    private fun List<Measurable>.getPlaceableById(
-        layoutId: CollapsibleHeaderLayoutId,
-        constraints: Constraints
-    ): Placeable? = this.find { it.layoutId == layoutId }?.measure(constraints)
 }
 
 @Composable
