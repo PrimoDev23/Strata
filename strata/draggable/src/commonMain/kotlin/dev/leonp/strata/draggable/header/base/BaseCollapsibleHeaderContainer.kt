@@ -16,8 +16,8 @@ import androidx.compose.ui.draw.clipToBounds
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.layout.Layout
 import androidx.compose.ui.layout.layoutId
+import dev.leonp.strata.draggable.common.DraggableLayoutState
 import dev.leonp.strata.draggable.header.CollapsibleHeaderContainerState
-import dev.leonp.strata.draggable.header.CollapsibleHeaderState
 import dev.leonp.strata.draggable.header.rememberCollapsibleHeaderContainerState
 
 // The header slots are intentionally composed multiple times at once: hidden copies are used to
@@ -25,7 +25,7 @@ import dev.leonp.strata.draggable.header.rememberCollapsibleHeaderContainerState
 @Suppress("ContentSlotReused")
 @Composable
 internal fun BaseCollapsibleHeaderContainer(
-    header: @Composable BaseCollapsibleHeaderScope.(CollapsibleHeaderState) -> Unit,
+    header: @Composable BaseCollapsibleHeaderScope.(DraggableLayoutState) -> Unit,
     modifier: Modifier = Modifier,
     state: CollapsibleHeaderContainerState = rememberCollapsibleHeaderContainerState(),
     insets: WindowInsets = WindowInsets.systemBars,
@@ -38,11 +38,11 @@ internal fun BaseCollapsibleHeaderContainer(
         measurePolicy = rememberCollapsibleHeaderContainerMeasurePolicy(state = state),
         content = {
             Box(modifier = Modifier.layoutId(CollapsibleHeaderLayoutId.CollapsedHeader)) {
-                BaseCollapsibleHeaderScope.MeasurementScope.header(CollapsibleHeaderState.Collapsed)
+                BaseCollapsibleHeaderScope.MeasurementScope.header(DraggableLayoutState.Collapsed)
             }
 
             Box(modifier = Modifier.layoutId(CollapsibleHeaderLayoutId.ExpandedHeader)) {
-                BaseCollapsibleHeaderScope.MeasurementScope.header(CollapsibleHeaderState.Expanded)
+                BaseCollapsibleHeaderScope.MeasurementScope.header(DraggableLayoutState.Expanded)
             }
 
             Box(

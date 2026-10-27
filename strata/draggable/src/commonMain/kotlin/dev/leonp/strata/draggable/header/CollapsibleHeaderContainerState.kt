@@ -6,10 +6,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Stable
 import androidx.compose.runtime.saveable.mapSaver
 import androidx.compose.runtime.saveable.rememberSaveable
+import dev.leonp.strata.draggable.common.DraggableLayoutState
 
 @Stable
 class CollapsibleHeaderContainerState internal constructor(
-    initialValue: CollapsibleHeaderState = CollapsibleHeaderState.Expanded
+    initialValue: DraggableLayoutState = DraggableLayoutState.Expanded
 ) {
     internal val draggableState = AnchoredDraggableState(initialValue = initialValue)
     internal val transitionState = SeekableTransitionState(initialState = initialValue)
@@ -21,7 +22,7 @@ class CollapsibleHeaderContainerState internal constructor(
             },
             restore = {
                 CollapsibleHeaderContainerState(
-                    initialValue = it[DRAGGABLE_STATE_SETTLED_VALUE_KEY] as CollapsibleHeaderState
+                    initialValue = it[DRAGGABLE_STATE_SETTLED_VALUE_KEY] as DraggableLayoutState
                 )
             }
         )

@@ -28,6 +28,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import dev.leonp.strata.draggable.InsetSpacer
+import dev.leonp.strata.draggable.common.DraggableLayoutState
 import dev.leonp.strata.draggable.header.base.BaseCollapsibleHeaderContainer
 import dev.leonp.strata.theme.StrataTheme
 
@@ -56,12 +57,12 @@ fun SharedTransitionScope.AnimatableCollapsibleHeaderContainer(
             if (isMeasuring) {
                 DummyAnimatedCollapsibleHeaderScope {
                     when (headerState) {
-                        CollapsibleHeaderState.Collapsed -> collapsedHeader?.invoke(
+                        DraggableLayoutState.Collapsed -> collapsedHeader?.invoke(
                             this,
                             headerPadding
                         ) ?: InsetSpacer(insets = headerInsets)
 
-                        CollapsibleHeaderState.Expanded -> expandedHeader(headerPadding)
+                        DraggableLayoutState.Expanded -> expandedHeader(headerPadding)
                     }
                 }
             } else {
@@ -87,12 +88,12 @@ fun SharedTransitionScope.AnimatableCollapsibleHeaderContainer(
                     ) {
                         with(scope) {
                             when (animatedHeaderState) {
-                                CollapsibleHeaderState.Collapsed -> collapsedHeader?.invoke(
+                                DraggableLayoutState.Collapsed -> collapsedHeader?.invoke(
                                     this,
                                     headerPadding
                                 ) ?: expandedHeader(headerPadding)
 
-                                CollapsibleHeaderState.Expanded -> expandedHeader(headerPadding)
+                                DraggableLayoutState.Expanded -> expandedHeader(headerPadding)
                             }
                         }
                     }
