@@ -12,5 +12,5 @@ import androidx.compose.ui.unit.Constraints
  */
 internal fun List<Measurable>.getPlaceableById(
     layoutId: Any?,
-    constraints: Constraints
+    constraints: Constraints,
 ): Placeable? = this.find { it.layoutId == layoutId }?.measure(constraints)

@@ -107,11 +107,11 @@ fun SharedTransitionScope.AnimatableCollapsibleHeaderContainer(
     state: CollapsibleHeaderContainerState = rememberCollapsibleHeaderContainerState(),
     collapsedHeader: (@Composable AnimatableCollapsibleHeaderScope.(PaddingValues) -> Unit)? = null,
     insets: WindowInsets = WindowInsets.systemBars,
-    content: @Composable (PaddingValues) -> Unit
+    content: @Composable (PaddingValues) -> Unit,
 ) {
     DraggableLayoutTransitionEffect(
         draggableState = state.draggableState,
-        transitionState = state.transitionState
+        transitionState = state.transitionState,
     )
 
     val transition = rememberTransition(state.transitionState)
@@ -127,7 +127,7 @@ fun SharedTransitionScope.AnimatableCollapsibleHeaderContainer(
                     when (headerState) {
                         DraggableLayoutState.Collapsed -> collapsedHeader?.invoke(
                             this,
-                            headerPadding
+                            headerPadding,
                         ) ?: InsetSpacer(insets = headerInsets)
 
                         DraggableLayoutState.Expanded -> expandedHeader(headerPadding)
@@ -137,12 +137,12 @@ fun SharedTransitionScope.AnimatableCollapsibleHeaderContainer(
                 transition.AnimatedContent(
                     transitionSpec = {
                         (EnterTransition.None togetherWith ExitTransition.None) using null
-                    }
+                    },
                 ) { animatedHeaderState ->
                     val scope = remember {
                         AnimatableCollapsibleHeaderScope(
                             sharedTransitionScope = this@AnimatableCollapsibleHeaderContainer,
-                            animatedVisibilityScope = this
+                            animatedVisibilityScope = this,
                         )
                     }
 
@@ -151,14 +151,14 @@ fun SharedTransitionScope.AnimatableCollapsibleHeaderContainer(
                     Box(
                         modifier = Modifier.wrapContentHeight(
                             align = Alignment.Top,
-                            unbounded = true
-                        )
+                            unbounded = true,
+                        ),
                     ) {
                         with(scope) {
                             when (animatedHeaderState) {
                                 DraggableLayoutState.Collapsed -> collapsedHeader?.invoke(
                                     this,
-                                    headerPadding
+                                    headerPadding,
                                 ) ?: expandedHeader(headerPadding)
 
                                 DraggableLayoutState.Expanded -> expandedHeader(headerPadding)
@@ -170,24 +170,24 @@ fun SharedTransitionScope.AnimatableCollapsibleHeaderContainer(
         },
         state = state,
         insets = insets,
-        content = content
+        content = content,
     )
 }
 
 // TODO: This is duplicated for now
 @Composable
 private fun DummyAnimatedCollapsibleHeaderScope(
-    content: @Composable AnimatableCollapsibleHeaderScope.() -> Unit
+    content: @Composable AnimatableCollapsibleHeaderScope.() -> Unit,
 ) {
     SharedTransitionScope { modifier ->
         AnimatedVisibility(
             modifier = modifier,
-            visible = true
+            visible = true,
         ) {
             val scope = remember(this@SharedTransitionScope, this) {
                 AnimatableCollapsibleHeaderScope(
                     sharedTransitionScope = this@SharedTransitionScope,
-                    animatedVisibilityScope = this
+                    animatedVisibilityScope = this,
                 )
             }
 
@@ -209,7 +209,7 @@ private fun CollapsibleHeaderContainerPreview() {
                         .fillMaxWidth()
                         .background(MaterialTheme.colorScheme.primaryContainer)
                         .padding(padding)
-                        .padding(all = 24.dp)
+                        .padding(all = 24.dp),
                 )
             },
             collapsedHeader = { padding ->
@@ -220,16 +220,16 @@ private fun CollapsibleHeaderContainerPreview() {
                         .fillMaxWidth()
                         .background(MaterialTheme.colorScheme.primaryContainer)
                         .padding(padding)
-                        .padding(all = 16.dp)
+                        .padding(all = 16.dp),
                 )
             },
-            modifier = Modifier.background(MaterialTheme.colorScheme.background)
+            modifier = Modifier.background(MaterialTheme.colorScheme.background),
         ) { padding ->
             LazyColumn(contentPadding = padding) {
                 items(count = 30) { index ->
                     Text(
                         text = "Item $index",
-                        modifier = Modifier.padding(all = 16.dp)
+                        modifier = Modifier.padding(all = 16.dp),
                     )
                 }
             }

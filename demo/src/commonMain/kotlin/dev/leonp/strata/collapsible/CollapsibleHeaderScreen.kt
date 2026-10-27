@@ -35,22 +35,22 @@ fun CollapsibleHeaderScreen(modifier: Modifier = Modifier) {
                         .fillMaxWidth()
                         .background(MaterialTheme.colorScheme.primaryContainer)
                         .padding(padding)
-                        .padding(horizontal = 24.dp, vertical = 32.dp)
+                        .padding(horizontal = 24.dp, vertical = 32.dp),
                 ) {
                     Text(
                         modifier = Modifier.sharedBounds(
                             sharedContentState = rememberSharedContentState(HEADER_TEXT_KEY),
-                            animatedVisibilityScope = this@AnimatableCollapsibleHeaderContainer
+                            animatedVisibilityScope = this@AnimatableCollapsibleHeaderContainer,
                         ),
                         text = "Collapsible header",
                         style = MaterialTheme.typography.headlineMedium,
-                        color = MaterialTheme.colorScheme.onPrimaryContainer
+                        color = MaterialTheme.colorScheme.onPrimaryContainer,
                     )
                     Text(
                         modifier = Modifier.animateEnterExit(),
                         text = "Scroll the list to collapse this header",
                         style = MaterialTheme.typography.bodyMedium,
-                        color = MaterialTheme.colorScheme.onPrimaryContainer
+                        color = MaterialTheme.colorScheme.onPrimaryContainer,
                     )
                 }
             },
@@ -60,26 +60,26 @@ fun CollapsibleHeaderScreen(modifier: Modifier = Modifier) {
                         .fillMaxWidth()
                         .background(MaterialTheme.colorScheme.primaryContainer)
                         .padding(padding),
-                    contentAlignment = Alignment.CenterStart
+                    contentAlignment = Alignment.CenterStart,
                 ) {
                     Text(
                         modifier = Modifier
                             .padding(16.dp)
                             .sharedBounds(
                                 sharedContentState = rememberSharedContentState(HEADER_TEXT_KEY),
-                                animatedVisibilityScope = this@AnimatableCollapsibleHeaderContainer
+                                animatedVisibilityScope = this@AnimatableCollapsibleHeaderContainer,
                             ),
                         text = "Collapsible header",
                         style = MaterialTheme.typography.titleMedium,
-                        color = MaterialTheme.colorScheme.onPrimaryContainer
+                        color = MaterialTheme.colorScheme.onPrimaryContainer,
                     )
                 }
             },
-            insets = WindowInsets.safeContent
+            insets = WindowInsets.safeContent,
         ) { padding ->
             LazyColumn(
                 modifier = Modifier.fillMaxSize(),
-                contentPadding = padding
+                contentPadding = padding,
             ) {
                 items(count = 50) { index ->
                     ListItem(headlineContent = { Text(text = "Item ${index + 1}") })

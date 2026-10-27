@@ -12,5 +12,5 @@ internal enum class CollapsibleHeaderLayoutId {
     Header,
 
     /** The content below the header. */
-    Content
+    Content,
 }

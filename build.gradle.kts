@@ -18,7 +18,7 @@ detekt {
         fileTree(projectDir) {
             include("**/src/**/*.kt", "**/*.kts")
             exclude("**/build/**", "**/.gradle/**")
-        }
+        },
     )
     config.setFrom(file("config/detekt/detekt.yml"))
     buildUponDefaultConfig = true

@@ -22,9 +22,11 @@ ktlint:
   # https://detekt.dev/docs/rules/ktlint/#trailingcommaoncallsite
   TrailingCommaOnCallSite:
     active: true
+    useTrailingCommaOnCallSite: true
   # https://detekt.dev/docs/rules/ktlint/#trailingcommaondeclarationsite
   TrailingCommaOnDeclarationSite:
     active: true
+    useTrailingCommaOnDeclarationSite: true
   PackageName:
     active: false
 naming:

@@ -28,14 +28,14 @@ class ExpandableContentState internal constructor(initialValue: DraggableLayoutS
         val Saver = mapSaver(
             save = {
                 mapOf(
-                    DRAGGABLE_STATE_SETTLED_VALUE to it.draggableState.settledValue
+                    DRAGGABLE_STATE_SETTLED_VALUE to it.draggableState.settledValue,
                 )
             },
             restore = {
                 ExpandableContentState(
-                    initialValue = it[DRAGGABLE_STATE_SETTLED_VALUE] as DraggableLayoutState
+                    initialValue = it[DRAGGABLE_STATE_SETTLED_VALUE] as DraggableLayoutState,
                 )
-            }
+            },
         )
     }
 }

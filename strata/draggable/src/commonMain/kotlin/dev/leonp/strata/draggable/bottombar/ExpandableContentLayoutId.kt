@@ -6,5 +6,5 @@ internal enum class ExpandableContentLayoutId {
     Collapsed,
 
     /** The visible content for the current state, including both states during a transition. */
-    Current
+    Current,
 }

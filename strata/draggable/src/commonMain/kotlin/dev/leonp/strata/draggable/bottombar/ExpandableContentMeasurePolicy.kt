@@ -25,7 +25,7 @@ private class ExpandableContentMeasurePolicy(private val state: ExpandableConten
     MeasurePolicy {
     override fun MeasureScope.measure(
         measurables: List<Measurable>,
-        constraints: Constraints
+        constraints: Constraints,
     ): MeasureResult {
         require(constraints.hasBoundedHeight && constraints.hasBoundedWidth) {
             "ExpandableContent cannot be measured with Infinite constraints"
@@ -34,7 +34,7 @@ private class ExpandableContentMeasurePolicy(private val state: ExpandableConten
         val collapsedContentConstraints = constraints.copyMaxDimensions()
         val collapsedContentPlaceable = measurables.getPlaceableById(
             layoutId = ExpandableContentLayoutId.Collapsed,
-            constraints = collapsedContentConstraints
+            constraints = collapsedContentConstraints,
         ) ?: error("There was no measurable with the LayoutId Collapsed")
 
         val collapsedAnchor = constraints.maxHeight - collapsedContentPlaceable.height
@@ -42,7 +42,7 @@ private class ExpandableContentMeasurePolicy(private val state: ExpandableConten
             newAnchors = DraggableAnchors {
                 DraggableLayoutState.Expanded at 0f
                 DraggableLayoutState.Collapsed at collapsedAnchor.toFloat()
-            }
+            },
         )
 
         val currentContentHeight = (constraints.maxHeight - state.draggableState.offset).toInt()
@@ -53,20 +53,20 @@ private class ExpandableContentMeasurePolicy(private val state: ExpandableConten
             minWidth = 0,
             maxWidth = constraints.maxWidth,
             minHeight = 0,
-            maxHeight = constraints.maxHeight
+            maxHeight = constraints.maxHeight,
         )
         val currentContentPlaceable = measurables.getPlaceableById(
             layoutId = ExpandableContentLayoutId.Current,
-            constraints = currentContentConstraints
+            constraints = currentContentConstraints,
         ) ?: error("There was no measurable with the LayoutId Current")
 
         return layout(
             width = constraints.maxWidth,
-            height = currentContentHeight
+            height = currentContentHeight,
         ) {
             currentContentPlaceable.place(
                 x = 0,
-                y = 0
+                y = 0,
             )
         }
     }
@@ -76,7 +76,7 @@ private class ExpandableContentMeasurePolicy(private val state: ExpandableConten
 @Composable
 internal fun rememberExpandableContentMeasurePolicy(state: ExpandableContentState): MeasurePolicy =
     remember(
-        state
+        state,
     ) {
         ExpandableContentMeasurePolicy(state = state)
     }

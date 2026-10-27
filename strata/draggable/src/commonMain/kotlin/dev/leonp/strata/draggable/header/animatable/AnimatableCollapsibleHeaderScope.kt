@@ -20,6 +20,6 @@ import androidx.compose.animation.SharedTransitionScope
  */
 class AnimatableCollapsibleHeaderScope internal constructor(
     sharedTransitionScope: SharedTransitionScope,
-    animatedVisibilityScope: AnimatedVisibilityScope
+    animatedVisibilityScope: AnimatedVisibilityScope,
 ) : SharedTransitionScope by sharedTransitionScope,
     AnimatedVisibilityScope by animatedVisibilityScope

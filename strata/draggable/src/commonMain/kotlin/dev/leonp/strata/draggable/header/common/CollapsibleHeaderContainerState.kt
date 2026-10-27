@@ -19,7 +19,7 @@ import dev.leonp.strata.draggable.common.DraggableLayoutState
  */
 @Stable
 class CollapsibleHeaderContainerState internal constructor(
-    initialValue: DraggableLayoutState = DraggableLayoutState.Expanded
+    initialValue: DraggableLayoutState = DraggableLayoutState.Expanded,
 ) {
     internal val draggableState = AnchoredDraggableState(initialValue = initialValue)
     internal val transitionState = SeekableTransitionState(initialState = initialValue)
@@ -31,9 +31,9 @@ class CollapsibleHeaderContainerState internal constructor(
             },
             restore = {
                 CollapsibleHeaderContainerState(
-                    initialValue = it[DRAGGABLE_STATE_SETTLED_VALUE_KEY] as DraggableLayoutState
+                    initialValue = it[DRAGGABLE_STATE_SETTLED_VALUE_KEY] as DraggableLayoutState,
                 )
-            }
+            },
         )
 
         private const val DRAGGABLE_STATE_SETTLED_VALUE_KEY = "DraggableStateSettledValueKey"

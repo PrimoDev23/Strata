@@ -103,11 +103,11 @@ import dev.leonp.strata.theme.StrataTheme
 fun SharedTransitionScope.ExpandableContent(
     modifier: Modifier = Modifier,
     state: ExpandableContentState = rememberExpandableContentState(),
-    content: @Composable ExpandableContentScope.(DraggableLayoutState) -> Unit
+    content: @Composable ExpandableContentScope.(DraggableLayoutState) -> Unit,
 ) {
     DraggableLayoutTransitionEffect(
         draggableState = state.draggableState,
-        transitionState = state.transitionState
+        transitionState = state.transitionState,
     )
 
     val transition = rememberTransition(state.transitionState)
@@ -119,7 +119,7 @@ fun SharedTransitionScope.ExpandableContent(
             Box(
                 modifier = Modifier
                     .layoutId(ExpandableContentLayoutId.Collapsed)
-                    .clearAndSetSemantics {}
+                    .clearAndSetSemantics {},
             ) {
                 DummyExpandableContentScope {
                     content(DraggableLayoutState.Collapsed)
@@ -130,28 +130,28 @@ fun SharedTransitionScope.ExpandableContent(
                 modifier = Modifier
                     .anchoredDraggable(
                         state = state.draggableState,
-                        orientation = Orientation.Vertical
+                        orientation = Orientation.Vertical,
                     )
-                    .layoutId(ExpandableContentLayoutId.Current)
+                    .layoutId(ExpandableContentLayoutId.Current),
             ) {
                 transition.AnimatedContent(
                     transitionSpec = {
                         // The caller animates its content with animateEnterExit on the
                         // ExpandableContentScope, so the states themselves are not animated.
                         (EnterTransition.None togetherWith ExitTransition.None) using null
-                    }
+                    },
                 ) { layoutState ->
                     val scope = remember(this@ExpandableContent, this) {
                         ExpandableContentScope(
                             sharedTransitionScope = this@ExpandableContent,
-                            animatedVisibilityScope = this
+                            animatedVisibilityScope = this,
                         )
                     }
 
                     scope.content(layoutState)
                 }
             }
-        }
+        },
     )
 }
 
@@ -164,12 +164,12 @@ private fun DummyExpandableContentScope(content: @Composable ExpandableContentSc
     SharedTransitionScope { modifier ->
         AnimatedVisibility(
             modifier = modifier,
-            visible = true
+            visible = true,
         ) {
             val scope = remember(this@SharedTransitionScope, this) {
                 ExpandableContentScope(
                     sharedTransitionScope = this@SharedTransitionScope,
-                    animatedVisibilityScope = this
+                    animatedVisibilityScope = this,
                 )
             }
 
@@ -188,7 +188,7 @@ private fun ExpandableContentPreview() {
         SharedTransitionLayout(
             modifier = Modifier
                 .fillMaxSize()
-                .background(MaterialTheme.colorScheme.background)
+                .background(MaterialTheme.colorScheme.background),
         ) {
             Box(modifier = Modifier.fillMaxSize()) {
                 // The background belongs to the container, so it grows with the drag right away
@@ -196,7 +196,7 @@ private fun ExpandableContentPreview() {
                 ExpandableContent(
                     modifier = Modifier
                         .align(Alignment.BottomCenter)
-                        .background(MaterialTheme.colorScheme.primaryContainer)
+                        .background(MaterialTheme.colorScheme.primaryContainer),
                 ) { layoutState ->
                     // Seeking maps the drag progress onto the total duration of all animations, so
                     // both states share one timeline: the outgoing content fades out during the
@@ -206,15 +206,15 @@ private fun ExpandableContentPreview() {
                             animationSpec = tween(
                                 durationMillis = PREVIEW_FADE_DURATION,
                                 delayMillis = PREVIEW_SEEK_DURATION - PREVIEW_FADE_DURATION,
-                                easing = LinearEasing
-                            )
+                                easing = LinearEasing,
+                            ),
                         ),
                         exit = fadeOut(
                             animationSpec = tween(
                                 durationMillis = PREVIEW_FADE_DURATION,
-                                easing = LinearEasing
-                            )
-                        )
+                                easing = LinearEasing,
+                            ),
+                        ),
                     )
 
                     when (layoutState) {
@@ -223,7 +223,7 @@ private fun ExpandableContentPreview() {
                             style = MaterialTheme.typography.titleMedium,
                             modifier = contentModifier
                                 .fillMaxWidth()
-                                .padding(all = 16.dp)
+                                .padding(all = 16.dp),
                         )
 
                         DraggableLayoutState.Expanded -> Text(
@@ -231,7 +231,7 @@ private fun ExpandableContentPreview() {
                             style = MaterialTheme.typography.headlineMedium,
                             modifier = contentModifier
                                 .fillMaxSize()
-                                .padding(all = 24.dp)
+                                .padding(all = 24.dp),
                         )
                     }
                 }

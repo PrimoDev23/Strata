@@ -23,11 +23,11 @@ import dev.leonp.strata.draggable.header.common.CollapsibleHeaderContainerState
  * without recomposing it.
  */
 internal class CollapsibleHeaderContainerMeasurePolicy(
-    private val state: CollapsibleHeaderContainerState
+    private val state: CollapsibleHeaderContainerState,
 ) : MeasurePolicy {
     override fun MeasureScope.measure(
         measurables: List<Measurable>,
-        constraints: Constraints
+        constraints: Constraints,
     ): MeasureResult {
         require(constraints.hasBoundedHeight && constraints.hasBoundedWidth) {
             "CollapsibleHeaderContainer cannot be measured with Infinite constraints"
@@ -35,33 +35,33 @@ internal class CollapsibleHeaderContainerMeasurePolicy(
 
         val headerPlaceable = measureHeader(
             measurables = measurables,
-            constraints = constraints
+            constraints = constraints,
         )
 
         val contentHeight = constraints.maxHeight - headerPlaceable.height
         val contentConstraints = constraints.copy(
             minWidth = constraints.maxWidth,
             minHeight = contentHeight,
-            maxHeight = contentHeight
+            maxHeight = contentHeight,
         )
 
         val contentPlaceable = measurables.getPlaceableById(
             layoutId = CollapsibleHeaderLayoutId.Content,
-            constraints = contentConstraints
+            constraints = contentConstraints,
         ) ?: error("Content was not defined in Layout")
 
         return layout(
             width = constraints.maxWidth,
-            height = constraints.maxHeight
+            height = constraints.maxHeight,
         ) {
             headerPlaceable.place(
                 x = 0,
-                y = 0
+                y = 0,
             )
 
             contentPlaceable.place(
                 x = 0,
-                y = headerPlaceable.height
+                y = headerPlaceable.height,
             )
         }
     }
@@ -70,19 +70,19 @@ internal class CollapsibleHeaderContainerMeasurePolicy(
         val headerConstraints = constraints.copyMaxDimensions()
         val collapsedHeaderHeight = measurables.getPlaceableById(
             layoutId = CollapsibleHeaderLayoutId.CollapsedHeader,
-            constraints = headerConstraints
+            constraints = headerConstraints,
         )?.height ?: error("Collapsed header was not defined in the Layout")
 
         val expandedHeaderHeight = measurables.getPlaceableById(
             layoutId = CollapsibleHeaderLayoutId.ExpandedHeader,
-            constraints = headerConstraints
+            constraints = headerConstraints,
         )?.height ?: error("Expanded header was not defined in Layout")
 
         state.draggableState.updateAnchors(
             newAnchors = DraggableAnchors {
                 DraggableLayoutState.Collapsed at collapsedHeaderHeight.toFloat()
                 DraggableLayoutState.Expanded at expandedHeaderHeight.toFloat()
-            }
+            },
         )
 
         val currentHeaderHeight = if (state.draggableState.offset.isNaN()) {
@@ -92,11 +92,11 @@ internal class CollapsibleHeaderContainerMeasurePolicy(
         }
         val realHeaderConstraints = constraints.copy(
             minHeight = currentHeaderHeight,
-            maxHeight = currentHeaderHeight
+            maxHeight = currentHeaderHeight,
         )
         val headerPlaceable = measurables.getPlaceableById(
             layoutId = CollapsibleHeaderLayoutId.Header,
-            constraints = realHeaderConstraints
+            constraints = realHeaderConstraints,
         ) ?: error("Header was not defined in the Layout")
 
         return headerPlaceable
@@ -105,7 +105,7 @@ internal class CollapsibleHeaderContainerMeasurePolicy(
 
 @Composable
 internal fun rememberCollapsibleHeaderContainerMeasurePolicy(
-    state: CollapsibleHeaderContainerState
+    state: CollapsibleHeaderContainerState,
 ) = remember(state) {
     CollapsibleHeaderContainerMeasurePolicy(state = state)
 }

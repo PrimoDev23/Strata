@@ -22,13 +22,13 @@ import androidx.compose.runtime.snapshotFlow
 @Composable
 internal fun DraggableLayoutTransitionEffect(
     draggableState: AnchoredDraggableState<DraggableLayoutState>,
-    transitionState: SeekableTransitionState<DraggableLayoutState>
+    transitionState: SeekableTransitionState<DraggableLayoutState>,
 ) {
     LaunchedEffect(draggableState, transitionState) {
         snapshotFlow {
             draggableState.progress(
                 from = DraggableLayoutState.Collapsed,
-                to = DraggableLayoutState.Expanded
+                to = DraggableLayoutState.Expanded,
             )
         }.collect { progress ->
             when {
@@ -38,12 +38,12 @@ internal fun DraggableLayoutTransitionEffect(
 
                 transitionState.currentState == DraggableLayoutState.Collapsed -> transitionState.seekTo(
                     fraction = progress,
-                    targetState = DraggableLayoutState.Expanded
+                    targetState = DraggableLayoutState.Expanded,
                 )
 
                 else -> transitionState.seekTo(
                     fraction = 1f - progress,
-                    targetState = DraggableLayoutState.Collapsed
+                    targetState = DraggableLayoutState.Collapsed,
                 )
             }
         }

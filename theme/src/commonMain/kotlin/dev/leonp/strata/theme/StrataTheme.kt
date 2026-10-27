@@ -12,6 +12,6 @@ import androidx.compose.runtime.Composable
 fun StrataTheme(darkTheme: Boolean = isSystemInDarkTheme(), content: @Composable () -> Unit) {
     MaterialTheme(
         colorScheme = if (darkTheme) DarkColorScheme else LightColorScheme,
-        content = content
+        content = content,
     )
 }

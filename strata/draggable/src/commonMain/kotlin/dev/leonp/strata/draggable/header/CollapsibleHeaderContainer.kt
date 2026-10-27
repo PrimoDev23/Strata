@@ -86,7 +86,7 @@ fun CollapsibleHeaderContainer(
     state: CollapsibleHeaderContainerState = rememberCollapsibleHeaderContainerState(),
     collapsedHeader: (@Composable (PaddingValues) -> Unit)? = null,
     insets: WindowInsets = WindowInsets.systemBars,
-    content: @Composable (PaddingValues) -> Unit
+    content: @Composable (PaddingValues) -> Unit,
 ) {
     BaseCollapsibleHeaderContainer(
         modifier = modifier,
@@ -112,7 +112,7 @@ fun CollapsibleHeaderContainer(
         },
         state = state,
         insets = insets,
-        content = content
+        content = content,
     )
 }
 
@@ -129,7 +129,7 @@ private fun CollapsibleHeaderContainerPreview() {
                         .fillMaxWidth()
                         .background(MaterialTheme.colorScheme.primaryContainer)
                         .padding(padding)
-                        .padding(all = 24.dp)
+                        .padding(all = 24.dp),
                 )
             },
             collapsedHeader = { padding ->
@@ -140,16 +140,16 @@ private fun CollapsibleHeaderContainerPreview() {
                         .fillMaxWidth()
                         .background(MaterialTheme.colorScheme.primaryContainer)
                         .padding(padding)
-                        .padding(all = 16.dp)
+                        .padding(all = 16.dp),
                 )
             },
-            modifier = Modifier.background(MaterialTheme.colorScheme.background)
+            modifier = Modifier.background(MaterialTheme.colorScheme.background),
         ) { padding ->
             LazyColumn(contentPadding = padding) {
                 items(count = 30) { index ->
                     Text(
                         text = "Item $index",
-                        modifier = Modifier.padding(all = 16.dp)
+                        modifier = Modifier.padding(all = 16.dp),
                     )
                 }
             }

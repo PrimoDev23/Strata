@@ -51,7 +51,7 @@ internal fun BaseCollapsibleHeaderContainer(
     modifier: Modifier = Modifier,
     state: CollapsibleHeaderContainerState = rememberCollapsibleHeaderContainerState(),
     insets: WindowInsets = WindowInsets.systemBars,
-    content: @Composable (PaddingValues) -> Unit
+    content: @Composable (PaddingValues) -> Unit,
 ) {
     Layout(
         modifier = modifier
@@ -62,7 +62,7 @@ internal fun BaseCollapsibleHeaderContainer(
             Box(
                 modifier = Modifier
                     .layoutId(CollapsibleHeaderLayoutId.CollapsedHeader)
-                    .clearAndSetSemantics {}
+                    .clearAndSetSemantics {},
             ) {
                 BaseCollapsibleHeaderScope.MeasurementScope.header(DraggableLayoutState.Collapsed)
             }
@@ -70,7 +70,7 @@ internal fun BaseCollapsibleHeaderContainer(
             Box(
                 modifier = Modifier
                     .layoutId(CollapsibleHeaderLayoutId.ExpandedHeader)
-                    .clearAndSetSemantics {}
+                    .clearAndSetSemantics {},
             ) {
                 BaseCollapsibleHeaderScope.MeasurementScope.header(DraggableLayoutState.Expanded)
             }
@@ -79,7 +79,7 @@ internal fun BaseCollapsibleHeaderContainer(
                 modifier = Modifier
                     .layoutId(CollapsibleHeaderLayoutId.Header)
                     .clipToBounds(),
-                propagateMinConstraints = true
+                propagateMinConstraints = true,
             ) {
                 BaseCollapsibleHeaderScope.PlacementScope.header(state.draggableState.currentValue)
             }
@@ -88,16 +88,16 @@ internal fun BaseCollapsibleHeaderContainer(
                 modifier = Modifier
                     .anchoredDraggable(
                         state = state.draggableState,
-                        orientation = Orientation.Vertical
+                        orientation = Orientation.Vertical,
                     )
-                    .layoutId(CollapsibleHeaderLayoutId.Content)
+                    .layoutId(CollapsibleHeaderLayoutId.Content),
             ) {
                 val contentInsets = insets.only(
-                    WindowInsetsSides.Bottom + WindowInsetsSides.Horizontal
+                    WindowInsetsSides.Bottom + WindowInsetsSides.Horizontal,
                 )
 
                 content(contentInsets.asPaddingValues())
             }
-        }
+        },
     )
 }

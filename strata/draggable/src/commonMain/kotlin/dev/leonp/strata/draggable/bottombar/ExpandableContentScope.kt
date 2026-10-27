@@ -19,6 +19,6 @@ import androidx.compose.animation.SharedTransitionScope
  */
 class ExpandableContentScope internal constructor(
     sharedTransitionScope: SharedTransitionScope,
-    animatedVisibilityScope: AnimatedVisibilityScope
+    animatedVisibilityScope: AnimatedVisibilityScope,
 ) : SharedTransitionScope by sharedTransitionScope,
     AnimatedVisibilityScope by animatedVisibilityScope

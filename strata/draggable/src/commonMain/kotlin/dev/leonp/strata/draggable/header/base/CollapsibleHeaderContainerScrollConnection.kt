@@ -18,7 +18,7 @@ import dev.leonp.strata.draggable.header.common.CollapsibleHeaderContainerState
  * - After a fling, the header settles at its closest state.
  */
 internal class CollapsibleHeaderContainerScrollConnection(
-    private val state: CollapsibleHeaderContainerState
+    private val state: CollapsibleHeaderContainerState,
 ) : NestedScrollConnection {
     override fun onPreScroll(available: Offset, source: NestedScrollSource): Offset {
         val delta = available.y
@@ -31,14 +31,14 @@ internal class CollapsibleHeaderContainerScrollConnection(
 
         return Offset(
             x = 0f,
-            y = dispatchedDelta
+            y = dispatchedDelta,
         )
     }
 
     override fun onPostScroll(
         consumed: Offset,
         available: Offset,
-        source: NestedScrollSource
+        source: NestedScrollSource,
     ): Offset {
         val delta = available.y
 
@@ -50,24 +50,24 @@ internal class CollapsibleHeaderContainerScrollConnection(
 
         return Offset(
             x = 0f,
-            y = dispatchedDelta
+            y = dispatchedDelta,
         )
     }
 
     override suspend fun onPostFling(consumed: Velocity, available: Velocity): Velocity {
         val used = state.draggableState.animateToWithDecay(
             targetValue = state.draggableState.targetValue,
-            velocity = available.y
+            velocity = available.y,
         )
 
         return Velocity(
             x = 0f,
-            y = used
+            y = used,
         )
     }
 }
 
 @Composable
 internal fun rememberCollapsibleHeaderContainerScrollConnection(
-    state: CollapsibleHeaderContainerState
+    state: CollapsibleHeaderContainerState,
 ) = remember(state) { CollapsibleHeaderContainerScrollConnection(state = state) }

@@ -6,5 +6,5 @@ enum class DraggableLayoutState {
     Collapsed,
 
     /** The layout is expanded to its largest size. */
-    Expanded
+    Expanded,
 }
