@@ -7,7 +7,7 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.input.nestedscroll.NestedScrollConnection
 import androidx.compose.ui.input.nestedscroll.NestedScrollSource
 import androidx.compose.ui.unit.Velocity
-import dev.leonp.strata.draggable.header.CollapsibleHeaderContainerState
+import dev.leonp.strata.draggable.header.common.CollapsibleHeaderContainerState
 
 /**
  * Connects scrollable content to the header height.

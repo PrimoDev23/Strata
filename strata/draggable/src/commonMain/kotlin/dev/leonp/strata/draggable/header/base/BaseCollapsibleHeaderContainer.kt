@@ -18,8 +18,8 @@ import androidx.compose.ui.layout.Layout
 import androidx.compose.ui.layout.layoutId
 import androidx.compose.ui.semantics.clearAndSetSemantics
 import dev.leonp.strata.draggable.common.DraggableLayoutState
-import dev.leonp.strata.draggable.header.CollapsibleHeaderContainerState
-import dev.leonp.strata.draggable.header.rememberCollapsibleHeaderContainerState
+import dev.leonp.strata.draggable.header.common.CollapsibleHeaderContainerState
+import dev.leonp.strata.draggable.header.common.rememberCollapsibleHeaderContainerState
 
 // The header slots are intentionally composed multiple times at once: hidden copies are used to
 // measure the collapsed and expanded heights while another copy is the visible header.

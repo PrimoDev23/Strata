@@ -11,7 +11,7 @@ import androidx.compose.ui.layout.Placeable
 import androidx.compose.ui.unit.Constraints
 import dev.leonp.strata.draggable.common.DraggableLayoutState
 import dev.leonp.strata.draggable.common.getPlaceableById
-import dev.leonp.strata.draggable.header.CollapsibleHeaderContainerState
+import dev.leonp.strata.draggable.header.common.CollapsibleHeaderContainerState
 
 /**
  * Measures the collapsible header container.

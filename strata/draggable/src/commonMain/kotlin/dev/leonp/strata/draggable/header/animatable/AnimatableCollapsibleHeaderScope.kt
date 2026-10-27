@@ -1,4 +1,4 @@
-package dev.leonp.strata.draggable.header
+package dev.leonp.strata.draggable.header.animatable
 
 import androidx.compose.animation.AnimatedVisibilityScope
 import androidx.compose.animation.SharedTransitionScope

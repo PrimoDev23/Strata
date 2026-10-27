@@ -1,4 +1,4 @@
-package dev.leonp.strata.draggable.header
+package dev.leonp.strata.draggable.header.common
 
 import androidx.compose.animation.core.SeekableTransitionState
 import androidx.compose.foundation.gestures.AnchoredDraggableState
@@ -9,7 +9,7 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import dev.leonp.strata.draggable.common.DraggableLayoutState
 
 /**
- * The state of [CollapsibleHeaderContainer] and [AnimatableCollapsibleHeaderContainer].
+ * The state of [dev.leonp.strata.draggable.header.CollapsibleHeaderContainer] and [dev.leonp.strata.draggable.header.animatable.AnimatableCollapsibleHeaderContainer].
  *
  * Holds the current header height, driven by scroll and drag gestures, and the transition between
  * the collapsed and the expanded header. Only the settled [DraggableLayoutState] is saved, so a

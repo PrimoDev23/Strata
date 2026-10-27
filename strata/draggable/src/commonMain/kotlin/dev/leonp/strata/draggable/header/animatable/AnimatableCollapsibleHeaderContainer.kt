@@ -1,4 +1,4 @@
-package dev.leonp.strata.draggable.header
+package dev.leonp.strata.draggable.header.animatable
 
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.AnimatedVisibility
@@ -29,7 +29,11 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import dev.leonp.strata.draggable.common.DraggableLayoutState
 import dev.leonp.strata.draggable.common.DraggableLayoutTransitionEffect
+import dev.leonp.strata.draggable.header.CollapsibleHeaderContainer
 import dev.leonp.strata.draggable.header.base.BaseCollapsibleHeaderContainer
+import dev.leonp.strata.draggable.header.common.CollapsibleHeaderContainerState
+import dev.leonp.strata.draggable.header.common.InsetSpacer
+import dev.leonp.strata.draggable.header.common.rememberCollapsibleHeaderContainerState
 import dev.leonp.strata.theme.StrataTheme
 
 // The header slots are intentionally composed multiple times at once: hidden copies are used to

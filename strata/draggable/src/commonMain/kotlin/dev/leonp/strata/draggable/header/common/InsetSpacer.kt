@@ -1,4 +1,4 @@
-package dev.leonp.strata.draggable.header
+package dev.leonp.strata.draggable.header.common
 
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets

@@ -18,6 +18,9 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import dev.leonp.strata.draggable.common.DraggableLayoutState
 import dev.leonp.strata.draggable.header.base.BaseCollapsibleHeaderContainer
+import dev.leonp.strata.draggable.header.common.CollapsibleHeaderContainerState
+import dev.leonp.strata.draggable.header.common.InsetSpacer
+import dev.leonp.strata.draggable.header.common.rememberCollapsibleHeaderContainerState
 import dev.leonp.strata.theme.StrataTheme
 
 // The header slots are intentionally composed multiple times at once: hidden copies are used to
@@ -30,7 +33,7 @@ import dev.leonp.strata.theme.StrataTheme
  * height. [expandedHeader] is shown while the header is closer to the expanded height and
  * [collapsedHeader] while it is closer to the collapsed height. The visible header is laid out with
  * the current height, so it is stretched or squeezed between the two heights. For an animated
- * transition between both headers, use [AnimatableCollapsibleHeaderContainer].
+ * transition between both headers, use [dev.leonp.strata.draggable.header.animatable.AnimatableCollapsibleHeaderContainer].
  *
  * Gestures:
  * - Scrolling a scrollable [content] towards its end collapses the header before the content
