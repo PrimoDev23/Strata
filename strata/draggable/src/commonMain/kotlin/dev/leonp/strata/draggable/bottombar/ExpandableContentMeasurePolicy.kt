@@ -19,7 +19,8 @@ import dev.leonp.strata.draggable.common.getPlaceableById
  * [DraggableLayoutState.Collapsed] at the full height minus the collapsed height. The visible
  * content is measured at its natural size within the full height, and the layout takes the height
  * given by the current drag offset. The offset is read during measurement, so dragging remeasures
- * the layout without recomposing it.
+ * the layout without recomposing it. In a lookahead pass, the layout takes the height of the state
+ * the transition is heading to instead, see [ExpandableContentState.offset].
  */
 private class ExpandableContentMeasurePolicy(private val state: ExpandableContentState) :
     MeasurePolicy {
@@ -45,7 +46,8 @@ private class ExpandableContentMeasurePolicy(private val state: ExpandableConten
             },
         )
 
-        val currentContentHeight = (constraints.maxHeight - state.draggableState.offset).toInt()
+        val currentContentHeight =
+            (constraints.maxHeight - state.offset(isLookingAhead = isLookingAhead)).toInt()
         // Measure the current content at its natural size within the full height instead of the
         // current dragged height, so every state is laid out like its final layout. The layout
         // itself only takes the current height and clips the rest.

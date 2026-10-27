@@ -22,6 +22,30 @@ class ExpandableContentState internal constructor(initialValue: DraggableLayoutS
     internal val draggableState = AnchoredDraggableState(initialValue)
     internal val transitionState = SeekableTransitionState(initialValue)
 
+    /**
+     * The offset of the top edge of the layout.
+     *
+     * The drag sets the height directly instead of animating it towards a target, so a lookahead
+     * pass would otherwise see the same dragged height as the actual layout pass. Shared elements
+     * take their target bounds from the lookahead pass, and would chase a target that moves with the
+     * drag. The lookahead pass therefore uses the anchor of the state the transition is seeking
+     * towards, which is the height the layout settles at, so shared elements move between the
+     * settled positions in both states.
+     *
+     * @param isLookingAhead `true` if the offset is read in a lookahead pass.
+     */
+    internal fun offset(isLookingAhead: Boolean): Float {
+        if (isLookingAhead) {
+            val targetOffset = draggableState.anchors.positionOf(transitionState.targetState)
+
+            if (!targetOffset.isNaN()) {
+                return targetOffset
+            }
+        }
+
+        return draggableState.offset
+    }
+
     internal companion object {
         private const val DRAGGABLE_STATE_SETTLED_VALUE = "SettledValue"
 
