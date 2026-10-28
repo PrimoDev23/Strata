@@ -1,0 +1,78 @@
+public final class dev/leonp/strata/draggable/bottombar/ExpandableContentKt {
+	public static final fun ExpandableContent (Landroidx/compose/animation/SharedTransitionScope;Landroidx/compose/ui/Modifier;Ldev/leonp/strata/draggable/bottombar/ExpandableContentState;Lkotlin/jvm/functions/Function4;Landroidx/compose/runtime/Composer;II)V
+}
+
+public final class dev/leonp/strata/draggable/bottombar/ExpandableContentScope : androidx/compose/animation/AnimatedVisibilityScope, androidx/compose/animation/SharedTransitionScope {
+	public static final field $stable I
+	public fun OverlayClip (Landroidx/compose/ui/graphics/Shape;)Landroidx/compose/animation/SharedTransitionScope$OverlayClip;
+	public fun SharedContentConfig ()Landroidx/compose/animation/SharedTransitionScope$SharedContentConfig;
+	public fun SharedContentConfig (Z)Landroidx/compose/animation/SharedTransitionScope$SharedContentConfig;
+	public fun animateEnterExit (Landroidx/compose/ui/Modifier;Landroidx/compose/animation/EnterTransition;Landroidx/compose/animation/ExitTransition;Ljava/lang/String;)Landroidx/compose/ui/Modifier;
+	public fun getLookaheadScopeCoordinates (Landroidx/compose/ui/layout/Placeable$PlacementScope;)Landroidx/compose/ui/layout/LayoutCoordinates;
+	public fun getTransition ()Landroidx/compose/animation/core/Transition;
+	public fun isTransitionActive ()Z
+	public fun localLookaheadPositionOf-au-aQtc (Landroidx/compose/ui/layout/LayoutCoordinates;Landroidx/compose/ui/layout/LayoutCoordinates;JZ)J
+	public fun rememberSharedContentState (Ljava/lang/Object;Landroidx/compose/animation/SharedTransitionScope$SharedContentConfig;Landroidx/compose/runtime/Composer;I)Landroidx/compose/animation/SharedTransitionScope$SharedContentState;
+	public fun rememberSharedContentState (Ljava/lang/Object;Landroidx/compose/runtime/Composer;I)Landroidx/compose/animation/SharedTransitionScope$SharedContentState;
+	public fun renderInSharedTransitionScopeOverlay (Landroidx/compose/ui/Modifier;FLkotlin/jvm/functions/Function0;)Landroidx/compose/ui/Modifier;
+	public fun sharedBounds (Landroidx/compose/ui/Modifier;Landroidx/compose/animation/SharedTransitionScope$SharedContentState;Landroidx/compose/animation/AnimatedVisibilityScope;Landroidx/compose/animation/EnterTransition;Landroidx/compose/animation/ExitTransition;Landroidx/compose/animation/BoundsTransform;Landroidx/compose/animation/SharedTransitionScope$ResizeMode;Landroidx/compose/animation/SharedTransitionScope$PlaceholderSize;ZFLandroidx/compose/animation/SharedTransitionScope$OverlayClip;)Landroidx/compose/ui/Modifier;
+	public fun sharedElement (Landroidx/compose/ui/Modifier;Landroidx/compose/animation/SharedTransitionScope$SharedContentState;Landroidx/compose/animation/AnimatedVisibilityScope;Landroidx/compose/animation/BoundsTransform;Landroidx/compose/animation/SharedTransitionScope$PlaceholderSize;ZFLandroidx/compose/animation/SharedTransitionScope$OverlayClip;)Landroidx/compose/ui/Modifier;
+	public fun sharedElementWithCallerManagedVisibility (Landroidx/compose/ui/Modifier;Landroidx/compose/animation/SharedTransitionScope$SharedContentState;ZLandroidx/compose/animation/BoundsTransform;Landroidx/compose/animation/SharedTransitionScope$PlaceholderSize;ZFLandroidx/compose/animation/SharedTransitionScope$OverlayClip;)Landroidx/compose/ui/Modifier;
+	public fun skipToLookaheadPosition (Landroidx/compose/ui/Modifier;Lkotlin/jvm/functions/Function0;)Landroidx/compose/ui/Modifier;
+	public fun skipToLookaheadSize (Landroidx/compose/ui/Modifier;Lkotlin/jvm/functions/Function0;)Landroidx/compose/ui/Modifier;
+	public fun toLookaheadCoordinates (Landroidx/compose/ui/layout/LayoutCoordinates;)Landroidx/compose/ui/layout/LayoutCoordinates;
+}
+
+public final class dev/leonp/strata/draggable/bottombar/ExpandableContentState {
+	public static final field $stable I
+}
+
+public final class dev/leonp/strata/draggable/bottombar/ExpandableContentStateKt {
+	public static final fun rememberExpandableContentState (Landroidx/compose/runtime/Composer;I)Ldev/leonp/strata/draggable/bottombar/ExpandableContentState;
+}
+
+public final class dev/leonp/strata/draggable/common/DraggableLayoutState : java/lang/Enum {
+	public static final field Collapsed Ldev/leonp/strata/draggable/common/DraggableLayoutState;
+	public static final field Expanded Ldev/leonp/strata/draggable/common/DraggableLayoutState;
+	public static fun getEntries ()Lkotlin/enums/EnumEntries;
+	public static fun valueOf (Ljava/lang/String;)Ldev/leonp/strata/draggable/common/DraggableLayoutState;
+	public static fun values ()[Ldev/leonp/strata/draggable/common/DraggableLayoutState;
+}
+
+public final class dev/leonp/strata/draggable/header/CollapsibleHeaderContainerKt {
+	public static final fun CollapsibleHeaderContainer (Lkotlin/jvm/functions/Function3;Landroidx/compose/ui/Modifier;Ldev/leonp/strata/draggable/header/common/CollapsibleHeaderContainerState;Lkotlin/jvm/functions/Function3;Landroidx/compose/foundation/layout/WindowInsets;Lkotlin/jvm/functions/Function3;Landroidx/compose/runtime/Composer;II)V
+}
+
+public final class dev/leonp/strata/draggable/header/animatable/AnimatableCollapsibleHeaderContainerKt {
+	public static final fun AnimatableCollapsibleHeaderContainer (Landroidx/compose/animation/SharedTransitionScope;Lkotlin/jvm/functions/Function4;Landroidx/compose/ui/Modifier;Ldev/leonp/strata/draggable/header/common/CollapsibleHeaderContainerState;Lkotlin/jvm/functions/Function4;Landroidx/compose/foundation/layout/WindowInsets;Lkotlin/jvm/functions/Function3;Landroidx/compose/runtime/Composer;II)V
+}
+
+public final class dev/leonp/strata/draggable/header/animatable/AnimatableCollapsibleHeaderScope : androidx/compose/animation/AnimatedVisibilityScope, androidx/compose/animation/SharedTransitionScope {
+	public static final field $stable I
+	public fun OverlayClip (Landroidx/compose/ui/graphics/Shape;)Landroidx/compose/animation/SharedTransitionScope$OverlayClip;
+	public fun SharedContentConfig ()Landroidx/compose/animation/SharedTransitionScope$SharedContentConfig;
+	public fun SharedContentConfig (Z)Landroidx/compose/animation/SharedTransitionScope$SharedContentConfig;
+	public fun animateEnterExit (Landroidx/compose/ui/Modifier;Landroidx/compose/animation/EnterTransition;Landroidx/compose/animation/ExitTransition;Ljava/lang/String;)Landroidx/compose/ui/Modifier;
+	public fun getLookaheadScopeCoordinates (Landroidx/compose/ui/layout/Placeable$PlacementScope;)Landroidx/compose/ui/layout/LayoutCoordinates;
+	public fun getTransition ()Landroidx/compose/animation/core/Transition;
+	public fun isTransitionActive ()Z
+	public fun localLookaheadPositionOf-au-aQtc (Landroidx/compose/ui/layout/LayoutCoordinates;Landroidx/compose/ui/layout/LayoutCoordinates;JZ)J
+	public fun rememberSharedContentState (Ljava/lang/Object;Landroidx/compose/animation/SharedTransitionScope$SharedContentConfig;Landroidx/compose/runtime/Composer;I)Landroidx/compose/animation/SharedTransitionScope$SharedContentState;
+	public fun rememberSharedContentState (Ljava/lang/Object;Landroidx/compose/runtime/Composer;I)Landroidx/compose/animation/SharedTransitionScope$SharedContentState;
+	public fun renderInSharedTransitionScopeOverlay (Landroidx/compose/ui/Modifier;FLkotlin/jvm/functions/Function0;)Landroidx/compose/ui/Modifier;
+	public fun sharedBounds (Landroidx/compose/ui/Modifier;Landroidx/compose/animation/SharedTransitionScope$SharedContentState;Landroidx/compose/animation/AnimatedVisibilityScope;Landroidx/compose/animation/EnterTransition;Landroidx/compose/animation/ExitTransition;Landroidx/compose/animation/BoundsTransform;Landroidx/compose/animation/SharedTransitionScope$ResizeMode;Landroidx/compose/animation/SharedTransitionScope$PlaceholderSize;ZFLandroidx/compose/animation/SharedTransitionScope$OverlayClip;)Landroidx/compose/ui/Modifier;
+	public fun sharedElement (Landroidx/compose/ui/Modifier;Landroidx/compose/animation/SharedTransitionScope$SharedContentState;Landroidx/compose/animation/AnimatedVisibilityScope;Landroidx/compose/animation/BoundsTransform;Landroidx/compose/animation/SharedTransitionScope$PlaceholderSize;ZFLandroidx/compose/animation/SharedTransitionScope$OverlayClip;)Landroidx/compose/ui/Modifier;
+	public fun sharedElementWithCallerManagedVisibility (Landroidx/compose/ui/Modifier;Landroidx/compose/animation/SharedTransitionScope$SharedContentState;ZLandroidx/compose/animation/BoundsTransform;Landroidx/compose/animation/SharedTransitionScope$PlaceholderSize;ZFLandroidx/compose/animation/SharedTransitionScope$OverlayClip;)Landroidx/compose/ui/Modifier;
+	public fun skipToLookaheadPosition (Landroidx/compose/ui/Modifier;Lkotlin/jvm/functions/Function0;)Landroidx/compose/ui/Modifier;
+	public fun skipToLookaheadSize (Landroidx/compose/ui/Modifier;Lkotlin/jvm/functions/Function0;)Landroidx/compose/ui/Modifier;
+	public fun toLookaheadCoordinates (Landroidx/compose/ui/layout/LayoutCoordinates;)Landroidx/compose/ui/layout/LayoutCoordinates;
+}
+
+public final class dev/leonp/strata/draggable/header/common/CollapsibleHeaderContainerState {
+	public static final field $stable I
+}
+
+public final class dev/leonp/strata/draggable/header/common/CollapsibleHeaderContainerStateKt {
+	public static final fun rememberCollapsibleHeaderContainerState (Landroidx/compose/runtime/Composer;I)Ldev/leonp/strata/draggable/header/common/CollapsibleHeaderContainerState;
+}
+

@@ -18,7 +18,7 @@ import androidx.compose.animation.SharedTransitionScope
  * heights. In those copies, the scopes belong to a separate, always visible transition, so shared
  * elements do not interact with the visible headers.
  */
-class AnimatableCollapsibleHeaderScope internal constructor(
+public class AnimatableCollapsibleHeaderScope internal constructor(
     sharedTransitionScope: SharedTransitionScope,
     animatedVisibilityScope: AnimatedVisibilityScope,
 ) : SharedTransitionScope by sharedTransitionScope,

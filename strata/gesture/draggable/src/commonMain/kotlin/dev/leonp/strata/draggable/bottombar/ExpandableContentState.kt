@@ -18,7 +18,7 @@ import dev.leonp.strata.draggable.common.DraggableLayoutState
  * Create it with [rememberExpandableContentState].
  */
 @Stable
-class ExpandableContentState internal constructor(initialValue: DraggableLayoutState) {
+public class ExpandableContentState internal constructor(initialValue: DraggableLayoutState) {
     internal val draggableState = AnchoredDraggableState(initialValue)
     internal val transitionState = SeekableTransitionState(initialValue)
 
@@ -70,6 +70,7 @@ class ExpandableContentState internal constructor(initialValue: DraggableLayoutS
  * The settled state survives configuration changes and process death.
  */
 @Composable
-fun rememberExpandableContentState() = rememberSaveable(saver = ExpandableContentState.Saver) {
-    ExpandableContentState(initialValue = DraggableLayoutState.Collapsed)
-}
+public fun rememberExpandableContentState(): ExpandableContentState =
+    rememberSaveable(saver = ExpandableContentState.Saver) {
+        ExpandableContentState(initialValue = DraggableLayoutState.Collapsed)
+    }

@@ -18,7 +18,7 @@ import dev.leonp.strata.draggable.common.DraggableLayoutState
  * Create it with [rememberCollapsibleHeaderContainerState].
  */
 @Stable
-class CollapsibleHeaderContainerState internal constructor(
+public class CollapsibleHeaderContainerState internal constructor(
     initialValue: DraggableLayoutState = DraggableLayoutState.Expanded,
 ) {
     internal val draggableState = AnchoredDraggableState(initialValue = initialValue)
@@ -46,7 +46,7 @@ class CollapsibleHeaderContainerState internal constructor(
  * The settled state survives configuration changes and process death.
  */
 @Composable
-fun rememberCollapsibleHeaderContainerState() =
+public fun rememberCollapsibleHeaderContainerState(): CollapsibleHeaderContainerState =
     rememberSaveable(saver = CollapsibleHeaderContainerState.Saver) {
         CollapsibleHeaderContainerState()
     }

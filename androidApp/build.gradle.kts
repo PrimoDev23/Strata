@@ -36,8 +36,12 @@ android {
         }
     }
     buildTypes {
+        // Shrunk like a production app, so the release demo shows whether the library survives R8
         release {
-            isMinifyEnabled = false
+            isMinifyEnabled = true
+            isShrinkResources = true
+            // The demo is never distributed, the debug key only makes the release build installable
+            signingConfig = signingConfigs.getByName("debug")
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro",

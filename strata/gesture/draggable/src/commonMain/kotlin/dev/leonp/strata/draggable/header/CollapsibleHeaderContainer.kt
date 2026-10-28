@@ -71,7 +71,7 @@ import dev.leonp.strata.draggable.header.common.rememberCollapsibleHeaderContain
  */
 @Suppress("ContentSlotReused")
 @Composable
-fun CollapsibleHeaderContainer(
+public fun CollapsibleHeaderContainer(
     expandedHeader: @Composable (PaddingValues) -> Unit,
     modifier: Modifier = Modifier,
     state: CollapsibleHeaderContainerState = rememberCollapsibleHeaderContainerState(),

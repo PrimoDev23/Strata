@@ -1,4 +1,5 @@
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+import org.jetbrains.kotlin.gradle.dsl.abi.ExperimentalAbiValidation
 
 plugins {
     alias(libs.plugins.kotlinMultiplatform)
@@ -7,6 +8,9 @@ plugins {
     alias(libs.plugins.composeCompiler)
     alias(libs.plugins.mavenPublish)
 }
+
+// The iOS klibs take their unique name from the project group, which must stay stable once published
+group = providers.gradleProperty("GROUP").get()
 
 // Group, version and the shared POM metadata come from the root gradle.properties
 mavenPublishing {
@@ -23,13 +27,19 @@ mavenPublishing {
 }
 
 kotlin {
+    explicitApi()
+
+    // Fails the check task when the public API differs from the committed api dump
+    @OptIn(ExperimentalAbiValidation::class)
+    abiValidation()
+
     iosArm64()
     iosSimulatorArm64()
 
     android {
         namespace = "dev.leonp.strata.draggable"
         compileSdk = libs.versions.android.compileSdk.get().toInt()
-        minSdk = libs.versions.android.minSdk.get().toInt()
+        minSdk = libs.versions.android.libraryMinSdk.get().toInt()
 
         compilerOptions {
             jvmTarget = JvmTarget.JVM_11

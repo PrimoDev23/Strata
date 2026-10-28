@@ -85,7 +85,7 @@ import dev.leonp.strata.draggable.common.DraggableLayoutTransitionEffect
  */
 @Suppress("ContentSlotReused")
 @Composable
-fun SharedTransitionScope.ExpandableContent(
+public fun SharedTransitionScope.ExpandableContent(
     modifier: Modifier = Modifier,
     state: ExpandableContentState = rememberExpandableContentState(),
     content: @Composable ExpandableContentScope.(DraggableLayoutState) -> Unit,

@@ -92,7 +92,7 @@ import dev.leonp.strata.draggable.header.common.rememberCollapsibleHeaderContain
  */
 @Suppress("ContentSlotReused")
 @Composable
-fun SharedTransitionScope.AnimatableCollapsibleHeaderContainer(
+public fun SharedTransitionScope.AnimatableCollapsibleHeaderContainer(
     expandedHeader: @Composable AnimatableCollapsibleHeaderScope.(PaddingValues) -> Unit,
     modifier: Modifier = Modifier,
     state: CollapsibleHeaderContainerState = rememberCollapsibleHeaderContainerState(),

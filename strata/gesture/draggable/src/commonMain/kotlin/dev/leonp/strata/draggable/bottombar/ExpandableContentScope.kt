@@ -17,7 +17,7 @@ import androidx.compose.animation.SharedTransitionScope
  * height. In that copy, the scopes belong to a separate, always visible transition, so shared
  * elements do not interact with the visible content.
  */
-class ExpandableContentScope internal constructor(
+public class ExpandableContentScope internal constructor(
     sharedTransitionScope: SharedTransitionScope,
     animatedVisibilityScope: AnimatedVisibilityScope,
 ) : SharedTransitionScope by sharedTransitionScope,

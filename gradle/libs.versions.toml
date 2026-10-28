@@ -2,6 +2,8 @@
 agp = "9.1.1"
 android-compileSdk = "37"
 android-minSdk = "29"
+# Published libraries support the same minSdk as Compose foundation
+android-libraryMinSdk = "23"
 android-targetSdk = "37"
 androidx-activity = "1.13.0"
 composeMultiplatform = "1.12.1"
