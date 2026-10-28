@@ -60,7 +60,7 @@ module:
 kotlin {
     sourceSets {
         commonMain.dependencies {
-            implementation("dev.leonp.strata:gesture-draggable:<version>")
+            implementation("dev.leonp.strata:gesture-draggable:0.1.0")
         }
     }
 }
