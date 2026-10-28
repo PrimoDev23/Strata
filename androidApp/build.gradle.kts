@@ -3,6 +3,8 @@ import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 plugins {
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.composeCompiler)
+    // Adds the non-minified release build type the baseline profile generator runs against
+    alias(libs.plugins.baselineProfileAppTarget)
 }
 
 kotlin {

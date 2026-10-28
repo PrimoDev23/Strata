@@ -7,6 +7,7 @@ plugins {
     alias(libs.plugins.composeMultiplatform)
     alias(libs.plugins.composeCompiler)
     alias(libs.plugins.mavenPublish)
+    alias(libs.plugins.baselineProfileConsumer)
 }
 
 // The iOS klibs take their unique name from the project group, which must stay stable once published
@@ -50,5 +51,19 @@ kotlin {
         commonMain.dependencies {
             api(libs.compose.foundation)
         }
+    }
+}
+
+// Ships the profile in the AAR, so apps precompile the gesture and measure code on install
+baselineProfile {
+    variants {
+        create("androidMain") {
+            from(project(":strata:gesture:draggable-baselineprofile"))
+        }
+    }
+
+    // The generator records the whole demo app, only the library's own rules belong in its profile
+    filter {
+        include("dev.leonp.strata.draggable.**")
     }
 }
