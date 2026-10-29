@@ -2,6 +2,7 @@ package dev.leonp.strata.draggable.bottombar
 
 import androidx.compose.animation.core.SeekableTransitionState
 import androidx.compose.foundation.gestures.AnchoredDraggableState
+import androidx.compose.foundation.gestures.animateTo
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Stable
 import androidx.compose.runtime.saveable.mapSaver
@@ -21,6 +22,26 @@ import dev.leonp.strata.draggable.common.DraggableLayoutState
 public class ExpandableContentState internal constructor(initialValue: DraggableLayoutState) {
     internal val draggableState = AnchoredDraggableState(initialValue)
     internal val transitionState = SeekableTransitionState(initialValue)
+
+    /**
+     * Animates the layout to [DraggableLayoutState.Expanded].
+     *
+     * Suspends until the animation finishes. If it is interrupted, for example by a drag or another
+     * call to [expand] or [collapse], it is cancelled.
+     */
+    public suspend fun expand() {
+        draggableState.animateTo(DraggableLayoutState.Expanded)
+    }
+
+    /**
+     * Animates the layout to [DraggableLayoutState.Collapsed].
+     *
+     * Suspends until the animation finishes. If it is interrupted, for example by a drag or another
+     * call to [expand] or [collapse], it is cancelled.
+     */
+    public suspend fun collapse() {
+        draggableState.animateTo(DraggableLayoutState.Collapsed)
+    }
 
     /**
      * The offset of the top edge of the layout.
