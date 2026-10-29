@@ -3,6 +3,8 @@ package dev.leonp.strata.draggable.header.base
 import androidx.compose.foundation.gestures.DraggableAnchors
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
+import androidx.compose.ui.layout.IntrinsicMeasurable
+import androidx.compose.ui.layout.IntrinsicMeasureScope
 import androidx.compose.ui.layout.Measurable
 import androidx.compose.ui.layout.MeasurePolicy
 import androidx.compose.ui.layout.MeasureResult
@@ -101,6 +103,31 @@ internal class CollapsibleHeaderContainerMeasurePolicy(
 
         return headerPlaceable
     }
+
+    override fun IntrinsicMeasureScope.minIntrinsicWidth(
+        measurables: List<IntrinsicMeasurable>,
+        height: Int,
+    ): Int = throwIntrinsicsUnsupported()
+
+    override fun IntrinsicMeasureScope.minIntrinsicHeight(
+        measurables: List<IntrinsicMeasurable>,
+        width: Int,
+    ): Int = throwIntrinsicsUnsupported()
+
+    override fun IntrinsicMeasureScope.maxIntrinsicWidth(
+        measurables: List<IntrinsicMeasurable>,
+        height: Int,
+    ): Int = throwIntrinsicsUnsupported()
+
+    override fun IntrinsicMeasureScope.maxIntrinsicHeight(
+        measurables: List<IntrinsicMeasurable>,
+        width: Int,
+    ): Int = throwIntrinsicsUnsupported()
+
+    private fun throwIntrinsicsUnsupported(): Nothing = throw UnsupportedOperationException(
+        "CollapsibleHeaderContainer does not support intrinsic measurements, because its " +
+            "size depends on the available height.",
+    )
 }
 
 @Composable

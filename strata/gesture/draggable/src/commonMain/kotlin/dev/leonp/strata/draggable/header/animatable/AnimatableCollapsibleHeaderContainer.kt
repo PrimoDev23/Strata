@@ -130,7 +130,7 @@ public fun SharedTransitionScope.AnimatableCollapsibleHeaderContainer(
                         (EnterTransition.None togetherWith ExitTransition.None) using null
                     },
                 ) { animatedHeaderState ->
-                    val scope = remember {
+                    val scope = remember(this@AnimatableCollapsibleHeaderContainer, this) {
                         AnimatableCollapsibleHeaderScope(
                             sharedTransitionScope = this@AnimatableCollapsibleHeaderContainer,
                             animatedVisibilityScope = this,

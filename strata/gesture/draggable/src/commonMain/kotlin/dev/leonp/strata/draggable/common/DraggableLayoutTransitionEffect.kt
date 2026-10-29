@@ -5,6 +5,7 @@ import androidx.compose.foundation.gestures.AnchoredDraggableState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.snapshotFlow
+import kotlinx.coroutines.flow.filterNotNull
 
 /**
  * Drives [transitionState] with the drag progress of [draggableState].
@@ -26,11 +27,15 @@ internal fun DraggableLayoutTransitionEffect(
 ) {
     LaunchedEffect(draggableState, transitionState) {
         snapshotFlow {
-            draggableState.progress(
-                from = DraggableLayoutState.Collapsed,
-                to = DraggableLayoutState.Expanded,
-            )
-        }.collect { progress ->
+            if (draggableState.offset.isNaN()) {
+                null
+            } else {
+                draggableState.progress(
+                    from = DraggableLayoutState.Collapsed,
+                    to = DraggableLayoutState.Expanded,
+                )
+            }
+        }.filterNotNull().collect { progress ->
             when {
                 progress == 0f -> transitionState.snapTo(DraggableLayoutState.Collapsed)
 
