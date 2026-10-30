@@ -44,6 +44,7 @@ kotlin {
             implementation(libs.kotlinx.serialization.core)
             implementation(project(":theme"))
             implementation(project(":strata:gesture:draggable"))
+            implementation(project(":strata:layout:animated"))
         }
     }
 }

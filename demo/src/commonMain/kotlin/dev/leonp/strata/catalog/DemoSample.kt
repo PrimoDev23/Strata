@@ -3,6 +3,7 @@ package dev.leonp.strata.catalog
 import dev.leonp.strata.catalog.DemoCategory.Animated
 import dev.leonp.strata.catalog.DemoCategory.Configuration
 import dev.leonp.strata.catalog.DemoCategory.NonAnimated
+import dev.leonp.strata.catalog.DemoComponent.AnimatedColumn
 import dev.leonp.strata.catalog.DemoComponent.CollapsibleHeader
 import dev.leonp.strata.catalog.DemoComponent.ExpandableContent
 
@@ -99,6 +100,12 @@ enum class DemoSample(
         category = Configuration,
         title = "Scrollable expanded content",
         description = "The expanded state contains a list that scrolls on its own. Drag the top part to collapse.",
+    ),
+    AnimatedColumnReorder(
+        component = AnimatedColumn,
+        category = Animated,
+        title = "Reordering",
+        description = "Shuffle, reverse or move items. The children animate to their new place.",
     ),
     ;
 

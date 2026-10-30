@@ -5,6 +5,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import dev.leonp.strata.animated.ReorderSample
 import dev.leonp.strata.catalog.DemoSample
 import dev.leonp.strata.collapsible.AnimatedWithoutCollapsedHeaderSample
 import dev.leonp.strata.collapsible.BelowTopAppBarSample
@@ -95,6 +96,11 @@ private fun SampleContent(sample: DemoSample, onBack: () -> Unit) {
         )
 
         DemoSample.ExpandableScrollableContent -> ScrollableExpandedContentSample(
+            onBack = onBack,
+            modifier = sampleModifier,
+        )
+
+        DemoSample.AnimatedColumnReorder -> ReorderSample(
             onBack = onBack,
             modifier = sampleModifier,
         )
