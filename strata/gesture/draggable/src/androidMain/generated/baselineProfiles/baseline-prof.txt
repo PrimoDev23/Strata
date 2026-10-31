@@ -30,7 +30,7 @@ PLdev/leonp/strata/draggable/bottombar/ExpandableContentLayoutId;->$values()[Lde
 PLdev/leonp/strata/draggable/bottombar/ExpandableContentLayoutId;-><clinit>()V
 PLdev/leonp/strata/draggable/bottombar/ExpandableContentLayoutId;-><init>(Ljava/lang/String;I)V
 PLdev/leonp/strata/draggable/bottombar/ExpandableContentMeasurePolicy;-><init>(Ldev/leonp/strata/draggable/bottombar/ExpandableContentState;)V
-HPLdev/leonp/strata/draggable/bottombar/ExpandableContentMeasurePolicy;->measure-3p2s80s(Landroidx/compose/ui/layout/MeasureScope;Ljava/util/List;J)Landroidx/compose/ui/layout/MeasureResult;
+PLdev/leonp/strata/draggable/bottombar/ExpandableContentMeasurePolicy;->measure-3p2s80s(Landroidx/compose/ui/layout/MeasureScope;Ljava/util/List;J)Landroidx/compose/ui/layout/MeasureResult;
 PLdev/leonp/strata/draggable/bottombar/ExpandableContentMeasurePolicy;->measure_3p2s80s$lambda$1(ILandroidx/compose/foundation/gestures/DraggableAnchorsConfig;)Lkotlin/Unit;
 PLdev/leonp/strata/draggable/bottombar/ExpandableContentMeasurePolicy;->measure_3p2s80s$lambda$2(Landroidx/compose/ui/layout/Placeable;Landroidx/compose/ui/layout/Placeable$PlacementScope;)Lkotlin/Unit;
 PLdev/leonp/strata/draggable/bottombar/ExpandableContentMeasurePolicy$$ExternalSyntheticLambda0;-><init>(I)V
@@ -73,7 +73,7 @@ SPLdev/leonp/strata/draggable/common/DraggableLayoutTransitionEffectKt;->Draggab
 Ldev/leonp/strata/draggable/common/DraggableLayoutTransitionEffectKt$DraggableLayoutTransitionEffect$1$1;
 SPLdev/leonp/strata/draggable/common/DraggableLayoutTransitionEffectKt$DraggableLayoutTransitionEffect$1$1;-><init>(Landroidx/compose/foundation/gestures/AnchoredDraggableState;Landroidx/compose/animation/core/SeekableTransitionState;Lkotlin/coroutines/Continuation;)V
 SPLdev/leonp/strata/draggable/common/DraggableLayoutTransitionEffectKt$DraggableLayoutTransitionEffect$1$1;->create(Ljava/lang/Object;Lkotlin/coroutines/Continuation;)Lkotlin/coroutines/Continuation;
-SPLdev/leonp/strata/draggable/common/DraggableLayoutTransitionEffectKt$DraggableLayoutTransitionEffect$1$1;->invokeSuspend$lambda$0(Landroidx/compose/foundation/gestures/AnchoredDraggableState;)F
+SPLdev/leonp/strata/draggable/common/DraggableLayoutTransitionEffectKt$DraggableLayoutTransitionEffect$1$1;->invokeSuspend$lambda$0(Landroidx/compose/foundation/gestures/AnchoredDraggableState;)Ljava/lang/Float;
 SPLdev/leonp/strata/draggable/common/DraggableLayoutTransitionEffectKt$DraggableLayoutTransitionEffect$1$1;->invokeSuspend(Ljava/lang/Object;)Ljava/lang/Object;
 Ldev/leonp/strata/draggable/common/DraggableLayoutTransitionEffectKt$DraggableLayoutTransitionEffect$1$1$$ExternalSyntheticLambda0;
 SPLdev/leonp/strata/draggable/common/DraggableLayoutTransitionEffectKt$DraggableLayoutTransitionEffect$1$1$$ExternalSyntheticLambda0;-><init>(Landroidx/compose/foundation/gestures/AnchoredDraggableState;)V
@@ -83,7 +83,7 @@ SPLdev/leonp/strata/draggable/common/DraggableLayoutTransitionEffectKt$Draggable
 SPLdev/leonp/strata/draggable/common/DraggableLayoutTransitionEffectKt$DraggableLayoutTransitionEffect$1$1$2;->emit(FLkotlin/coroutines/Continuation;)Ljava/lang/Object;
 SPLdev/leonp/strata/draggable/common/DraggableLayoutTransitionEffectKt$DraggableLayoutTransitionEffect$1$1$2;->emit(Ljava/lang/Object;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
 Ldev/leonp/strata/draggable/common/MeasurableExtensionsKt;
-HSPLdev/leonp/strata/draggable/common/MeasurableExtensionsKt;->getPlaceableById-3p2s80s(Ljava/util/List;Ljava/lang/Object;J)Landroidx/compose/ui/layout/Placeable;
+HPLdev/leonp/strata/draggable/common/MeasurableExtensionsKt;->getPlaceableById-3p2s80s(Ljava/util/List;Ljava/lang/Object;J)Landroidx/compose/ui/layout/Placeable;
 PLdev/leonp/strata/draggable/header/CollapsibleHeaderContainerKt;->CollapsibleHeaderContainer$lambda$0(Landroidx/compose/foundation/layout/WindowInsets;Lkotlin/jvm/functions/Function3;Lkotlin/jvm/functions/Function3;Ldev/leonp/strata/draggable/header/base/BaseCollapsibleHeaderScope;Ldev/leonp/strata/draggable/common/DraggableLayoutState;Landroidx/compose/runtime/Composer;I)Lkotlin/Unit;
 PLdev/leonp/strata/draggable/header/CollapsibleHeaderContainerKt;->CollapsibleHeaderContainer(Lkotlin/jvm/functions/Function3;Landroidx/compose/ui/Modifier;Ldev/leonp/strata/draggable/header/common/CollapsibleHeaderContainerState;Lkotlin/jvm/functions/Function3;Landroidx/compose/foundation/layout/WindowInsets;Lkotlin/jvm/functions/Function3;Landroidx/compose/runtime/Composer;II)V
 PLdev/leonp/strata/draggable/header/CollapsibleHeaderContainerKt$$ExternalSyntheticLambda0;-><init>(Landroidx/compose/foundation/layout/WindowInsets;Lkotlin/jvm/functions/Function3;Lkotlin/jvm/functions/Function3;)V
@@ -139,7 +139,7 @@ SPLdev/leonp/strata/draggable/header/base/BaseCollapsibleHeaderContainerKt;->$r8
 SPLdev/leonp/strata/draggable/header/base/BaseCollapsibleHeaderContainerKt;->$r8$lambda$WGkwWWbNAEAUykxWtkDBzJdAL7c(Landroidx/compose/ui/semantics/SemanticsPropertyReceiver;)Lkotlin/Unit;
 SPLdev/leonp/strata/draggable/header/base/BaseCollapsibleHeaderContainerKt;->BaseCollapsibleHeaderContainer$lambda$0$0$0(Landroidx/compose/ui/semantics/SemanticsPropertyReceiver;)Lkotlin/Unit;
 SPLdev/leonp/strata/draggable/header/base/BaseCollapsibleHeaderContainerKt;->BaseCollapsibleHeaderContainer$lambda$0$2$0(Landroidx/compose/ui/semantics/SemanticsPropertyReceiver;)Lkotlin/Unit;
-SPLdev/leonp/strata/draggable/header/base/BaseCollapsibleHeaderContainerKt;->BaseCollapsibleHeaderContainer$lambda$1(Lkotlin/jvm/functions/Function4;Landroidx/compose/ui/Modifier;Ldev/leonp/strata/draggable/header/common/CollapsibleHeaderContainerState;Landroidx/compose/foundation/layout/WindowInsets;Lkotlin/jvm/functions/Function3;IILandroidx/compose/runtime/Composer;I)Lkotlin/Unit;
+PLdev/leonp/strata/draggable/header/base/BaseCollapsibleHeaderContainerKt;->BaseCollapsibleHeaderContainer$lambda$1(Lkotlin/jvm/functions/Function4;Landroidx/compose/ui/Modifier;Ldev/leonp/strata/draggable/header/common/CollapsibleHeaderContainerState;Landroidx/compose/foundation/layout/WindowInsets;Lkotlin/jvm/functions/Function3;IILandroidx/compose/runtime/Composer;I)Lkotlin/Unit;
 SPLdev/leonp/strata/draggable/header/base/BaseCollapsibleHeaderContainerKt;->BaseCollapsibleHeaderContainer(Lkotlin/jvm/functions/Function4;Landroidx/compose/ui/Modifier;Ldev/leonp/strata/draggable/header/common/CollapsibleHeaderContainerState;Landroidx/compose/foundation/layout/WindowInsets;Lkotlin/jvm/functions/Function3;Landroidx/compose/runtime/Composer;II)V
 Ldev/leonp/strata/draggable/header/base/BaseCollapsibleHeaderContainerKt$$ExternalSyntheticLambda0;
 SPLdev/leonp/strata/draggable/header/base/BaseCollapsibleHeaderContainerKt$$ExternalSyntheticLambda0;-><init>()V
@@ -149,7 +149,7 @@ SPLdev/leonp/strata/draggable/header/base/BaseCollapsibleHeaderContainerKt$$Exte
 SPLdev/leonp/strata/draggable/header/base/BaseCollapsibleHeaderContainerKt$$ExternalSyntheticLambda1;->invoke(Ljava/lang/Object;)Ljava/lang/Object;
 Ldev/leonp/strata/draggable/header/base/BaseCollapsibleHeaderContainerKt$$ExternalSyntheticLambda2;
 SPLdev/leonp/strata/draggable/header/base/BaseCollapsibleHeaderContainerKt$$ExternalSyntheticLambda2;-><init>(Lkotlin/jvm/functions/Function4;Landroidx/compose/ui/Modifier;Ldev/leonp/strata/draggable/header/common/CollapsibleHeaderContainerState;Landroidx/compose/foundation/layout/WindowInsets;Lkotlin/jvm/functions/Function3;II)V
-SPLdev/leonp/strata/draggable/header/base/BaseCollapsibleHeaderContainerKt$$ExternalSyntheticLambda2;->invoke(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+PLdev/leonp/strata/draggable/header/base/BaseCollapsibleHeaderContainerKt$$ExternalSyntheticLambda2;->invoke(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
 Ldev/leonp/strata/draggable/header/base/BaseCollapsibleHeaderScope;
 Ldev/leonp/strata/draggable/header/base/BaseCollapsibleHeaderScope$MeasurementScope;
 SPLdev/leonp/strata/draggable/header/base/BaseCollapsibleHeaderScope$MeasurementScope;-><clinit>()V
@@ -179,7 +179,7 @@ SPLdev/leonp/strata/draggable/header/base/CollapsibleHeaderContainerScrollConnec
 SPLdev/leonp/strata/draggable/header/base/CollapsibleHeaderContainerScrollConnection;-><init>(Ldev/leonp/strata/draggable/header/common/CollapsibleHeaderContainerState;)V
 PLdev/leonp/strata/draggable/header/base/CollapsibleHeaderContainerScrollConnection;->onPostFling-RZ2iAVY(JJLkotlin/coroutines/Continuation;)Ljava/lang/Object;
 SPLdev/leonp/strata/draggable/header/base/CollapsibleHeaderContainerScrollConnection;->onPostScroll-DzOQY0M(JJI)J
-SPLdev/leonp/strata/draggable/header/base/CollapsibleHeaderContainerScrollConnection;->onPreFling-QWom1Mo(JLkotlin/coroutines/Continuation;)Ljava/lang/Object;
+PLdev/leonp/strata/draggable/header/base/CollapsibleHeaderContainerScrollConnection;->onPreFling-QWom1Mo(JLkotlin/coroutines/Continuation;)Ljava/lang/Object;
 SPLdev/leonp/strata/draggable/header/base/CollapsibleHeaderContainerScrollConnection;->onPreScroll-OzD1aCk(JI)J
 PLdev/leonp/strata/draggable/header/base/CollapsibleHeaderContainerScrollConnection$onPostFling$1;-><init>(Ldev/leonp/strata/draggable/header/base/CollapsibleHeaderContainerScrollConnection;Lkotlin/coroutines/Continuation;)V
 PLdev/leonp/strata/draggable/header/base/CollapsibleHeaderContainerScrollConnection$onPostFling$1;->invokeSuspend(Ljava/lang/Object;)Ljava/lang/Object;

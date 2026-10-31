@@ -46,8 +46,8 @@ class AnimatedBaselineProfileGenerator {
         device.tapAndWait("Newest")
 
         // Insertion: the new card fades in while the others make room
-        device.tapAndWait("New task")
-        device.tapAndWait("New task")
+        device.tapNewTask()
+        device.tapNewTask()
 
         // Removal: the card fades out, then the others close the gap
         device.removeFirstTask()
@@ -77,6 +77,10 @@ private const val SETTLE_INTERVAL_MILLIS = 100L
 
 /** Long enough for the placement and fade animations of the cards to finish. */
 private const val ANIMATION_MILLIS = 900L
+
+/** Where the "New task" button is, as a fraction of the display. */
+private const val NEW_TASK_X_FRACTION = 0.82f
+private const val NEW_TASK_Y_FRACTION = 0.93f
 
 /** A component is scrolled below this fraction of the screen height, so its sub menus are visible. */
 private const val VISIBLE_FRACTION = 0.4f
@@ -135,6 +139,20 @@ private fun UiDevice.findSettled(text: String): List<UiObject2> {
 /** Taps the node with [text] and gives the animations it starts time to finish. */
 private fun UiDevice.tapAndWait(text: String) {
     findSettled(text).first().click()
+    waitForIdle()
+    SystemClock.sleep(ANIMATION_MILLIS)
+}
+
+/**
+ * Taps the floating "New task" button in the bottom end corner.
+ *
+ * The button is not part of the view tree UiAutomator sees, so it can't be found by its text.
+ */
+private fun UiDevice.tapNewTask() {
+    click(
+        (displayWidth * NEW_TASK_X_FRACTION).toInt(),
+        (displayHeight * NEW_TASK_Y_FRACTION).toInt(),
+    )
     waitForIdle()
     SystemClock.sleep(ANIMATION_MILLIS)
 }

@@ -1,4 +1,4 @@
-package dev.leonp.strata.animated
+package dev.leonp.strata.reorder
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -44,6 +44,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import dev.leonp.strata.animated.AnimatedColumn
 import dev.leonp.strata.common.BackButton
 import dev.leonp.strata.common.DemoIcons
 
