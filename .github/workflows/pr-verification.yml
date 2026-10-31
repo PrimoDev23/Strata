@@ -18,33 +18,35 @@ jobs:
     runs-on: [self-hosted, linux]
     timeout-minutes: 30
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
 
-      # Fails if the committed gradle-wrapper.jar is not an official Gradle release
-      - uses: gradle/actions/wrapper-validation@v4
-
-      - uses: actions/setup-java@v4
+      - uses: actions/setup-java@v6
         with:
           distribution: zulu
           java-version: 21
 
-      - uses: gradle/actions/setup-gradle@v4
+      # Also fails if the committed gradle-wrapper.jar is not an official Gradle release.
+      # The runner keeps ~/.gradle between runs, so the remote cache would only add upload and restore time.
+      - uses: gradle/actions/setup-gradle@v6
+        with:
+          cache-disabled: true
 
-      # Static analysis and formatting (detekt includes the ktlint and Compose rules)
-      - name: Detekt
-        run: ./gradlew detekt --console=plain
-
-      # Fails when the public API differs from the committed api dumps
-      - name: Check public API
-        run: ./gradlew checkKotlinAbi --console=plain
-
-      # iOS targets cannot be compiled on Linux, so only the Android side is compiled
-      - name: Compile
-        run: ./gradlew compileAndroidMain compileDebugKotlin --console=plain
-
-      - name: Android lint
-        run: ./gradlew lint --console=plain
-
-      # No tests exist yet, this starts to matter as soon as the first one is added
-      - name: Tests
-        run: ./gradlew allTests --console=plain
+      # One invocation configures the build once, which takes about 40s per call.
+      # --continue reports every failing check instead of stopping at the first one.
+      # - detekt: static analysis and formatting, includes the ktlint and Compose rules
+      # - checkKotlinAbi: the public API must match the committed api dumps
+      # - compileAndroidMain, compileDebugKotlin: iOS targets cannot be compiled on Linux
+      # - lint: Android lint
+      # - allTests: no tests exist yet, this starts to matter with the first one
+      - name: Verify
+        run: >
+          ./gradlew
+          detekt
+          checkKotlinAbi
+          compileAndroidMain
+          compileDebugKotlin
+          lint
+          allTests
+          --continue
+          --console=plain
+          -Pkotlin.native.ignoreDisabledTargets=true
