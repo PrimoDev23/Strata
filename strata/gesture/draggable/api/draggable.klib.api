@@ -41,7 +41,10 @@ final class dev.leonp.strata.draggable.bottombar/ExpandableContentScope : androi
     final fun rememberSharedContentState(kotlin/Any, androidx.compose.runtime/Composer?, kotlin/Int): androidx.compose.animation/SharedTransitionScope.SharedContentState // dev.leonp.strata.draggable.bottombar/ExpandableContentScope.rememberSharedContentState|rememberSharedContentState(kotlin.Any;androidx.compose.runtime.Composer?;kotlin.Int){}[0]
 }
 
-final class dev.leonp.strata.draggable.bottombar/ExpandableContentState // dev.leonp.strata.draggable.bottombar/ExpandableContentState|null[0]
+final class dev.leonp.strata.draggable.bottombar/ExpandableContentState { // dev.leonp.strata.draggable.bottombar/ExpandableContentState|null[0]
+    final suspend fun collapse() // dev.leonp.strata.draggable.bottombar/ExpandableContentState.collapse|collapse(){}[0]
+    final suspend fun expand() // dev.leonp.strata.draggable.bottombar/ExpandableContentState.expand|expand(){}[0]
+}
 
 final class dev.leonp.strata.draggable.header.animatable/AnimatableCollapsibleHeaderScope : androidx.compose.animation/AnimatedVisibilityScope, androidx.compose.animation/SharedTransitionScope { // dev.leonp.strata.draggable.header.animatable/AnimatableCollapsibleHeaderScope|null[0]
     final val isTransitionActive // dev.leonp.strata.draggable.header.animatable/AnimatableCollapsibleHeaderScope.isTransitionActive|{}isTransitionActive[0]
