@@ -104,8 +104,8 @@ enum class DemoSample(
     AnimatedColumnReorder(
         component = AnimatedColumn,
         category = Animated,
-        title = "Reordering",
-        description = "Shuffle, reverse or move items. The children animate to their new place.",
+        title = "Task list",
+        description = "Sort, filter, shuffle, add or remove tasks. The cards fade and slide to their new place.",
     ),
     ;
 
