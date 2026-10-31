@@ -47,22 +47,25 @@
 | `CollapsibleHeaderContainer` | A header above the content that collapses with scrolling and switches between an expanded and a collapsed header. |
 | `AnimatableCollapsibleHeaderContainer` | The same container, with a transition between both headers that follows the drag. |
 | `ExpandableContent` | A bottom layout that is dragged from a compact bar into a full screen, like a mini player. |
-| `AnimatedColumn` | A column that animates its items to their new position when the list is sorted, filtered or changed, and fades items in and out. Not published yet. |
+| `AnimatedColumn` | A column that animates its items to their new position when the list is sorted, filtered or changed, and fades items in and out. |
 
 The three draggable components settle in one of the two `DraggableLayoutState`s: `Collapsed` or
 `Expanded`.
 
 ## 📦 Installation
 
-Strata is published to Maven Central. Add the dependency to the common source set of your shared
-module:
+Strata is published to Maven Central. Add the artifacts you need to the common source set of your
+shared module:
 
 ```kotlin
 // build.gradle.kts of your shared module
 kotlin {
     sourceSets {
         commonMain.dependencies {
-            implementation("dev.leonp.strata:gesture-draggable:0.2.0")
+            // CollapsibleHeaderContainer, AnimatableCollapsibleHeaderContainer, ExpandableContent
+            implementation("dev.leonp.strata:gesture-draggable:0.2.1")
+            // AnimatedColumn
+            implementation("dev.leonp.strata:layout-animated:0.2.1")
         }
     }
 }
@@ -236,8 +239,7 @@ val expandableState = rememberExpandableContentState()
 
 ### Animated column
 
-> `AnimatedColumn` lives in [`strata/layout/animated`](./strata/layout/animated) and is **not
-> published yet**, it is not part of `gesture-draggable`. Its API may still change.
+`AnimatedColumn` is part of the separate `layout-animated` artifact.
 
 `AnimatedColumn` animates its items to their new position whenever `items` changes, for example
 when the list is sorted or filtered, or when an item is added or removed. Give every item a stable
@@ -259,6 +261,7 @@ AnimatedColumn(
 
 Items that move slide to their new position, new items fade in, and removed items fade out where
 they were. `animateItem` takes a `placementSpec` and `fadeSpecs`, pass `null` to turn either off.
+Items without `animateItem` move and disappear without a transition.
 
 Unlike `LazyColumn`, every item is composed and the column does not scroll on its own. Use it
 inside any scrollable container, such as a `Column` with `verticalScroll`, for short lists.
@@ -283,7 +286,7 @@ screen. Navigation is built with [Navigation 3](https://developer.android.com/gu
 | --- | --- |
 | [`strata/gesture/draggable`](./strata/gesture/draggable) | The library, published as `gesture-draggable`: collapsible headers and expandable content. |
 | [`strata/gesture/draggable-previews`](./strata/gesture/draggable-previews) | The unpublished Compose previews of the library. |
-| [`strata/layout/animated`](./strata/layout/animated) | The unpublished `AnimatedColumn`, a column that animates its items when the list changes. |
+| [`strata/layout/animated`](./strata/layout/animated) | The library, published as `layout-animated`: `AnimatedColumn`, a column that animates its items when the list changes. |
 | [`theme`](./theme) | The shared Material 3 theme of the demo and the previews. |
 | [`demo`](./demo) | The shared demo app with Navigation 3. |
 | [`androidApp`](./androidApp), [`iosApp`](./iosApp) | The platform entry points of the demo. |
