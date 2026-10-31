@@ -1,0 +1,52 @@
+name: PR verification
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened, ready_for_review]
+
+# A new push to the PR cancels the run that is still in progress
+concurrency:
+  group: pr-verification-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    name: Verify
+    runs-on: [self-hosted, linux]
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: actions/setup-java@v6
+        with:
+          distribution: zulu
+          java-version: 21
+
+      # Also fails if the committed gradle-wrapper.jar is not an official Gradle release.
+      # The runner keeps ~/.gradle between runs, so the remote cache would only add upload and restore time.
+      - uses: gradle/actions/setup-gradle@v6
+        with:
+          cache-disabled: true
+
+      # One invocation configures the build once, which takes about 40s per call.
+      # --continue reports every failing check instead of stopping at the first one.
+      # - detekt: static analysis and formatting, includes the ktlint and Compose rules
+      # - checkKotlinAbi: the public API must match the committed api dumps
+      # - compileAndroidMain, compileDebugKotlin: iOS targets cannot be compiled on Linux
+      # - lint: Android lint
+      # - allTests: no tests exist yet, this starts to matter with the first one
+      - name: Verify
+        run: >
+          ./gradlew
+          detekt
+          checkKotlinAbi
+          compileAndroidMain
+          compileDebugKotlin
+          lint
+          allTests
+          --continue
+          --console=plain
+          -Pkotlin.native.ignoreDisabledTargets=true
