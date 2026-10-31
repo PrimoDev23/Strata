@@ -1,16 +1,17 @@
 package dev.leonp.strata.animated
 
-import androidx.compose.animation.core.FiniteAnimationSpec
-import androidx.compose.animation.core.spring
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.key
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.LookaheadScope
-import androidx.compose.ui.unit.IntOffset
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 
 /**
  * A column that animates its items to their new position whenever [items] changes, for example
@@ -26,8 +27,7 @@ import androidx.compose.ui.unit.IntOffset
  * @param modifier The modifier applied to the column.
  * @param verticalArrangement The arrangement of the items inside the column.
  * @param horizontalAlignment The alignment of the items inside the column.
- * @param animationSpec The animation used to move an item to its new position.
- * @param itemContent The content of a single item.
+ * @param itemContent The content of a single item. Call `animateItem` on its modifier to animate it.
  */
 @Composable
 public fun <T> AnimatedColumn(
@@ -36,8 +36,7 @@ public fun <T> AnimatedColumn(
     modifier: Modifier = Modifier,
     verticalArrangement: Arrangement.Vertical = Arrangement.Top,
     horizontalAlignment: Alignment.Horizontal = Alignment.Start,
-    animationSpec: FiniteAnimationSpec<IntOffset> = spring(),
-    itemContent: @Composable (T) -> Unit,
+    itemContent: @Composable AnimatedColumnScope.(T) -> Unit,
 ) {
     LookaheadScope {
         Column(
@@ -45,18 +44,41 @@ public fun <T> AnimatedColumn(
             verticalArrangement = verticalArrangement,
             horizontalAlignment = horizontalAlignment,
         ) {
-            items.forEach { item ->
-                val calculatedKey = key(item)
+            val state = rememberAnimatedColumnState(
+                items = items,
+                key = key,
+            )
+            val entries by state.entries.collectAsStateWithLifecycle()
 
-                key(calculatedKey) {
-                    Box(
-                        modifier = Modifier.animatePlacement(
-                            scope = this@LookaheadScope,
-                            animationSpec = animationSpec,
-                        ),
-                    ) {
-                        itemContent(item)
+            LaunchedEffect(items) {
+                state.updateItems(items)
+            }
+
+            entries.forEach { entry ->
+                key(entry.key) {
+                    val handle = remember {
+                        AttachmentHandle()
                     }
+
+                    LaunchedEffect(entry.removed) {
+                        if (entry.removed && !handle.isAttached) {
+                            state.removeKey(entry.key)
+                        }
+                    }
+
+                    val scope =
+                        remember(this, this@LookaheadScope, entry.removed, state, handle) {
+                            AnimatedColumnScopeImpl(
+                                parent = this,
+                                lookaheadScope = this@LookaheadScope,
+                                handle = handle,
+                                removed = entry.removed,
+                                onRemovalFinish = {
+                                    state.removeKey(entry.key)
+                                },
+                            )
+                        }
+                    scope.itemContent(entry.item)
                 }
             }
         }
