@@ -1,0 +1,32 @@
+// Klib ABI Dump
+// Targets: [iosArm64, iosSimulatorArm64]
+// Rendering settings:
+// - Signature version: 2
+// - Show manifest properties: true
+// - Show declarations: true
+
+// Library unique name: <dev.leonp.strata:animated>
+abstract interface dev.leonp.strata.animated/AnimatedColumnScope { // dev.leonp.strata.animated/AnimatedColumnScope|null[0]
+    abstract fun (androidx.compose.ui/Modifier).animateItem(androidx.compose.animation.core/FiniteAnimationSpec<androidx.compose.ui.unit/IntOffset>? = ..., dev.leonp.strata.animated/AnimatedColumnScope.FadeSpecs? = ...): androidx.compose.ui/Modifier // dev.leonp.strata.animated/AnimatedColumnScope.animateItem|animateItem@androidx.compose.ui.Modifier(androidx.compose.animation.core.FiniteAnimationSpec<androidx.compose.ui.unit.IntOffset>?;dev.leonp.strata.animated.AnimatedColumnScope.FadeSpecs?){}[0]
+
+    final class FadeSpecs { // dev.leonp.strata.animated/AnimatedColumnScope.FadeSpecs|null[0]
+        constructor <init>(androidx.compose.animation.core/FiniteAnimationSpec<kotlin/Float> = ..., androidx.compose.animation.core/FiniteAnimationSpec<kotlin/Float> = ...) // dev.leonp.strata.animated/AnimatedColumnScope.FadeSpecs.<init>|<init>(androidx.compose.animation.core.FiniteAnimationSpec<kotlin.Float>;androidx.compose.animation.core.FiniteAnimationSpec<kotlin.Float>){}[0]
+
+        final val enterSpec // dev.leonp.strata.animated/AnimatedColumnScope.FadeSpecs.enterSpec|{}enterSpec[0]
+            final fun <get-enterSpec>(): androidx.compose.animation.core/FiniteAnimationSpec<kotlin/Float> // dev.leonp.strata.animated/AnimatedColumnScope.FadeSpecs.enterSpec.<get-enterSpec>|<get-enterSpec>(){}[0]
+        final val exitSpec // dev.leonp.strata.animated/AnimatedColumnScope.FadeSpecs.exitSpec|{}exitSpec[0]
+            final fun <get-exitSpec>(): androidx.compose.animation.core/FiniteAnimationSpec<kotlin/Float> // dev.leonp.strata.animated/AnimatedColumnScope.FadeSpecs.exitSpec.<get-exitSpec>|<get-exitSpec>(){}[0]
+
+        final fun component1(): androidx.compose.animation.core/FiniteAnimationSpec<kotlin/Float> // dev.leonp.strata.animated/AnimatedColumnScope.FadeSpecs.component1|component1(){}[0]
+        final fun component2(): androidx.compose.animation.core/FiniteAnimationSpec<kotlin/Float> // dev.leonp.strata.animated/AnimatedColumnScope.FadeSpecs.component2|component2(){}[0]
+        final fun copy(androidx.compose.animation.core/FiniteAnimationSpec<kotlin/Float> = ..., androidx.compose.animation.core/FiniteAnimationSpec<kotlin/Float> = ...): dev.leonp.strata.animated/AnimatedColumnScope.FadeSpecs // dev.leonp.strata.animated/AnimatedColumnScope.FadeSpecs.copy|copy(androidx.compose.animation.core.FiniteAnimationSpec<kotlin.Float>;androidx.compose.animation.core.FiniteAnimationSpec<kotlin.Float>){}[0]
+        final fun equals(kotlin/Any?): kotlin/Boolean // dev.leonp.strata.animated/AnimatedColumnScope.FadeSpecs.equals|equals(kotlin.Any?){}[0]
+        final fun hashCode(): kotlin/Int // dev.leonp.strata.animated/AnimatedColumnScope.FadeSpecs.hashCode|hashCode(){}[0]
+        final fun toString(): kotlin/String // dev.leonp.strata.animated/AnimatedColumnScope.FadeSpecs.toString|toString(){}[0]
+    }
+}
+
+final val dev.leonp.strata.animated/dev_leonp_strata_animated_AnimatedColumnScope_FadeSpecs$stableprop // dev.leonp.strata.animated/dev_leonp_strata_animated_AnimatedColumnScope_FadeSpecs$stableprop|#static{}dev_leonp_strata_animated_AnimatedColumnScope_FadeSpecs$stableprop[0]
+
+final fun <#A: kotlin/Any?> dev.leonp.strata.animated/AnimatedColumn(kotlin.collections/List<#A>, kotlin/Function1<#A, kotlin/Any>, androidx.compose.ui/Modifier?, androidx.compose.foundation.layout/Arrangement.Vertical?, androidx.compose.ui/Alignment.Horizontal?, kotlin/Function4<dev.leonp.strata.animated/AnimatedColumnScope, #A, androidx.compose.runtime/Composer, kotlin/Int, kotlin/Unit>, androidx.compose.runtime/Composer?, kotlin/Int, kotlin/Int) // dev.leonp.strata.animated/AnimatedColumn|AnimatedColumn(kotlin.collections.List<0:0>;kotlin.Function1<0:0,kotlin.Any>;androidx.compose.ui.Modifier?;androidx.compose.foundation.layout.Arrangement.Vertical?;androidx.compose.ui.Alignment.Horizontal?;kotlin.Function4<dev.leonp.strata.animated.AnimatedColumnScope,0:0,androidx.compose.runtime.Composer,kotlin.Int,kotlin.Unit>;androidx.compose.runtime.Composer?;kotlin.Int;kotlin.Int){0§<kotlin.Any?>}[0]
+final fun dev.leonp.strata.animated/dev_leonp_strata_animated_AnimatedColumnScope_FadeSpecs$stableprop_getter(): kotlin/Int // dev.leonp.strata.animated/dev_leonp_strata_animated_AnimatedColumnScope_FadeSpecs$stableprop_getter|dev_leonp_strata_animated_AnimatedColumnScope_FadeSpecs$stableprop_getter(){}[0]

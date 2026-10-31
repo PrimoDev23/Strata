@@ -1,0 +1,29 @@
+public final class dev/leonp/strata/animated/AnimatedColumnKt {
+	public static final fun AnimatedColumn (Ljava/util/List;Lkotlin/jvm/functions/Function1;Landroidx/compose/ui/Modifier;Landroidx/compose/foundation/layout/Arrangement$Vertical;Landroidx/compose/ui/Alignment$Horizontal;Lkotlin/jvm/functions/Function4;Landroidx/compose/runtime/Composer;II)V
+}
+
+public abstract interface class dev/leonp/strata/animated/AnimatedColumnScope {
+	public abstract fun animateItem (Landroidx/compose/ui/Modifier;Landroidx/compose/animation/core/FiniteAnimationSpec;Ldev/leonp/strata/animated/AnimatedColumnScope$FadeSpecs;)Landroidx/compose/ui/Modifier;
+	public static synthetic fun animateItem$default (Ldev/leonp/strata/animated/AnimatedColumnScope;Landroidx/compose/ui/Modifier;Landroidx/compose/animation/core/FiniteAnimationSpec;Ldev/leonp/strata/animated/AnimatedColumnScope$FadeSpecs;ILjava/lang/Object;)Landroidx/compose/ui/Modifier;
+}
+
+public final class dev/leonp/strata/animated/AnimatedColumnScope$DefaultImpls {
+	public static synthetic fun animateItem$default (Ldev/leonp/strata/animated/AnimatedColumnScope;Landroidx/compose/ui/Modifier;Landroidx/compose/animation/core/FiniteAnimationSpec;Ldev/leonp/strata/animated/AnimatedColumnScope$FadeSpecs;ILjava/lang/Object;)Landroidx/compose/ui/Modifier;
+}
+
+public final class dev/leonp/strata/animated/AnimatedColumnScope$FadeSpecs {
+	public static final field $stable I
+	public fun <init> ()V
+	public fun <init> (Landroidx/compose/animation/core/FiniteAnimationSpec;Landroidx/compose/animation/core/FiniteAnimationSpec;)V
+	public synthetic fun <init> (Landroidx/compose/animation/core/FiniteAnimationSpec;Landroidx/compose/animation/core/FiniteAnimationSpec;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun component1 ()Landroidx/compose/animation/core/FiniteAnimationSpec;
+	public final fun component2 ()Landroidx/compose/animation/core/FiniteAnimationSpec;
+	public final fun copy (Landroidx/compose/animation/core/FiniteAnimationSpec;Landroidx/compose/animation/core/FiniteAnimationSpec;)Ldev/leonp/strata/animated/AnimatedColumnScope$FadeSpecs;
+	public static synthetic fun copy$default (Ldev/leonp/strata/animated/AnimatedColumnScope$FadeSpecs;Landroidx/compose/animation/core/FiniteAnimationSpec;Landroidx/compose/animation/core/FiniteAnimationSpec;ILjava/lang/Object;)Ldev/leonp/strata/animated/AnimatedColumnScope$FadeSpecs;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getEnterSpec ()Landroidx/compose/animation/core/FiniteAnimationSpec;
+	public final fun getExitSpec ()Landroidx/compose/animation/core/FiniteAnimationSpec;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+

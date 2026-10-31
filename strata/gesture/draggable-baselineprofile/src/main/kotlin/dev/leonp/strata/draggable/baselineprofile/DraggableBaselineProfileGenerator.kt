@@ -83,31 +83,44 @@ private const val FLING_STEPS = 8
 private const val SETTLE_ATTEMPTS = 20
 private const val SETTLE_INTERVAL_MILLIS = 100L
 
-/** The components on the home screen, in their order from top to bottom. */
-private enum class Component {
-    CollapsibleHeader,
-    ExpandableContent,
+/** The titles of the components on the home screen. */
+private enum class Component(val title: String) {
+    CollapsibleHeader("Collapsible header"),
+    ExpandableContent("Expandable content"),
 }
+
+/** A component is scrolled below this fraction of the screen height, so its sub menus are visible. */
+private const val VISIBLE_FRACTION = 0.4f
+private const val MAX_SCROLLS = 10
 
 /**
  * Opens [sample] from the [category] sub menu of [component] on the home screen.
  *
- * Both components have sub menus with the same titles, so the home screen is scrolled to the
- * component first and the matching sub menu is picked by its position.
+ * Every component has sub menus with the same titles, so the home screen is scrolled to the
+ * component first and the sub menu right below its title is picked.
  */
 private fun UiDevice.openSample(component: Component, category: String, sample: String) {
-    val isCollapsibleHeader = component == Component.CollapsibleHeader
-    if (isCollapsibleHeader) {
-        swipeVertically(fromFraction = 0.3f, toFraction = 0.8f, steps = FLING_STEPS)
-    } else {
-        swipeVertically(fromFraction = 0.8f, toFraction = 0.2f, steps = FLING_STEPS)
-    }
-    val categories = findSettled(category).sortedBy { it.visibleBounds.top }
-    val categoryEntry = if (isCollapsibleHeader) categories.first() else categories.last()
+    scrollHomeTo(component)
+
+    val title = findSettled(component.title).first()
+    val categoryEntry = findSettled(category)
+        .sortedBy { it.visibleBounds.top }
+        .first { it.visibleBounds.top > title.visibleBounds.top }
     categoryEntry.click()
 
     findSettled(sample).first().click()
     waitForIdle()
+}
+
+/** Scrolls the home screen until the title of [component] is in its upper part. */
+private fun UiDevice.scrollHomeTo(component: Component) {
+    repeat(MAX_SCROLLS) {
+        val title = findObject(By.text(component.title))
+        if (title != null && title.visibleBounds.top < displayHeight * VISIBLE_FRACTION) {
+            return
+        }
+        swipeVertically(fromFraction = 0.8f, toFraction = 0.4f, steps = FLING_STEPS)
+    }
 }
 
 /** Goes back from a sample through its sub menu to the home screen. */
