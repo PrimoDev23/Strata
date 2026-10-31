@@ -5,6 +5,19 @@ All notable changes to Strata are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and this project
 adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.2.1] - 2026-10-31
+
+### Added
+
+- `layout-animated`: a new artifact with `AnimatedColumn`, a column that animates its items to
+  their new position when the list is sorted, filtered or changed. `animateItem` fades items in
+  and out and slides them to their place, and takes a spec for each animation.
+- A baseline profile for `layout-animated`.
+
+### Changed
+
+- The baseline profile of `gesture-draggable` is regenerated for the changes since 0.1.0.
+
 ## [0.2.0] - 2026-10-31
 
 ### Added

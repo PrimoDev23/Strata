@@ -5,7 +5,6 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import dev.leonp.strata.animated.ReorderSample
 import dev.leonp.strata.catalog.DemoSample
 import dev.leonp.strata.collapsible.AnimatedWithoutCollapsedHeaderSample
 import dev.leonp.strata.collapsible.BelowTopAppBarSample
@@ -21,6 +20,7 @@ import dev.leonp.strata.expandable.InstantSwitchSample
 import dev.leonp.strata.expandable.MusicPlayerSample
 import dev.leonp.strata.expandable.ScrollableExpandedContentSample
 import dev.leonp.strata.expandable.WithCollapsibleHeaderSample
+import dev.leonp.strata.reorder.ReorderSample
 
 /** Shows the demo of [sample]. */
 @Composable

@@ -8,12 +8,31 @@ import androidx.compose.ui.layout.LookaheadScope
 import androidx.compose.ui.unit.IntOffset
 import dev.leonp.strata.animated.AnimatedColumnScope.FadeSpecs
 
+/** The scope of the item content of [AnimatedColumn]. */
 public interface AnimatedColumnScope {
+    /**
+     * Animates this item when [AnimatedColumn] changes.
+     *
+     * Apply it to the outermost modifier of the item. An item that is not animated moves and
+     * disappears without a transition.
+     *
+     * @param placementSpec The animation of the item to its new position. `null` moves the item
+     * without an animation.
+     * @param fadeSpecs The animations of the item fading in when it is added and fading out when it
+     * is removed. `null` shows and removes the item without a fade.
+     */
     public fun Modifier.animateItem(
         placementSpec: FiniteAnimationSpec<IntOffset>? = spring(),
         fadeSpecs: FadeSpecs? = FadeSpecs(),
     ): Modifier
 
+    /**
+     * The animations of an item fading in and out.
+     *
+     * @property enterSpec The animation of an added item fading in.
+     * @property exitSpec The animation of a removed item fading out. The item keeps its place in the
+     * column until it is gone.
+     */
     public data class FadeSpecs(
         val enterSpec: FiniteAnimationSpec<Float> = spring(),
         val exitSpec: FiniteAnimationSpec<Float> = spring(),
@@ -41,13 +60,12 @@ internal class AnimatedColumnScopeImpl(
                 )
             } ?: Modifier,
         )
+        // Also applied without fadeSpecs, because the item is dropped from the column in here
         .then(
-            other = fadeSpecs?.let {
-                FadeElement(
-                    removed = removed,
-                    onRemovalFinish = onRemovalFinish,
-                    fadeSpecs = it,
-                )
-            } ?: Modifier,
+            other = FadeElement(
+                removed = removed,
+                onRemovalFinish = onRemovalFinish,
+                fadeSpecs = fadeSpecs,
+            ),
         )
 }

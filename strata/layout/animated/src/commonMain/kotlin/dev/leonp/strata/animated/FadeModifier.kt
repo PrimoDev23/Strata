@@ -15,7 +15,7 @@ import kotlinx.coroutines.launch
 internal class FadeElement(
     private val removed: Boolean,
     private val onRemovalFinish: () -> Unit,
-    private val fadeSpecs: AnimatedColumnScope.FadeSpecs,
+    private val fadeSpecs: AnimatedColumnScope.FadeSpecs?,
 ) : ModifierNodeElement<FadeNode>() {
     override fun create(): FadeNode = FadeNode(
         removed = removed,
@@ -48,14 +48,19 @@ internal class FadeElement(
     }
 }
 
+/**
+ * Fades the item in and out and holds a removed item at zero height until it faded out.
+ *
+ * Without [fadeSpecs] the item is shown at once, and a removed item is dropped right away.
+ */
 internal class FadeNode(
     var removed: Boolean,
     var onRemovalFinish: () -> Unit,
-    var fadeSpecs: AnimatedColumnScope.FadeSpecs,
+    var fadeSpecs: AnimatedColumnScope.FadeSpecs?,
 ) : Modifier.Node(),
     LayoutModifierNode {
     private val animatable = Animatable(
-        initialValue = if (removed) {
+        initialValue = if (removed || fadeSpecs == null) {
             1f
         } else {
             0f
@@ -91,7 +96,7 @@ internal class FadeNode(
     fun update(
         removed: Boolean,
         onRemovalFinish: () -> Unit,
-        fadeSpecs: AnimatedColumnScope.FadeSpecs,
+        fadeSpecs: AnimatedColumnScope.FadeSpecs?,
     ) {
         this.onRemovalFinish = onRemovalFinish
         this.fadeSpecs = fadeSpecs
@@ -107,14 +112,19 @@ internal class FadeNode(
 
     private fun animate() {
         coroutineScope.launch {
-            animatable.animateTo(
-                targetValue = removed.toTargetAlpha(),
-                animationSpec = if (removed) {
-                    fadeSpecs.exitSpec
-                } else {
-                    fadeSpecs.enterSpec
-                },
-            )
+            val specs = fadeSpecs
+            if (specs == null) {
+                animatable.snapTo(1f)
+            } else {
+                animatable.animateTo(
+                    targetValue = removed.toTargetAlpha(),
+                    animationSpec = if (removed) {
+                        specs.exitSpec
+                    } else {
+                        specs.enterSpec
+                    },
+                )
+            }
 
             if (removed) {
                 onRemovalFinish()
