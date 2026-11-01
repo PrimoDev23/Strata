@@ -21,8 +21,6 @@ import dev.leonp.strata.draggable.common.DraggableLayoutState
 import dev.leonp.strata.draggable.header.common.CollapsibleHeaderContainerState
 import dev.leonp.strata.draggable.header.common.rememberCollapsibleHeaderContainerState
 
-// The header slots are intentionally composed multiple times at once: hidden copies are used to
-// measure the collapsed and expanded heights while another copy is the visible header.
 /**
  * The shared layout of the collapsible header containers.
  *

@@ -20,8 +20,6 @@ import androidx.compose.ui.semantics.clearAndSetSemantics
 import dev.leonp.strata.draggable.common.DraggableLayoutState
 import dev.leonp.strata.draggable.common.DraggableLayoutTransitionEffect
 
-// The content slot is intentionally composed multiple times at once: a hidden copy is used to
-// measure the collapsed height while another copy is the visible content.
 /**
  * A layout that can be dragged between a collapsed and an expanded state, like a player bar that
  * expands into a full screen player.

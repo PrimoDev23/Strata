@@ -13,7 +13,7 @@ import dev.leonp.strata.sample.SampleScreen
 import kotlinx.serialization.modules.SerializersModule
 import kotlinx.serialization.modules.polymorphic
 
-// Non-JVM targets cannot look up serializers by reflection, so every route is registered here.
+/** Non-JVM targets cannot look up serializers by reflection, so every route is registered here. */
 private val RouteSavedStateConfiguration = SavedStateConfiguration {
     serializersModule = SerializersModule {
         polymorphic(NavKey::class) {

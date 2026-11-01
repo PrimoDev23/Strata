@@ -43,7 +43,7 @@ import dev.leonp.strata.draggable.common.DraggableLayoutState
 
 private const val FADE_THROUGH_FRACTION = 0.2f
 
-// Keeps the end of the background lists clear of the collapsed content.
+/** Keeps the end of the background lists clear of the collapsed content. */
 private val CollapsedContentClearance = 96.dp
 
 private val NavigationTabs = listOf(

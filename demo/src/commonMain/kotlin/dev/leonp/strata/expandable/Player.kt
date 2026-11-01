@@ -60,7 +60,7 @@ private const val TRACK_PROGRESS = 0.35f
 private const val MINI_CONTROLS_FADE_FRACTION = 0.2f
 private const val FULL_CONTROLS_FADE_FRACTION = 0.3f
 
-// The drag handles of both states fade at opposite ends of the drag, so only one is visible.
+/** The drag handles of both states fade at opposite ends of the drag, so only one is visible. */
 private const val DRAG_HANDLE_FADE_FRACTION = 0.2f
 
 private val MiniArtworkCornerRadius = 8.dp

@@ -93,6 +93,8 @@ Formatting is enforced by detekt with ktlint (`android_studio` code style) and t
 - KDoc explains behavior and consequences, not just restates the name: what the user observes, side
   effects, caveats (for example that slot content is composed more than once). Use `[Type]` links,
   `@param`, `@receiver`, `@return`, bullet lists and `##` sections for longer docs.
+- Explain a declaration (class, function, property, constant) with KDoc, even for a single sentence
+  (`/** ... */`), never with `//` comments above it. `//` comments are only for inline notes inside a body.
 - Inline comments explain **why**, not what, and are written as full sentences without a trailing period
   for single-line comments.
 - Keep `README.md` snippets and versions in sync with `VERSION_NAME`; the release check script verifies it.
