@@ -17,6 +17,12 @@ import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.LayoutDirection
 import dev.leonp.strata.draggable.common.getPlaceableById
 
+/**
+ * Measures [CompareSliderLayoutId.Before] and [CompareSliderLayoutId.After] at the full size of the
+ * layout and clips each of them at the slider, so neither is scaled.
+ *
+ * The offset of the [state] is read while placing, so dragging only relays out and redraws.
+ */
 @Stable
 private class CompareSliderMeasurePolicy(private val state: CompareSliderState) : MeasurePolicy {
     override fun MeasureScope.measure(
@@ -51,7 +57,10 @@ private class CompareSliderMeasurePolicy(private val state: CompareSliderState) 
         ) ?: error("Could not find LayoutId SliderThumb")
 
         return layout(constraints.maxWidth, constraints.maxHeight) {
-            val sliderCenter = (constraints.maxWidth / 2f) + state.horizontalOffset
+            val sliderCenter = ((constraints.maxWidth / 2f) + state.horizontalOffset).coerceIn(
+                minimumValue = 0f,
+                maximumValue = constraints.maxWidth.toFloat(),
+            )
 
             beforePlaceable.placeWithLayer(
                 x = 0,
@@ -93,6 +102,7 @@ private class CompareSliderMeasurePolicy(private val state: CompareSliderState) 
         }
     }
 
+    /** Clips a layer to the part between [left] and [right] over its full height. */
     private class RectClip(val left: Float, val right: Float) : Shape {
         override fun createOutline(
             size: Size,
@@ -113,6 +123,7 @@ private class CompareSliderMeasurePolicy(private val state: CompareSliderState) 
     }
 }
 
+/** Creates the [MeasurePolicy] of a [CompareSlider] that places its slider by the [state]. */
 @Composable
 internal fun rememberCompareSliderMeasurePolicy(state: CompareSliderState): MeasurePolicy =
     remember(state) {

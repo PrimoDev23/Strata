@@ -47,10 +47,11 @@
 | `CollapsibleHeaderContainer` | A header above the content that collapses with scrolling and switches between an expanded and a collapsed header. |
 | `AnimatableCollapsibleHeaderContainer` | The same container, with a transition between both headers that follows the drag. |
 | `ExpandableContent` | A bottom layout that is dragged from a compact bar into a full screen, like a mini player. |
+| `CompareSlider` | Two layouts side by side that are compared by dragging a slider between them, like a before and after image. |
 | `AnimatedColumn` | A column that animates its items to their new position when the list is sorted, filtered or changed, and fades items in and out. |
 
-The three draggable components settle in one of the two `DraggableLayoutState`s: `Collapsed` or
-`Expanded`.
+The collapsible headers and `ExpandableContent` settle in one of the two `DraggableLayoutState`s:
+`Collapsed` or `Expanded`. `CompareSlider` stays wherever it is dropped.
 
 ## 📦 Installation
 
@@ -62,7 +63,8 @@ shared module:
 kotlin {
     sourceSets {
         commonMain.dependencies {
-            // CollapsibleHeaderContainer, AnimatableCollapsibleHeaderContainer, ExpandableContent
+            // CollapsibleHeaderContainer, AnimatableCollapsibleHeaderContainer, ExpandableContent,
+            // CompareSlider
             implementation("dev.leonp.strata:gesture-draggable:0.2.1")
             // AnimatedColumn
             implementation("dev.leonp.strata:layout-animated:0.2.1")
@@ -205,6 +207,30 @@ ExpandableContent(state = state) { /* … */ }
 Button(onClick = { scope.launch { state.expand() } }) { Text("Open player") }
 ```
 
+### Compare slider
+
+`CompareSlider` shows `before` left of a slider and `after` right of it. Drag the `thumb` to reveal
+more of one side. Give the layout a size, it fills the constraints it gets:
+
+```kotlin
+CompareSlider(
+    before = { Image(painter = originalPainter, contentDescription = "Before", ...) },
+    after = { Image(painter = editedPainter, contentDescription = "After", ...) },
+    thumb = { SliderThumb() },
+    modifier = Modifier
+        .fillMaxWidth()
+        .aspectRatio(3f / 4f)
+        .clip(RoundedCornerShape(28.dp)),
+    sliderThickness = 2.dp,
+    sliderColor = Color.White,
+)
+```
+
+Both slots are measured at the full size of the layout and only **clipped** at the slider, so they
+are never scaled or squeezed. Elements inside a slot, such as a label in a corner, stay where they
+are while the slider moves. The slider starts in the middle, and its position survives
+configuration changes and process death.
+
 ### 🎞️ Animating along the drag
 
 Transitions are **seeked** by the drag position instead of played over time. Seeking maps the drag
@@ -284,7 +310,7 @@ screen. Navigation is built with [Navigation 3](https://developer.android.com/gu
 
 | Module | Contents |
 | --- | --- |
-| [`strata/gesture/draggable`](./strata/gesture/draggable) | The library, published as `gesture-draggable`: collapsible headers and expandable content. |
+| [`strata/gesture/draggable`](./strata/gesture/draggable) | The library, published as `gesture-draggable`: collapsible headers, expandable content and the compare slider. |
 | [`strata/gesture/draggable-previews`](./strata/gesture/draggable-previews) | The unpublished Compose previews of the library. |
 | [`strata/layout/animated`](./strata/layout/animated) | The library, published as `layout-animated`: `AnimatedColumn`, a column that animates its items when the list changes. |
 | [`theme`](./theme) | The shared Material 3 theme of the demo and the previews. |
