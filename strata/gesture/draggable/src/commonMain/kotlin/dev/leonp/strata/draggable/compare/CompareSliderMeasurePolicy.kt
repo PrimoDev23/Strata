@@ -29,8 +29,6 @@ private class CompareSliderMeasurePolicy(private val state: CompareSliderState) 
         measurables: List<Measurable>,
         constraints: Constraints,
     ): MeasureResult {
-        val width = constraints.maxWidth
-
         val sliderConstraints = constraints.copyMaxDimensions()
         val sliderPlaceable = measurables.getPlaceableById(
             layoutId = CompareSliderLayoutId.SliderLine,

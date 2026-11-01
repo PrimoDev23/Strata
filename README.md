@@ -15,17 +15,33 @@
 <table align="center">
   <tr>
     <td align="center"><img src="docs/media/header_shared_title.gif" width="200" alt="Collapsible header with a shared title"></td>
-    <td align="center"><img src="docs/media/header_crossfade.gif" width="200" alt="Collapsible header with a crossfade"></td>
     <td align="center"><img src="docs/media/expandable_player.gif" width="200" alt="Expandable music player"></td>
+    <td align="center"><img src="docs/media/compare_slider.gif" width="200" alt="Compare slider between a before and an after image"></td>
+    <td align="center"><img src="docs/media/animated_column.gif" width="200" alt="Animated column of tasks that are sorted, filtered and added"></td>
+  </tr>
+  <tr>
+    <td align="center"><sub><code>CollapsibleHeaderContainer</code></sub></td>
+    <td align="center"><sub><code>ExpandableContent</code></sub></td>
+    <td align="center"><sub><code>CompareSlider</code></sub></td>
+    <td align="center"><sub><code>AnimatedColumn</code></sub></td>
+  </tr>
+</table>
+
+<details>
+  <summary align="center">More variants</summary>
+
+<table align="center">
+  <tr>
+    <td align="center"><img src="docs/media/header_crossfade.gif" width="200" alt="Collapsible header with a crossfade"></td>
     <td align="center"><img src="docs/media/expandable_fade_through.gif" width="200" alt="Expandable content with a fade through"></td>
   </tr>
   <tr>
-    <td align="center"><sub>Shared title</sub></td>
-    <td align="center"><sub>Crossfade</sub></td>
-    <td align="center"><sub>Music player</sub></td>
-    <td align="center"><sub>Fade through</sub></td>
+    <td align="center"><sub>Header crossfade</sub></td>
+    <td align="center"><sub>Expandable fade through</sub></td>
   </tr>
 </table>
+
+</details>
 
 ## ✨ Features
 
