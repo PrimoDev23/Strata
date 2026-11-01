@@ -104,8 +104,8 @@ Formatting is enforced by detekt with ktlint (`android_studio` code style) and t
 - Use `Modifier` chains with one call per line.
 - Animations must follow the drag: use `SeekableTransitionState` and `animateEnterExit`/`sharedElement`
   in `ExpandableContentScope`, with `tween` specs on one shared timeline instead of springs.
-- Prefer `collectAsStateWithLifecycle` for flows exposed by internal state.
-- Previews are `private` functions annotated `@Preview(widthDp = ..., heightDp = ...)` wrapped in
+- Collect flows exposed by state classes with `collectAsState`.
+- Previews are `private` functions annotated `@Preview` without size parameters, wrapped in
   `StrataTheme`, live in the `*-previews` module (one file per component) and may use `private const val`
   for their timings.
 
