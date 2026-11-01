@@ -4,6 +4,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.node.ModifierNodeElement
 import androidx.compose.ui.platform.InspectorInfo
 
+/** Keeps [AttachmentHandle.isAttached] in sync with the attach state of the modified layout. */
 internal class AttachmentElement(private val handle: AttachmentHandle) :
     ModifierNodeElement<AttachmentNode>() {
     override fun create(): AttachmentNode = AttachmentNode(handle = handle)

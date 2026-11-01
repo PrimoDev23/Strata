@@ -39,6 +39,7 @@ public interface AnimatedColumnScope {
     )
 }
 
+/** Applies the placement and fade animations of an item of [AnimatedColumn]. */
 internal class AnimatedColumnScopeImpl(
     private val parent: ColumnScope,
     private val lookaheadScope: LookaheadScope,

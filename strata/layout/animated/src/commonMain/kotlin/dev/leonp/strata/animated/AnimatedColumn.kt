@@ -4,6 +4,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.key
 import androidx.compose.runtime.remember
@@ -11,7 +12,6 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.LookaheadScope
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
 
 /**
  * A column that animates its items to their new position whenever [items] changes, for example
@@ -48,7 +48,7 @@ public fun <T> AnimatedColumn(
                 items = items,
                 key = key,
             )
-            val entries by state.entries.collectAsStateWithLifecycle()
+            val entries by state.entries.collectAsState()
 
             LaunchedEffect(items) {
                 state.updateItems(items)

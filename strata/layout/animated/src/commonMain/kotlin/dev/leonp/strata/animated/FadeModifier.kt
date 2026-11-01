@@ -82,7 +82,10 @@ internal class FadeNode(
             placeable.height
         }
 
-        return layout(placeable.width, height) {
+        return layout(
+            width = placeable.width,
+            height = height,
+        ) {
             placeable.placeWithLayer(
                 x = 0,
                 y = 0,

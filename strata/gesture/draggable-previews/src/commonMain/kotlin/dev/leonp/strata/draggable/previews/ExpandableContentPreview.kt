@@ -24,7 +24,7 @@ import dev.leonp.strata.theme.StrataTheme
 private const val PREVIEW_SEEK_DURATION = 1000
 private const val PREVIEW_FADE_DURATION = 200
 
-@Preview(widthDp = 360, heightDp = 640)
+@Preview
 @Composable
 private fun ExpandableContentPreview() {
     StrataTheme {

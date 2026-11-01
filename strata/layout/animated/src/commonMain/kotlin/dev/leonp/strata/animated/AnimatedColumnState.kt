@@ -8,6 +8,10 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 
+/**
+ * Holds the entries shown by [AnimatedColumn]: the current items plus removed items that are still
+ * fading out.
+ */
 @Stable
 internal class AnimatedColumnState<T>(items: List<T>, private val key: (T) -> Any) {
     private val _entries = MutableStateFlow(items.toEntries())
