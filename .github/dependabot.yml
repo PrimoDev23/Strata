@@ -1,0 +1,32 @@
+version: 2
+
+updates:
+  # Versions live in the version catalog, so Dependabot reads gradle/libs.versions.toml
+  - package-ecosystem: "gradle"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    open-pull-requests-limit: 5
+    groups:
+      # Kotlin, KSP and Compose Multiplatform are released against each other and have to move together
+      kotlin-and-compose:
+        patterns:
+          - "org.jetbrains.kotlin*"
+          - "com.google.devtools.ksp*"
+          - "org.jetbrains.compose*"
+      androidx:
+        patterns:
+          - "androidx.*"
+    commit-message:
+      prefix: "Update"
+
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    groups:
+      github-actions:
+        patterns:
+          - "*"
+    commit-message:
+      prefix: "Update"

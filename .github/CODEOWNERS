@@ -1,0 +1,7 @@
+# The maintainer reviews everything. The release pipeline and the repository configuration are listed
+# explicitly so they stay owned if the catch-all rule is ever narrowed
+*                       @PrimoDev23
+/.github/               @PrimoDev23
+/.claude/               @PrimoDev23
+/gradle/                @PrimoDev23
+/gradle.properties      @PrimoDev23
