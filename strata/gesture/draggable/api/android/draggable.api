@@ -41,6 +41,10 @@ public final class dev/leonp/strata/draggable/common/DraggableLayoutState : java
 	public static fun values ()[Ldev/leonp/strata/draggable/common/DraggableLayoutState;
 }
 
+public final class dev/leonp/strata/draggable/compare/CompareSliderKt {
+	public static final fun CompareSlider-9nDbdT8 (Lkotlin/jvm/functions/Function2;Lkotlin/jvm/functions/Function2;Lkotlin/jvm/functions/Function2;Landroidx/compose/ui/Modifier;FJLandroidx/compose/runtime/Composer;II)V
+}
+
 public final class dev/leonp/strata/draggable/header/CollapsibleHeaderContainerKt {
 	public static final fun CollapsibleHeaderContainer (Lkotlin/jvm/functions/Function3;Landroidx/compose/ui/Modifier;Ldev/leonp/strata/draggable/header/common/CollapsibleHeaderContainerState;Lkotlin/jvm/functions/Function3;Landroidx/compose/foundation/layout/WindowInsets;Lkotlin/jvm/functions/Function3;Landroidx/compose/runtime/Composer;II)V
 }

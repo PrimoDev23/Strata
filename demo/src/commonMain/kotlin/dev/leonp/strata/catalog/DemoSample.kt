@@ -5,6 +5,7 @@ import dev.leonp.strata.catalog.DemoCategory.Configuration
 import dev.leonp.strata.catalog.DemoCategory.NonAnimated
 import dev.leonp.strata.catalog.DemoComponent.AnimatedColumn
 import dev.leonp.strata.catalog.DemoComponent.CollapsibleHeader
+import dev.leonp.strata.catalog.DemoComponent.CompareSlider
 import dev.leonp.strata.catalog.DemoComponent.ExpandableContent
 
 /** Every demo of the app, sorted into a [DemoComponent] and one of its [DemoCategory] sub menus. */
@@ -100,6 +101,12 @@ enum class DemoSample(
         category = Configuration,
         title = "Scrollable expanded content",
         description = "The expanded state contains a list that scrolls on its own. Drag the top part to collapse.",
+    ),
+    CompareSliderBeforeAfter(
+        component = CompareSlider,
+        category = NonAnimated,
+        title = "Before and after",
+        description = "Two layouts are shown next to each other, separated by a slider with a thumb.",
     ),
     AnimatedColumnReorder(
         component = AnimatedColumn,
