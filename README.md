@@ -291,6 +291,12 @@ screen. Navigation is built with [Navigation 3](https://developer.android.com/gu
 | [`demo`](./demo) | The shared demo app with Navigation 3. |
 | [`androidApp`](./androidApp), [`iosApp`](./iosApp) | The platform entry points of the demo. |
 
+## 🤝 Contributing
+
+Contributions are welcome, see [CONTRIBUTING](./CONTRIBUTING.md). Most of the code of the
+components is written by hand. AI tools only support the work, for example with research,
+boilerplate, tests and review, and every line is read and owned by the maintainer.
+
 ## 📄 License
 
 ```
