@@ -13,7 +13,6 @@ This skill gets a release ready to publish. It does not publish.
 - **Never** run `publishToMavenCentral`, `publishAndReleaseToMavenCentral`, `publishAllPublicationsToMavenCentralRepository` or any other task that uploads to Maven Central. The user runs the upload after the hand-off.
 - Never push, not the commit and not the tag. Pushing the tag starts the release workflow.
 - Commit and tag only in step 9, after everything else passed, and only the release changes (version, README, CHANGELOG and anything regenerated in this run). Until then leave every change in the working tree.
-- Never add a `Co-Authored-By` trailer or any other attribution line to the release commit or the tag.
 - Never read `~/.gradle/gradle.properties` or the signing keys.
 - If a step fails, stop and report the failure with the relevant output. Don't fix code to make a check pass unless the user asks you to.
 - Run Gradle with `--console=plain`. Run long builds in the background and wait for them to finish.
@@ -239,7 +238,6 @@ git tag -a <new> -m "Release <new>"   # only on master, see below
 ```
 
 - Tag only when the commit is on `master`. On a release branch that is merged through a pull request, the merge creates a new commit, and a tag on the branch commit would fail the release check. Then skip the tag, and tell the user to tag the merged `master` commit.
-- The commit message and the tag message carry no `Co-Authored-By` trailer and no other attribution line.
 - If the tag exists already, stop and tell the user. Never move or delete a tag.
 - Check `git status --porcelain` is empty and `git show --stat HEAD` lists only the release files.
 
