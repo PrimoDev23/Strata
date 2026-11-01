@@ -11,6 +11,20 @@ import androidx.test.uiautomator.Until
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
+private const val TARGET_PACKAGE = "dev.leonp.strata"
+private const val TIMEOUT_MILLIS = 5_000L
+
+/** Steps of a slow drag, every step takes about 5 ms. */
+private const val DRAG_STEPS = 60
+
+/** Steps of a fast fling, which settles with velocity. */
+private const val FLING_STEPS = 8
+private const val SETTLE_ATTEMPTS = 20
+private const val SETTLE_INTERVAL_MILLIS = 100L
+
+/** A component is scrolled below this fraction of the screen height, so its sub menus are visible. */
+private const val VISIBLE_FRACTION = 0.4f
+private const val MAX_SCROLLS = 10
 
 /**
  * Collects the baseline profile of the draggable library.
@@ -71,27 +85,11 @@ class DraggableBaselineProfileGenerator {
     }
 }
 
-private const val TARGET_PACKAGE = "dev.leonp.strata"
-private const val TIMEOUT_MILLIS = 5_000L
-
-/** Steps of a slow drag, every step takes about 5 ms. */
-private const val DRAG_STEPS = 60
-
-/** Steps of a fast fling, which settles with velocity. */
-private const val FLING_STEPS = 8
-
-private const val SETTLE_ATTEMPTS = 20
-private const val SETTLE_INTERVAL_MILLIS = 100L
-
 /** The titles of the components on the home screen. */
 private enum class Component(val title: String) {
     CollapsibleHeader("Collapsible header"),
     ExpandableContent("Expandable content"),
 }
-
-/** A component is scrolled below this fraction of the screen height, so its sub menus are visible. */
-private const val VISIBLE_FRACTION = 0.4f
-private const val MAX_SCROLLS = 10
 
 /**
  * Opens [sample] from the [category] sub menu of [component] on the home screen.

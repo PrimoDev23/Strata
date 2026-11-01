@@ -4,6 +4,7 @@ import androidx.compose.runtime.Composable
 import dev.leonp.strata.navigation.StrataNavDisplay
 import dev.leonp.strata.theme.StrataTheme
 
+/** The root of the demo app. */
 @Composable
 fun App() {
     StrataTheme {

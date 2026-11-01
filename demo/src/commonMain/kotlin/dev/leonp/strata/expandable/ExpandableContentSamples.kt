@@ -167,7 +167,12 @@ internal fun AboveNavigationBarSample(onBack: () -> Unit, modifier: Modifier = M
                 PlayerExpandableContent(
                     isPlaying = isPlaying,
                     onPlayPauseClick = { isPlaying = !isPlaying },
-                    collapsedInsets = WindowInsets(0, 0, 0, 0),
+                    collapsedInsets = WindowInsets(
+                        left = 0,
+                        top = 0,
+                        right = 0,
+                        bottom = 0,
+                    ),
                     expandedInsets = WindowInsets.statusBars,
                     modifier = Modifier.align(Alignment.BottomCenter),
                 )

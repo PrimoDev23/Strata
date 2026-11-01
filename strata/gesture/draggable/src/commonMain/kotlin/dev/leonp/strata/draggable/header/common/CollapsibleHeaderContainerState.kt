@@ -7,9 +7,11 @@ import androidx.compose.runtime.Stable
 import androidx.compose.runtime.saveable.mapSaver
 import androidx.compose.runtime.saveable.rememberSaveable
 import dev.leonp.strata.draggable.common.DraggableLayoutState
+import dev.leonp.strata.draggable.header.CollapsibleHeaderContainer
+import dev.leonp.strata.draggable.header.animatable.AnimatableCollapsibleHeaderContainer
 
 /**
- * The state of [dev.leonp.strata.draggable.header.CollapsibleHeaderContainer] and [dev.leonp.strata.draggable.header.animatable.AnimatableCollapsibleHeaderContainer].
+ * The state of [CollapsibleHeaderContainer] and [AnimatableCollapsibleHeaderContainer].
  *
  * Holds the current header height, driven by scroll and drag gestures, and the transition between
  * the collapsed and the expanded header. Only the settled [DraggableLayoutState] is saved, so a
@@ -25,6 +27,8 @@ public class CollapsibleHeaderContainerState internal constructor(
     internal val transitionState = SeekableTransitionState(initialState = initialValue)
 
     internal companion object {
+        private const val DRAGGABLE_STATE_SETTLED_VALUE_KEY = "DraggableStateSettledValueKey"
+
         val Saver = mapSaver(
             save = {
                 mapOf(DRAGGABLE_STATE_SETTLED_VALUE_KEY to it.draggableState.settledValue)
@@ -35,8 +39,6 @@ public class CollapsibleHeaderContainerState internal constructor(
                 )
             },
         )
-
-        private const val DRAGGABLE_STATE_SETTLED_VALUE_KEY = "DraggableStateSettledValueKey"
     }
 }
 

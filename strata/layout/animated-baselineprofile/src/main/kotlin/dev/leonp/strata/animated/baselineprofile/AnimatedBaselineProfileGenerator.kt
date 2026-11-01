@@ -10,6 +10,24 @@ import androidx.test.uiautomator.Until
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
+private const val TARGET_PACKAGE = "dev.leonp.strata"
+private const val TIMEOUT_MILLIS = 5_000L
+
+/** Steps of a swipe, every step takes about 5 ms. */
+private const val SWIPE_STEPS = 8
+private const val MAX_SCROLLS = 10
+private const val SETTLE_ATTEMPTS = 20
+private const val SETTLE_INTERVAL_MILLIS = 100L
+
+/** Long enough for the placement and fade animations of the cards to finish. */
+private const val ANIMATION_MILLIS = 900L
+
+/** Where the "New task" button is, as a fraction of the display. */
+private const val NEW_TASK_X_FRACTION = 0.82f
+private const val NEW_TASK_Y_FRACTION = 0.93f
+
+/** A component is scrolled below this fraction of the screen height, so its sub menus are visible. */
+private const val VISIBLE_FRACTION = 0.4f
 
 /**
  * Collects the baseline profile of the animated library.
@@ -64,26 +82,6 @@ class AnimatedBaselineProfileGenerator {
         device.waitForIdle()
     }
 }
-
-private const val TARGET_PACKAGE = "dev.leonp.strata"
-private const val TIMEOUT_MILLIS = 5_000L
-
-/** Steps of a swipe, every step takes about 5 ms. */
-private const val SWIPE_STEPS = 8
-
-private const val MAX_SCROLLS = 10
-private const val SETTLE_ATTEMPTS = 20
-private const val SETTLE_INTERVAL_MILLIS = 100L
-
-/** Long enough for the placement and fade animations of the cards to finish. */
-private const val ANIMATION_MILLIS = 900L
-
-/** Where the "New task" button is, as a fraction of the display. */
-private const val NEW_TASK_X_FRACTION = 0.82f
-private const val NEW_TASK_Y_FRACTION = 0.93f
-
-/** A component is scrolled below this fraction of the screen height, so its sub menus are visible. */
-private const val VISIBLE_FRACTION = 0.4f
 
 /**
  * Opens [sample] from the [category] sub menu of the [component] on the home screen.
