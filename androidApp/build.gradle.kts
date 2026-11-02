@@ -23,7 +23,12 @@ dependencies {
 
 android {
     namespace = "dev.leonp.strata"
-    compileSdk = libs.versions.android.compileSdk.get().toInt()
+    compileSdk {
+        // material3 requires API 37.2, a minor SDK release that the shared compileSdk version cannot express
+        version = release(libs.versions.android.compileSdk.get().toInt()) {
+            minorApiLevel = 2
+        }
+    }
 
     defaultConfig {
         applicationId = "dev.leonp.strata"
