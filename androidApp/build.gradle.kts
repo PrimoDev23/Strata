@@ -23,7 +23,12 @@ dependencies {
 
 android {
     namespace = "dev.leonp.strata"
-    compileSdk = libs.versions.android.compileSdk.get().toInt()
+    compileSdk {
+        // Compose and material3 require API 37.2, a minor SDK release that a plain integer cannot express
+        version = release(libs.versions.android.compileSdk.get().toInt()) {
+            minorApiLevel = libs.versions.android.compileSdkMinor.get().toInt()
+        }
+    }
 
     defaultConfig {
         applicationId = "dev.leonp.strata"
