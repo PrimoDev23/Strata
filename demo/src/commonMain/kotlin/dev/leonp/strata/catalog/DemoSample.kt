@@ -7,6 +7,7 @@ import dev.leonp.strata.catalog.DemoComponent.AnimatedColumn
 import dev.leonp.strata.catalog.DemoComponent.CollapsibleHeader
 import dev.leonp.strata.catalog.DemoComponent.CompareSlider
 import dev.leonp.strata.catalog.DemoComponent.ExpandableContent
+import dev.leonp.strata.catalog.DemoComponent.SwipeToConfirm
 
 /** Every demo of the app, sorted into a [DemoComponent] and one of its [DemoCategory] sub menus. */
 enum class DemoSample(
@@ -107,6 +108,12 @@ enum class DemoSample(
         category = NonAnimated,
         title = "Before and after",
         description = "Two layouts are shown next to each other, separated by a slider with a thumb.",
+    ),
+    SwipeToConfirmPayment(
+        component = SwipeToConfirm,
+        category = NonAnimated,
+        title = "Slide to pay",
+        description = "Confirms a payment at the end of the checkout. The track turns green while the thumb moves.",
     ),
     AnimatedColumnReorder(
         component = AnimatedColumn,

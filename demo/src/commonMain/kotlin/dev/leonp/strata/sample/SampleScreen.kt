@@ -15,6 +15,7 @@ import dev.leonp.strata.collapsible.ShortListSample
 import dev.leonp.strata.collapsible.SwitchingHeadersSample
 import dev.leonp.strata.collapsible.WithoutCollapsedHeaderSample
 import dev.leonp.strata.compare.CompareSliderSample
+import dev.leonp.strata.confirm.SwipeToConfirmSample
 import dev.leonp.strata.expandable.AboveNavigationBarSample
 import dev.leonp.strata.expandable.FadeThroughSample
 import dev.leonp.strata.expandable.InstantSwitchSample
@@ -102,6 +103,11 @@ private fun SampleContent(sample: DemoSample, onBack: () -> Unit) {
         )
 
         DemoSample.CompareSliderBeforeAfter -> CompareSliderSample(
+            onBack = onBack,
+            modifier = sampleModifier,
+        )
+
+        DemoSample.SwipeToConfirmPayment -> SwipeToConfirmSample(
             onBack = onBack,
             modifier = sampleModifier,
         )
