@@ -24,9 +24,9 @@ dependencies {
 android {
     namespace = "dev.leonp.strata"
     compileSdk {
-        // material3 requires API 37.2, a minor SDK release that the shared compileSdk version cannot express
+        // Compose and material3 require API 37.2, a minor SDK release that a plain integer cannot express
         version = release(libs.versions.android.compileSdk.get().toInt()) {
-            minorApiLevel = 2
+            minorApiLevel = libs.versions.android.compileSdkMinor.get().toInt()
         }
     }
 
