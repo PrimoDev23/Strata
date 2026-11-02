@@ -13,9 +13,12 @@ kotlin {
 
     android {
         namespace = "dev.leonp.strata.theme"
-        compileSdk = libs.versions.android.compileSdk.get().toInt()
-        // material3 requires API 37.2, a minor SDK release that the shared compileSdk version cannot express
-        compileSdkExtension = 2
+        compileSdk {
+            // material3 requires API 37.2, a minor SDK release that the shared compileSdk version cannot express
+            version = release(libs.versions.android.compileSdk.get().toInt()) {
+                minorApiLevel = 2
+            }
+        }
         minSdk = libs.versions.android.minSdk.get().toInt()
 
         compilerOptions {
