@@ -25,6 +25,28 @@ import androidx.compose.ui.unit.LayoutDirection
 import kotlinx.coroutines.flow.drop
 import kotlinx.coroutines.flow.filter
 
+/**
+ * A track with a thumb that is slid to its end to confirm an action, so the action cannot be
+ * triggered by an accidental tap.
+ *
+ * The thumb is as high as the track, so it only needs an aspect ratio to be round. The track needs
+ * a bounded height for that, for example through [Modifier.height]. Once released, the thumb
+ * confirms if it was dragged further than [confirmationThreshold], no matter how fast it was
+ * released, and snaps back otherwise.
+ *
+ * @param thumb The draggable thumb.
+ * @param modifier The modifier of the track. The track is clipped to [shape].
+ * @param state The state that tells the progress of the thumb and resets it.
+ * @param shape The shape of the track, which also clips the progress fill.
+ * @param onConfirm Called once the thumb is confirmed, but not again after the state was restored.
+ * @param enabled Whether the thumb can be dragged. A confirmed thumb cannot be dragged either.
+ * @param confirmationThreshold The fraction of the track the thumb has to be dragged to confirm,
+ *   between `0f` and `1f`.
+ * @param contentPadding The space between the track and both the thumb and the [content].
+ * @param colors The colors of the track, see [SwipeToConfirmDefaults.colors].
+ * @param content The label of the track, drawn behind the thumb. It fills the whole track, so
+ *   children can be centered with [BoxScope.align].
+ */
 @Composable
 public fun SwipeToConfirm(
     thumb: @Composable () -> Unit,

@@ -10,6 +10,12 @@ import androidx.compose.runtime.saveable.mapSaver
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 
+/**
+ * The state of a [SwipeToConfirm]. Create it with [rememberSwipeToConfirmState].
+ *
+ * A confirmed state does not accept drags anymore, call [reset] to move the thumb back to the
+ * start. The settled state survives configuration changes and process death.
+ */
 @Stable
 public class SwipeToConfirmState internal constructor(
     private val initialValue: SwipeState = SwipeState.Start,
@@ -19,12 +25,18 @@ public class SwipeToConfirmState internal constructor(
 
     internal var thumbEndOffset by mutableFloatStateOf(0f)
 
+    /** Whether the thumb settled at the end of the track. It stays `false` while the thumb is dragged. */
     public val isConfirmed: Boolean
         get() = draggableState.settledValue == SwipeState.Confirmed
 
+    /** The offset of the thumb in pixels, or `NaN` until the track was measured. */
     public val offset: Float
         get() = draggableState.offset
 
+    /**
+     * How far the thumb moved from the start to the end of the track, from `0f` to `1f`. It is `0f`
+     * until the track was measured, so it is safe to read during the first composition.
+     */
     public val progress: Float
         get() = if (draggableState.offset.isNaN()) {
             0f
@@ -35,6 +47,7 @@ public class SwipeToConfirmState internal constructor(
             )
         }
 
+    /** Animates the thumb back to the start of the track. */
     public suspend fun reset() {
         draggableState.animateTo(targetValue = SwipeState.Start)
     }
@@ -53,6 +66,7 @@ public class SwipeToConfirmState internal constructor(
     }
 }
 
+/** Creates and remembers a [SwipeToConfirmState] that survives configuration changes. */
 @Composable
 public fun rememberSwipeToConfirmState(): SwipeToConfirmState =
     rememberSaveable(saver = SwipeToConfirmState.Saver) {

@@ -1,10 +1,12 @@
 package dev.leonp.strata.draggable.baselineprofile
 
 import android.graphics.Point
+import android.graphics.Rect
 import android.os.SystemClock
 import androidx.benchmark.macro.junit4.BaselineProfileRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.uiautomator.By
+import androidx.test.uiautomator.StaleObjectException
 import androidx.test.uiautomator.UiDevice
 import androidx.test.uiautomator.UiObject2
 import androidx.test.uiautomator.Until
@@ -19,12 +21,21 @@ private const val DRAG_STEPS = 60
 
 /** Steps of a fast fling, which settles with velocity. */
 private const val FLING_STEPS = 8
+
+/** Fractions of the screen width a thumb is dragged to, below and above the confirmation threshold. */
+private const val SHORT_DRAG_FRACTION = 0.4f
+private const val LONG_DRAG_FRACTION = 0.95f
+
+/** The time a fling needs to come to rest. */
+private const val FLING_SETTLE_MILLIS = 1_000L
 private const val SETTLE_ATTEMPTS = 20
 private const val SETTLE_INTERVAL_MILLIS = 100L
 
-/** A component is scrolled below this fraction of the screen height, so its sub menus are visible. */
-private const val VISIBLE_FRACTION = 0.4f
-private const val MAX_SCROLLS = 10
+/** The fractions of the screen height between which the title of a component is found, below the app bar. */
+private const val BAND_START = 0.2f
+private const val BAND_END = 0.6f
+private const val RESET_FLINGS = 6
+private const val MAX_SCROLLS = 30
 
 /**
  * Collects the baseline profile of the draggable library.
@@ -82,6 +93,15 @@ class DraggableBaselineProfileGenerator {
         )
         device.expandAndCollapsePlayer()
         device.backToHome()
+
+        // SwipeToConfirm released before and after its threshold
+        device.openSample(
+            component = Component.SwipeToConfirm,
+            category = "Non-animated",
+            sample = "Slide to pay",
+        )
+        device.slideThumbBackAndConfirm()
+        device.backToHome()
     }
 }
 
@@ -89,6 +109,7 @@ class DraggableBaselineProfileGenerator {
 private enum class Component(val title: String) {
     CollapsibleHeader("Collapsible header"),
     ExpandableContent("Expandable content"),
+    SwipeToConfirm("Swipe to confirm"),
 }
 
 /**
@@ -110,15 +131,26 @@ private fun UiDevice.openSample(component: Component, category: String, sample: 
     waitForIdle()
 }
 
-/** Scrolls the home screen until the title of [component] is in its upper part. */
+/**
+ * Scrolls the home screen until the title of [component] is in the visible band below the app bar.
+ *
+ * The list is reset to its start first and then dragged in steps smaller than the band, because a
+ * fling can skip a whole card and leave the title behind the app bar, where it cannot be found.
+ */
 private fun UiDevice.scrollHomeTo(component: Component) {
+    repeat(RESET_FLINGS) {
+        swipeVertically(fromFraction = 0.3f, toFraction = 0.9f, steps = FLING_STEPS)
+    }
+
     repeat(MAX_SCROLLS) {
-        val title = findObject(By.text(component.title))
-        if (title != null && title.visibleBounds.top < displayHeight * VISIBLE_FRACTION) {
+        SystemClock.sleep(FLING_SETTLE_MILLIS)
+        val top = findObject(By.text(component.title))?.visibleBounds?.top
+        if (top != null && top > displayHeight * BAND_START && top < displayHeight * BAND_END) {
             return
         }
-        swipeVertically(fromFraction = 0.8f, toFraction = 0.4f, steps = FLING_STEPS)
+        swipeVertically(fromFraction = 0.7f, toFraction = 0.5f, steps = DRAG_STEPS)
     }
+    error("Title ${component.title} is not visible on the home screen")
 }
 
 /** Goes back from a sample through its sub menu to the home screen. */
@@ -137,12 +169,17 @@ private fun UiDevice.backToHome() {
  */
 private fun UiDevice.findSettled(text: String): List<UiObject2> {
     findText(text)
-    var bounds = findObjects(By.text(text)).map { it.visibleBounds }
+    var bounds = emptyList<Rect>()
     repeat(SETTLE_ATTEMPTS) {
         SystemClock.sleep(SETTLE_INTERVAL_MILLIS)
         val nodes = findObjects(By.text(text))
-        val currentBounds = nodes.map { it.visibleBounds }
-        if (currentBounds == bounds) {
+        // A node can be recycled while the list moves, which only means it did not settle yet
+        val currentBounds = try {
+            nodes.map { it.visibleBounds }
+        } catch (_: StaleObjectException) {
+            return@repeat
+        }
+        if (nodes.isNotEmpty() && currentBounds == bounds) {
             return nodes
         }
         bounds = currentBounds
@@ -169,9 +206,31 @@ private fun UiDevice.expandAndCollapsePlayer() {
     waitForIdle()
 }
 
+/** Drags the thumb a short way and lets it snap back, then drags it to the end of the track. */
+private fun UiDevice.slideThumbBackAndConfirm() {
+    val from = findDescription("Slide to pay").visibleCenter
+    drag(from.x, from.y, (displayWidth * SHORT_DRAG_FRACTION).toInt(), from.y, DRAG_STEPS)
+    waitForIdle()
+
+    val restartedThumb = findDescription("Slide to pay").visibleCenter
+    drag(
+        restartedThumb.x,
+        restartedThumb.y,
+        (displayWidth * LONG_DRAG_FRACTION).toInt(),
+        restartedThumb.y,
+        DRAG_STEPS,
+    )
+    waitForIdle()
+}
+
 private fun UiDevice.dragVertically(from: Point, toFraction: Float) {
     drag(from.x, from.y, from.x, (displayHeight * toFraction).toInt(), DRAG_STEPS)
 }
+
+private fun UiDevice.findDescription(description: String): UiObject2 =
+    checkNotNull(wait(Until.findObject(By.desc(description)), TIMEOUT_MILLIS)) {
+        "Description $description not found"
+    }
 
 private fun UiDevice.findText(text: String): UiObject2 =
     checkNotNull(wait(Until.findObject(By.text(text)), TIMEOUT_MILLIS)) { "Text $text not found" }
