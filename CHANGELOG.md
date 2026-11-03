@@ -31,7 +31,7 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 ### Changed
 
 - `AnimatedColumn` describes itself to accessibility services as a list with one row per item, and
-  hides items from them while they animate out. Every item is now wrapped in a box.
+  hides items from them while they animate out.
 - The `insets`, `collapsedHeader` and state documentation of the header containers is more
   detailed, and the slot lambdas name their `PaddingValues` parameters `headerInsets` and
   `contentInsets`.

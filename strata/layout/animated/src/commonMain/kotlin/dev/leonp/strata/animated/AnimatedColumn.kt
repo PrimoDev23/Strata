@@ -1,7 +1,6 @@
 package dev.leonp.strata.animated
 
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -14,10 +13,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.LookaheadScope
 import androidx.compose.ui.semantics.CollectionInfo
-import androidx.compose.ui.semantics.CollectionItemInfo
 import androidx.compose.ui.semantics.collectionInfo
-import androidx.compose.ui.semantics.collectionItemInfo
-import androidx.compose.ui.semantics.hideFromAccessibility
 import androidx.compose.ui.semantics.semantics
 
 /**
@@ -32,13 +28,13 @@ import androidx.compose.ui.semantics.semantics
  * ## Accessibility
  *
  * The column describes itself to accessibility services as a list with one row per item in
- * [items], and every item is wrapped in a box that tells its position in that list. An item that
- * was removed stays composed until its exit animation has finished, but is hidden from
- * accessibility services and not counted as a row right away, so screen readers never announce an
- * item that is on its way out.
+ * [items]. An item that was removed stays composed until its exit animation has finished, but is
+ * hidden from accessibility services and not counted as a row right away, so screen readers never
+ * announce an item that is on its way out. This needs `animateItem`, because an item without it is
+ * dropped at once.
  *
- * The box around each item is part of the layout, so [horizontalAlignment] positions it and the
- * item inside is as wide as the box.
+ * The position of an item in the list is not exposed. Add it to the item with
+ * `Modifier.semantics { collectionItemInfo = ... }` if it is needed.
  *
  * @param items The items to show, in order.
  * @param key Returns a stable and unique key for an item.
@@ -101,22 +97,8 @@ public fun <T> AnimatedColumn(
                                 },
                             )
                         }
-                    Box(
-                        modifier = Modifier.semantics {
-                            if (entry.removed) {
-                                hideFromAccessibility()
-                            } else {
-                                collectionItemInfo = CollectionItemInfo(
-                                    rowIndex = entry.index,
-                                    rowSpan = 1,
-                                    columnIndex = 0,
-                                    columnSpan = 1,
-                                )
-                            }
-                        },
-                    ) {
-                        scope.itemContent(entry.item)
-                    }
+
+                    scope.itemContent(entry.item)
                 }
             }
         }
