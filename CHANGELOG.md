@@ -13,11 +13,13 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
   between them. Both slots keep their full size and are clipped at the slider. Its position lives
   in a `CompareSliderState` from `rememberCompareSliderState(initialFraction)`, which can be moved
   with `snapTo` and `animateTo`. `enabled`, `interactionSource` and a `SliderIndicatorStroke` for
-  the line are configurable.
+  the line are configurable. The thumb is an adjustable range for screen readers, named by the
+  required `contentDescription`.
 - `gesture-draggable`: `SwipeToConfirm`, a track with a thumb that is slid to its end to confirm an
   action. The thumb confirms once it was dragged past `confirmationThreshold`, no matter how fast it
   is released, and the track can draw a progress fill behind the thumb through
-  `SwipeToConfirmDefaults.colors`.
+  `SwipeToConfirmDefaults.colors`. Screen readers see it as a button that confirms when activated,
+  and `confirmedStateDescription` is announced once confirmed.
 - `CollapsibleHeaderContainerState.expand()`, `collapse()` and `isCollapsed` expand and collapse the
   header from code and tell whether it has settled collapsed.
 - `rememberCollapsibleHeaderContainerState` and `rememberExpandableContentState` take an
@@ -28,6 +30,8 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ### Changed
 
+- `AnimatedColumn` describes itself to accessibility services as a list with one row per item, and
+  hides items from them while they animate out. Every item is now wrapped in a box.
 - The `insets`, `collapsedHeader` and state documentation of the header containers is more
   detailed, and the slot lambdas name their `PaddingValues` parameters `headerInsets` and
   `contentInsets`.

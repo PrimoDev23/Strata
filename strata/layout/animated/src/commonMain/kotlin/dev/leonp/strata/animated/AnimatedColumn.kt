@@ -1,6 +1,7 @@
 package dev.leonp.strata.animated
 
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -12,6 +13,12 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.LookaheadScope
+import androidx.compose.ui.semantics.CollectionInfo
+import androidx.compose.ui.semantics.CollectionItemInfo
+import androidx.compose.ui.semantics.collectionInfo
+import androidx.compose.ui.semantics.collectionItemInfo
+import androidx.compose.ui.semantics.hideFromAccessibility
+import androidx.compose.ui.semantics.semantics
 
 /**
  * A column that animates its items to their new position whenever [items] changes, for example
@@ -21,6 +28,17 @@ import androidx.compose.ui.layout.LookaheadScope
  * container. It does not scroll on its own and has no gestures, it only reacts to layout changes.
  *
  * Every item is keyed, so its state survives a reorder.
+ *
+ * ## Accessibility
+ *
+ * The column describes itself to accessibility services as a list with one row per item in
+ * [items], and every item is wrapped in a box that tells its position in that list. An item that
+ * was removed stays composed until its exit animation has finished, but is hidden from
+ * accessibility services and not counted as a row right away, so screen readers never announce an
+ * item that is on its way out.
+ *
+ * The box around each item is part of the layout, so [horizontalAlignment] positions it and the
+ * item inside is as wide as the box.
  *
  * @param items The items to show, in order.
  * @param key Returns a stable and unique key for an item.
@@ -39,21 +57,26 @@ public fun <T> AnimatedColumn(
     itemContent: @Composable AnimatedColumnScope.(T) -> Unit,
 ) {
     LookaheadScope {
+        val state = rememberAnimatedColumnState(
+            items = items,
+            key = key,
+        )
+        val entries by state.entries.collectAsState()
+
+        LaunchedEffect(items) {
+            state.updateItems(items)
+        }
+
         Column(
-            modifier = modifier,
+            modifier = modifier.semantics {
+                collectionInfo = CollectionInfo(
+                    rowCount = entries.count { !it.removed },
+                    columnCount = 1,
+                )
+            },
             verticalArrangement = verticalArrangement,
             horizontalAlignment = horizontalAlignment,
         ) {
-            val state = rememberAnimatedColumnState(
-                items = items,
-                key = key,
-            )
-            val entries by state.entries.collectAsState()
-
-            LaunchedEffect(items) {
-                state.updateItems(items)
-            }
-
             entries.forEach { entry ->
                 key(entry.key) {
                     val handle = remember {
@@ -78,7 +101,22 @@ public fun <T> AnimatedColumn(
                                 },
                             )
                         }
-                    scope.itemContent(entry.item)
+                    Box(
+                        modifier = Modifier.semantics {
+                            if (entry.removed) {
+                                hideFromAccessibility()
+                            } else {
+                                collectionItemInfo = CollectionItemInfo(
+                                    rowIndex = entry.index,
+                                    rowSpan = 1,
+                                    columnIndex = 0,
+                                    columnSpan = 1,
+                                )
+                            }
+                        },
+                    ) {
+                        scope.itemContent(entry.item)
+                    }
                 }
             }
         }

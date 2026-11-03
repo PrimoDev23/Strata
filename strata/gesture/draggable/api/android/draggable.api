@@ -43,7 +43,7 @@ public final class dev/leonp/strata/draggable/common/DraggableLayoutState : java
 }
 
 public final class dev/leonp/strata/draggable/compare/CompareSliderKt {
-	public static final fun CompareSlider (Lkotlin/jvm/functions/Function2;Lkotlin/jvm/functions/Function2;Lkotlin/jvm/functions/Function2;Landroidx/compose/ui/Modifier;Ldev/leonp/strata/draggable/compare/CompareSliderState;Ldev/leonp/strata/draggable/compare/SliderIndicatorStroke;Landroidx/compose/foundation/interaction/MutableInteractionSource;ZLandroidx/compose/runtime/Composer;II)V
+	public static final fun CompareSlider (Lkotlin/jvm/functions/Function2;Lkotlin/jvm/functions/Function2;Lkotlin/jvm/functions/Function2;Ljava/lang/String;Landroidx/compose/ui/Modifier;Ldev/leonp/strata/draggable/compare/CompareSliderState;Ldev/leonp/strata/draggable/compare/SliderIndicatorStroke;Landroidx/compose/foundation/interaction/MutableInteractionSource;ZLandroidx/compose/runtime/Composer;II)V
 }
 
 public final class dev/leonp/strata/draggable/compare/CompareSliderState {
@@ -107,7 +107,7 @@ public final class dev/leonp/strata/draggable/confirm/SwipeToConfirmDefaults {
 }
 
 public final class dev/leonp/strata/draggable/confirm/SwipeToConfirmKt {
-	public static final fun SwipeToConfirm (Lkotlin/jvm/functions/Function2;Landroidx/compose/ui/Modifier;Ldev/leonp/strata/draggable/confirm/SwipeToConfirmState;Landroidx/compose/ui/graphics/Shape;Lkotlin/jvm/functions/Function0;ZFLandroidx/compose/foundation/layout/PaddingValues;Ldev/leonp/strata/draggable/confirm/SwipeToConfirmColors;Lkotlin/jvm/functions/Function3;Landroidx/compose/runtime/Composer;II)V
+	public static final fun SwipeToConfirm (Lkotlin/jvm/functions/Function2;Landroidx/compose/ui/Modifier;Ldev/leonp/strata/draggable/confirm/SwipeToConfirmState;Landroidx/compose/ui/graphics/Shape;Lkotlin/jvm/functions/Function0;ZFLandroidx/compose/foundation/layout/PaddingValues;Ldev/leonp/strata/draggable/confirm/SwipeToConfirmColors;Ljava/lang/String;Lkotlin/jvm/functions/Function3;Landroidx/compose/runtime/Composer;III)V
 }
 
 public final class dev/leonp/strata/draggable/confirm/SwipeToConfirmState {

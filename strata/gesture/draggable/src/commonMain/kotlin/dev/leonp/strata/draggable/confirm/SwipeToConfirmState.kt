@@ -48,6 +48,10 @@ public class SwipeToConfirmState internal constructor(
             )
         }
 
+    /**
+     * Moves the thumb to the end of the track without a drag, which confirms it. It is used by
+     * accessibility services, which cannot swipe.
+     */
     internal suspend fun confirm() {
         draggableState.snapTo(targetValue = SwipeState.Confirmed)
     }

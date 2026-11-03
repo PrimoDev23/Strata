@@ -43,6 +43,14 @@ import kotlinx.coroutines.launch
  * confirms if it was dragged further than [confirmationThreshold], no matter how fast it was
  * released, and snaps back otherwise.
  *
+ * ## Accessibility
+ *
+ * The track is exposed to accessibility services as one button that is named by its [content], and
+ * the [thumb] is hidden from them. A swipe is hard or impossible to perform with a screen reader
+ * or a switch, so activating the button confirms right away, as if the thumb was dragged to the end.
+ * Once the thumb is confirmed, or while [enabled] is `false`, the button is announced as disabled
+ * and cannot be activated.
+ *
  * @param thumb The draggable thumb.
  * @param modifier The modifier of the track. The track is clipped to [shape].
  * @param state The state that tells the progress of the thumb and resets it.
@@ -53,6 +61,9 @@ import kotlinx.coroutines.launch
  *   between `0f` and `1f`.
  * @param contentPadding The space between the track and both the thumb and the [content].
  * @param colors The colors of the track, see [SwipeToConfirmDefaults.colors].
+ * @param confirmedStateDescription The text screen readers announce once the thumb is confirmed,
+ *   for example "Confirmed". It is not translated by the library, so pass a localized string. If
+ *   `null`, nothing is announced beyond the disabled state.
  * @param content The label of the track, drawn behind the thumb. It fills the whole track, so
  *   children can be centered with [BoxScope.align].
  */
