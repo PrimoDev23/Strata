@@ -11,11 +11,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.Layout
 import androidx.compose.ui.layout.layoutId
-import androidx.compose.ui.unit.Dp
-import androidx.compose.ui.unit.dp
 
 /**
  * Compares two layouts, such as the same image before and after an edit, by dragging a slider
@@ -40,8 +37,8 @@ import androidx.compose.ui.unit.dp
  * @param thumb The handle in the middle of the slider line. Only the thumb reacts to drags, so
  * give it a size that is easy to hit.
  * @param modifier The [Modifier] applied to the layout.
- * @param sliderThickness The width of the line between [before] and [after].
- * @param sliderColor The color of the line between [before] and [after].
+ * @param sliderIndicatorStroke The [SliderIndicatorStroke] describing the thickness and color of
+ * the line between [before] and [after].
  */
 @Composable
 public fun CompareSlider(
@@ -49,8 +46,7 @@ public fun CompareSlider(
     after: @Composable () -> Unit,
     thumb: @Composable () -> Unit,
     modifier: Modifier = Modifier,
-    sliderThickness: Dp = 2.dp,
-    sliderColor: Color = Color.White,
+    sliderIndicatorStroke: SliderIndicatorStroke = SliderIndicatorStroke(),
 ) {
     val state = rememberCompareSliderState()
 
@@ -79,9 +75,9 @@ public fun CompareSlider(
 
             Spacer(
                 modifier = Modifier
-                    .width(sliderThickness)
+                    .width(sliderIndicatorStroke.thickness)
                     .fillMaxHeight()
-                    .background(color = sliderColor)
+                    .background(color = sliderIndicatorStroke.color)
                     .layoutId(CompareSliderLayoutId.SliderLine),
             )
         },
