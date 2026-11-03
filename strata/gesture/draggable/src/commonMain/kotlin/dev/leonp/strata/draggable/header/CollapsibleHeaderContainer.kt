@@ -48,34 +48,47 @@ import dev.leonp.strata.draggable.header.common.rememberCollapsibleHeaderContain
  *
  * ## Insets
  *
- * The container consumes [insets] and hands them to its slots as [PaddingValues]:
- * - the header slots receive the top and horizontal insets,
- * - [content] receives the bottom and horizontal insets.
+ * The container splits [insets] between its slots and hands each part over as [PaddingValues]:
+ * - the header slots receive `headerInsets` with the top and horizontal insets, so the header
+ *   content stays clear of the status bar and display cutouts,
+ * - [content] receives `contentInsets` with the bottom and horizontal insets, so it stays clear of
+ *   the navigation bar.
  *
- * Apply the given [PaddingValues] in the slots, for example as padding inside the header
- * background or as `contentPadding` of a lazy list. Because the insets are consumed, inset
- * modifiers such as `Modifier.windowInsetsPadding` inside the slots do not apply them again.
+ * The container does not apply any of them itself. Apply the given [PaddingValues] in the slots,
+ * for example as padding inside the header background, so the background extends behind the status
+ * bar, or as `contentPadding` of a lazy list, so the list scrolls behind the navigation bar.
+ * Because the insets are consumed, inset modifiers such as `Modifier.windowInsetsPadding` inside
+ * the slots do not apply them again.
  *
  * @param expandedHeader the header shown while the container is expanded. Receives the top and
- *   horizontal [insets] as [PaddingValues].
+ *   horizontal [insets] as `headerInsets`.
  * @param modifier the [Modifier] applied to the container.
  * @param state the [CollapsibleHeaderContainerState] that holds the collapsed or expanded state.
- * @param collapsedHeader the header shown while the container is collapsed. Receives the top and
- *   horizontal [insets] as [PaddingValues]. If `null`, the header collapses down to the top
- *   [insets] and [expandedHeader] stays visible while collapsing.
- * @param insets the window insets handled by the container. They are consumed for all descendants.
+ * @param collapsedHeader the header shown while the container is collapsed. Its height is the
+ *   collapsed height of the container, and it replaces [expandedHeader] once the header is closer to
+ *   that height. Receives the top and horizontal [insets] as `headerInsets`. Like every header slot
+ *   it is composed more than once, see the section about the header measurement.
+ *
+ *   If `null`, the header collapses down to the height of the top [insets], which is only the
+ *   status bar area. [expandedHeader] stays in place and is clipped from the bottom, so only its
+ *   top part remains visible. Make sure that part is a suitable collapsed header, for example by
+ *   starting [expandedHeader] with a background that fills the top insets.
+ * @param insets the window insets handled by the container, [WindowInsets.systemBars] by default.
+ *   The top and horizontal sides go to the header slots, the bottom and horizontal sides to
+ *   [content]. They are consumed for all descendants. Pass an empty [WindowInsets] to handle them
+ *   yourself, for example inside an edge-to-edge parent that already applies them.
  * @param content the content below the header. It is measured with the remaining height and
- *   receives the bottom and horizontal [insets] as [PaddingValues].
+ *   receives the bottom and horizontal [insets] as `contentInsets`.
  */
 @Suppress("ContentSlotReused")
 @Composable
 public fun CollapsibleHeaderContainer(
-    expandedHeader: @Composable (PaddingValues) -> Unit,
+    expandedHeader: @Composable (headerInsets: PaddingValues) -> Unit,
     modifier: Modifier = Modifier,
     state: CollapsibleHeaderContainerState = rememberCollapsibleHeaderContainerState(),
-    collapsedHeader: (@Composable (PaddingValues) -> Unit)? = null,
+    collapsedHeader: (@Composable (headerInsets: PaddingValues) -> Unit)? = null,
     insets: WindowInsets = WindowInsets.systemBars,
-    content: @Composable (PaddingValues) -> Unit,
+    content: @Composable (contentInsets: PaddingValues) -> Unit,
 ) {
     BaseCollapsibleHeaderContainer(
         modifier = modifier,

@@ -18,6 +18,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
@@ -25,6 +26,7 @@ import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -36,10 +38,13 @@ import dev.leonp.strata.collapsible.SharedTitleContainer
 import dev.leonp.strata.common.BackButton
 import dev.leonp.strata.common.DemoIcons
 import dev.leonp.strata.common.SampleList
+import dev.leonp.strata.common.StateControls
 import dev.leonp.strata.common.fadeInAtEnd
 import dev.leonp.strata.common.fadeOutAtStart
 import dev.leonp.strata.draggable.bottombar.ExpandableContent
+import dev.leonp.strata.draggable.bottombar.rememberExpandableContentState
 import dev.leonp.strata.draggable.common.DraggableLayoutState
+import kotlinx.coroutines.launch
 
 private const val FADE_THROUGH_FRACTION = 0.2f
 
@@ -251,6 +256,71 @@ internal fun ScrollableExpandedContentSample(onBack: () -> Unit, modifier: Modif
                         modifier = Modifier.windowInsetsPadding(WindowInsets.systemBars),
                     )
                 }
+            }
+        }
+    }
+}
+
+@Composable
+internal fun ControlledExpandableSample(onBack: () -> Unit, modifier: Modifier = Modifier) {
+    // Starts expanded to show that the initial value is applied
+    val state = rememberExpandableContentState(initialValue = DraggableLayoutState.Expanded)
+    val coroutineScope = rememberCoroutineScope()
+    var enabled by rememberSaveable { mutableStateOf(true) }
+
+    SharedTransitionLayout(modifier = modifier) {
+        Column(modifier = Modifier.fillMaxSize()) {
+            // The layout expands to the full height of its parent, which ends above the bar, so the
+            // controls stay reachable in both states.
+            Box(
+                modifier = Modifier
+                    .weight(1f)
+                    .fillMaxWidth(),
+            ) {
+                SampleScaffold(
+                    title = "Controlled content",
+                    onBack = onBack,
+                    extraBottomPadding = 0.dp,
+                )
+                ExpandableContent(
+                    modifier = Modifier
+                        .align(Alignment.BottomCenter)
+                        .shadow(elevation = 8.dp),
+                    state = state,
+                    enabled = enabled,
+                ) { layoutState ->
+                    when (layoutState) {
+                        DraggableLayoutState.Collapsed -> QuickNoteBar(
+                            modifier = Modifier.background(
+                                MaterialTheme.colorScheme.secondaryContainer,
+                            ),
+                        )
+
+                        DraggableLayoutState.Expanded -> NoteEditor(
+                            modifier = Modifier
+                                .background(MaterialTheme.colorScheme.surfaceContainerHighest)
+                                .windowInsetsPadding(WindowInsets.statusBars),
+                        )
+                    }
+                }
+            }
+            Surface(tonalElevation = 3.dp) {
+                StateControls(
+                    settledText = "isExpanded = ${state.isExpanded}",
+                    onExpand = {
+                        coroutineScope.launch {
+                            state.expand()
+                        }
+                    },
+                    onCollapse = {
+                        coroutineScope.launch {
+                            state.collapse()
+                        }
+                    },
+                    modifier = Modifier.windowInsetsPadding(WindowInsets.navigationBars),
+                    enabled = enabled,
+                    onEnabledChange = { enabled = it },
+                )
             }
         }
     }

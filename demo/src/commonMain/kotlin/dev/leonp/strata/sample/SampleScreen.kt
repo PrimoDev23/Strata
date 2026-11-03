@@ -8,6 +8,7 @@ import androidx.compose.ui.Modifier
 import dev.leonp.strata.catalog.DemoSample
 import dev.leonp.strata.collapsible.AnimatedWithoutCollapsedHeaderSample
 import dev.leonp.strata.collapsible.BelowTopAppBarSample
+import dev.leonp.strata.collapsible.ControlledHeaderSample
 import dev.leonp.strata.collapsible.CrossfadeSample
 import dev.leonp.strata.collapsible.NonScrollableContentSample
 import dev.leonp.strata.collapsible.SharedTitleSample
@@ -18,6 +19,7 @@ import dev.leonp.strata.compare.CompareSliderSample
 import dev.leonp.strata.confirm.SwipeToConfirmSample
 import dev.leonp.strata.confirm.SwipeToConfirmTrackSample
 import dev.leonp.strata.expandable.AboveNavigationBarSample
+import dev.leonp.strata.expandable.ControlledExpandableSample
 import dev.leonp.strata.expandable.FadeThroughSample
 import dev.leonp.strata.expandable.InstantSwitchSample
 import dev.leonp.strata.expandable.MusicPlayerSample
@@ -76,6 +78,11 @@ private fun SampleContent(sample: DemoSample, onBack: () -> Unit) {
             modifier = sampleModifier,
         )
 
+        DemoSample.HeaderControlled -> ControlledHeaderSample(
+            onBack = onBack,
+            modifier = sampleModifier,
+        )
+
         DemoSample.ExpandablePlayer -> MusicPlayerSample(onBack = onBack, modifier = sampleModifier)
 
         DemoSample.ExpandableFadeThrough -> FadeThroughSample(
@@ -99,6 +106,11 @@ private fun SampleContent(sample: DemoSample, onBack: () -> Unit) {
         )
 
         DemoSample.ExpandableScrollableContent -> ScrollableExpandedContentSample(
+            onBack = onBack,
+            modifier = sampleModifier,
+        )
+
+        DemoSample.ExpandableControlled -> ControlledExpandableSample(
             onBack = onBack,
             modifier = sampleModifier,
         )

@@ -35,8 +35,11 @@ private class CompareSliderMeasurePolicy(private val state: CompareSliderState) 
             constraints = sliderConstraints,
         ) ?: error("Could not find LayoutId SliderLine")
 
+        val width = constraints.maxWidth
+        state.width = width.toFloat()
+
         val imageConstraints = Constraints.fixed(
-            width = constraints.maxWidth,
+            width = width,
             height = constraints.maxHeight,
         )
 
@@ -54,10 +57,13 @@ private class CompareSliderMeasurePolicy(private val state: CompareSliderState) 
             constraints = constraints.copyMaxDimensions(),
         ) ?: error("Could not find LayoutId SliderThumb")
 
-        return layout(constraints.maxWidth, constraints.maxHeight) {
-            val sliderCenter = ((constraints.maxWidth / 2f) + state.horizontalOffset).coerceIn(
+        return layout(
+            width = width,
+            height = constraints.maxHeight,
+        ) {
+            val sliderCenter = ((width / 2f) + state.horizontalOffset).coerceIn(
                 minimumValue = 0f,
-                maximumValue = constraints.maxWidth.toFloat(),
+                maximumValue = width.toFloat(),
             )
 
             beforePlaceable.placeWithLayer(
@@ -79,7 +85,7 @@ private class CompareSliderMeasurePolicy(private val state: CompareSliderState) 
                     clip = true
                     shape = RectClip(
                         left = sliderCenter,
-                        right = constraints.maxWidth.toFloat(),
+                        right = width.toFloat(),
                     )
                 },
             )

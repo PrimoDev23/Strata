@@ -20,10 +20,19 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Slider
+import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableFloatStateOf
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -41,8 +50,16 @@ import dev.leonp.strata.common.BackButton
 import dev.leonp.strata.common.DemoIcons
 import dev.leonp.strata.common.InfoCard
 import dev.leonp.strata.draggable.compare.CompareSlider
+import dev.leonp.strata.draggable.compare.rememberCompareSliderState
+import kotlinx.coroutines.launch
 
 private const val SCENE_ASPECT_RATIO = 3f / 4f
+
+private const val PERCENT = 100
+private const val MIDDLE_FRACTION = 0.5f
+
+/** Not the middle, so resetting visibly moves the slider. */
+private const val INITIAL_FRACTION = 0.3f
 private const val HORIZON = 0.74f
 private const val SUN_CENTER_X = 0.66f
 private const val SUN_CENTER_Y = 0.36f
@@ -119,6 +136,11 @@ private val SunsetPalette = ScenePalette(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 internal fun CompareSliderSample(onBack: () -> Unit, modifier: Modifier = Modifier) {
+    val state = rememberCompareSliderState(initialFraction = INITIAL_FRACTION)
+    val coroutineScope = rememberCoroutineScope()
+    var enabled by rememberSaveable { mutableStateOf(true) }
+    var snapFraction by rememberSaveable { mutableFloatStateOf(INITIAL_FRACTION) }
+
     Scaffold(
         modifier = modifier,
         topBar = {
@@ -155,7 +177,66 @@ internal fun CompareSliderSample(onBack: () -> Unit, modifier: Modifier = Modifi
                     .fillMaxWidth()
                     .aspectRatio(SCENE_ASPECT_RATIO)
                     .clip(RoundedCornerShape(28.dp)),
+                state = state,
+                enabled = enabled,
             )
+
+            Spacer(modifier = Modifier.height(16.dp))
+
+            Text(
+                text = "animateTo",
+                style = MaterialTheme.typography.titleSmall,
+            )
+            Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                listOf(
+                    "Before" to 0f,
+                    "Middle" to MIDDLE_FRACTION,
+                    "After" to 1f,
+                ).forEach { (title, fraction) ->
+                    OutlinedButton(
+                        onClick = {
+                            coroutineScope.launch {
+                                state.animateTo(fraction = fraction)
+                            }
+                        },
+                    ) {
+                        Text(text = title)
+                    }
+                }
+            }
+
+            Text(
+                text = "snapTo ${(snapFraction * PERCENT).toInt()}%",
+                style = MaterialTheme.typography.titleSmall,
+            )
+            Slider(
+                value = snapFraction,
+                onValueChange = {
+                    snapFraction = it
+                    state.snapTo(fraction = it)
+                },
+            )
+
+            Row(
+                horizontalArrangement = Arrangement.spacedBy(16.dp),
+                verticalAlignment = Alignment.CenterVertically,
+            ) {
+                OutlinedButton(
+                    onClick = {
+                        state.snapTo(INITIAL_FRACTION)
+                    },
+                ) {
+                    Text(text = "Reset")
+                }
+                Text(
+                    text = "Enabled",
+                    modifier = Modifier.weight(1f),
+                )
+                Switch(
+                    checked = enabled,
+                    onCheckedChange = { enabled = it },
+                )
+            }
 
             Spacer(modifier = Modifier.height(16.dp))
 

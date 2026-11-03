@@ -14,15 +14,20 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import dev.leonp.strata.common.BackButton
 import dev.leonp.strata.common.InfoCard
 import dev.leonp.strata.common.SampleList
+import dev.leonp.strata.common.StateControls
 import dev.leonp.strata.common.fadeInAtEnd
 import dev.leonp.strata.common.fadeOutAtStart
+import dev.leonp.strata.draggable.common.DraggableLayoutState
 import dev.leonp.strata.draggable.header.CollapsibleHeaderContainer
 import dev.leonp.strata.draggable.header.animatable.AnimatableCollapsibleHeaderContainer
+import dev.leonp.strata.draggable.header.common.rememberCollapsibleHeaderContainerState
+import kotlinx.coroutines.launch
 
 @Composable
 internal fun SharedTitleSample(onBack: () -> Unit, modifier: Modifier = Modifier) {
@@ -214,6 +219,54 @@ internal fun BelowTopAppBarSample(onBack: () -> Unit, modifier: Modifier = Modif
             ) { padding ->
                 SampleList(contentPadding = padding)
             }
+        }
+    }
+}
+
+@Composable
+internal fun ControlledHeaderSample(onBack: () -> Unit, modifier: Modifier = Modifier) {
+    // Starts collapsed to show that the initial value is applied
+    val state = rememberCollapsibleHeaderContainerState(
+        initialValue = DraggableLayoutState.Collapsed,
+    )
+    val coroutineScope = rememberCoroutineScope()
+
+    CollapsibleHeaderContainer(
+        modifier = modifier
+            .fillMaxSize()
+            .background(MaterialTheme.colorScheme.background),
+        state = state,
+        expandedHeader = { padding ->
+            ExpandedTitleHeader(
+                title = "Controlled header",
+                subtitle = "Expanded and collapsed from code",
+                onBack = onBack,
+                padding = padding,
+            )
+        },
+        collapsedHeader = { padding ->
+            CollapsedTitleHeader(
+                title = "Controlled header",
+                onBack = onBack,
+                padding = padding,
+            )
+        },
+    ) { padding ->
+        Column(modifier = Modifier.fillMaxSize()) {
+            StateControls(
+                settledText = "isCollapsed = ${state.isCollapsed}",
+                onExpand = {
+                    coroutineScope.launch {
+                        state.expand()
+                    }
+                },
+                onCollapse = {
+                    coroutineScope.launch {
+                        state.collapse()
+                    }
+                },
+            )
+            SampleList(contentPadding = padding)
         }
     }
 }

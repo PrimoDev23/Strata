@@ -1,5 +1,5 @@
 public final class dev/leonp/strata/draggable/bottombar/ExpandableContentKt {
-	public static final fun ExpandableContent (Landroidx/compose/animation/SharedTransitionScope;Landroidx/compose/ui/Modifier;Ldev/leonp/strata/draggable/bottombar/ExpandableContentState;Lkotlin/jvm/functions/Function4;Landroidx/compose/runtime/Composer;II)V
+	public static final fun ExpandableContent (Landroidx/compose/animation/SharedTransitionScope;Landroidx/compose/ui/Modifier;Ldev/leonp/strata/draggable/bottombar/ExpandableContentState;ZLkotlin/jvm/functions/Function4;Landroidx/compose/runtime/Composer;II)V
 }
 
 public final class dev/leonp/strata/draggable/bottombar/ExpandableContentScope : androidx/compose/animation/AnimatedVisibilityScope, androidx/compose/animation/SharedTransitionScope {
@@ -27,10 +27,11 @@ public final class dev/leonp/strata/draggable/bottombar/ExpandableContentState {
 	public static final field $stable I
 	public final fun collapse (Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
 	public final fun expand (Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public final fun isExpanded ()Z
 }
 
 public final class dev/leonp/strata/draggable/bottombar/ExpandableContentStateKt {
-	public static final fun rememberExpandableContentState (Landroidx/compose/runtime/Composer;I)Ldev/leonp/strata/draggable/bottombar/ExpandableContentState;
+	public static final fun rememberExpandableContentState (Ldev/leonp/strata/draggable/common/DraggableLayoutState;Landroidx/compose/runtime/Composer;II)Ldev/leonp/strata/draggable/bottombar/ExpandableContentState;
 }
 
 public final class dev/leonp/strata/draggable/common/DraggableLayoutState : java/lang/Enum {
@@ -42,7 +43,36 @@ public final class dev/leonp/strata/draggable/common/DraggableLayoutState : java
 }
 
 public final class dev/leonp/strata/draggable/compare/CompareSliderKt {
-	public static final fun CompareSlider-9nDbdT8 (Lkotlin/jvm/functions/Function2;Lkotlin/jvm/functions/Function2;Lkotlin/jvm/functions/Function2;Landroidx/compose/ui/Modifier;FJLandroidx/compose/runtime/Composer;II)V
+	public static final fun CompareSlider (Lkotlin/jvm/functions/Function2;Lkotlin/jvm/functions/Function2;Lkotlin/jvm/functions/Function2;Landroidx/compose/ui/Modifier;Ldev/leonp/strata/draggable/compare/CompareSliderState;Ldev/leonp/strata/draggable/compare/SliderIndicatorStroke;Landroidx/compose/foundation/interaction/MutableInteractionSource;ZLandroidx/compose/runtime/Composer;II)V
+}
+
+public final class dev/leonp/strata/draggable/compare/CompareSliderState {
+	public static final field $stable I
+	public fun <init> (F)V
+	public final fun animateTo (FLandroidx/compose/animation/core/FiniteAnimationSpec;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public static synthetic fun animateTo$default (Ldev/leonp/strata/draggable/compare/CompareSliderState;FLandroidx/compose/animation/core/FiniteAnimationSpec;Lkotlin/coroutines/Continuation;ILjava/lang/Object;)Ljava/lang/Object;
+	public final fun getHorizontalFraction ()F
+	public final fun snapTo (F)V
+}
+
+public final class dev/leonp/strata/draggable/compare/CompareSliderStateKt {
+	public static final fun rememberCompareSliderState (FLandroidx/compose/runtime/Composer;II)Ldev/leonp/strata/draggable/compare/CompareSliderState;
+}
+
+public final class dev/leonp/strata/draggable/compare/SliderIndicatorStroke {
+	public static final field $stable I
+	public fun <init> ()V
+	public synthetic fun <init> (FJILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public synthetic fun <init> (FJLkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun component1-D9Ej5fM ()F
+	public final fun component2-0d7_KjU ()J
+	public final fun copy-cXLIe8U (FJ)Ldev/leonp/strata/draggable/compare/SliderIndicatorStroke;
+	public static synthetic fun copy-cXLIe8U$default (Ldev/leonp/strata/draggable/compare/SliderIndicatorStroke;FJILjava/lang/Object;)Ldev/leonp/strata/draggable/compare/SliderIndicatorStroke;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getColor-0d7_KjU ()J
+	public final fun getThickness-D9Ej5fM ()F
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
 }
 
 public final class dev/leonp/strata/draggable/confirm/SwipeState : java/lang/Enum {
@@ -123,9 +153,14 @@ public final class dev/leonp/strata/draggable/header/animatable/AnimatableCollap
 
 public final class dev/leonp/strata/draggable/header/common/CollapsibleHeaderContainerState {
 	public static final field $stable I
+	public final fun collapse (Landroidx/compose/animation/core/FiniteAnimationSpec;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public static synthetic fun collapse$default (Ldev/leonp/strata/draggable/header/common/CollapsibleHeaderContainerState;Landroidx/compose/animation/core/FiniteAnimationSpec;Lkotlin/coroutines/Continuation;ILjava/lang/Object;)Ljava/lang/Object;
+	public final fun expand (Landroidx/compose/animation/core/FiniteAnimationSpec;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public static synthetic fun expand$default (Ldev/leonp/strata/draggable/header/common/CollapsibleHeaderContainerState;Landroidx/compose/animation/core/FiniteAnimationSpec;Lkotlin/coroutines/Continuation;ILjava/lang/Object;)Ljava/lang/Object;
+	public final fun isCollapsed ()Z
 }
 
 public final class dev/leonp/strata/draggable/header/common/CollapsibleHeaderContainerStateKt {
-	public static final fun rememberCollapsibleHeaderContainerState (Landroidx/compose/runtime/Composer;I)Ldev/leonp/strata/draggable/header/common/CollapsibleHeaderContainerState;
+	public static final fun rememberCollapsibleHeaderContainerState (Ldev/leonp/strata/draggable/common/DraggableLayoutState;Landroidx/compose/runtime/Composer;II)Ldev/leonp/strata/draggable/header/common/CollapsibleHeaderContainerState;
 }
 
