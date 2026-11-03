@@ -66,6 +66,12 @@ enum class DemoSample(
         description = "Inside a Scaffold, only the navigation bar insets are left, so the header " +
             "collapses to zero height.",
     ),
+    HeaderControlled(
+        component = CollapsibleHeader,
+        category = Configuration,
+        title = "Controlled from code",
+        description = "Starts collapsed. Buttons expand and collapse the header and show whether it has settled.",
+    ),
     ExpandablePlayer(
         component = ExpandableContent,
         category = Animated,
@@ -102,6 +108,12 @@ enum class DemoSample(
         category = Configuration,
         title = "Scrollable expanded content",
         description = "The expanded state contains a list that scrolls on its own. Drag the top part to collapse.",
+    ),
+    ExpandableControlled(
+        component = ExpandableContent,
+        category = Configuration,
+        title = "Controlled from code",
+        description = "Starts expanded. A bottom bar expands and collapses it and has a switch that disables dragging.",
     ),
     CompareSliderBeforeAfter(
         component = CompareSlider,

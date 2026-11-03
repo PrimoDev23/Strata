@@ -78,7 +78,11 @@ import dev.leonp.strata.draggable.common.DraggableLayoutTransitionEffect
  * @receiver the [SharedTransitionScope] used for shared elements between both states, for example
  *   from a `SharedTransitionLayout` around the layout.
  * @param modifier the [Modifier] applied to the layout. The layout clips its content to its bounds.
- * @param state the [ExpandableContentState] that holds the collapsed or expanded state.
+ * @param state the [ExpandableContentState] that holds the collapsed or expanded state. Hoist it to
+ *   expand or collapse the layout from code.
+ * @param enabled whether the user can drag the layout. While `false`, the layout stays at its
+ *   current height and still reacts to [ExpandableContentState.expand] and
+ *   [ExpandableContentState.collapse].
  * @param content the content for the given state, called in an [ExpandableContentScope].
  */
 @Suppress("ContentSlotReused")

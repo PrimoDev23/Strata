@@ -23,6 +23,13 @@ public class ExpandableContentState internal constructor(initialValue: Draggable
     internal val draggableState = AnchoredDraggableState(initialValue)
     internal val transitionState = SeekableTransitionState(initialValue)
 
+    /**
+     * Whether the layout has settled at its expanded height.
+     *
+     * It stays `false` while the layout is dragged or animated towards the expanded height and
+     * only changes once the layout has arrived. It is backed by snapshot state, so reading it in
+     * composition recomposes when it changes.
+     */
     public val isExpanded: Boolean
         get() = draggableState.settledValue == DraggableLayoutState.Expanded
 
@@ -89,9 +96,12 @@ public class ExpandableContentState internal constructor(initialValue: Draggable
 }
 
 /**
- * Creates and remembers an [ExpandableContentState] that starts collapsed.
+ * Creates and remembers an [ExpandableContentState].
  *
- * The settled state survives configuration changes and process death.
+ * The settled state survives configuration changes and process death. After a restoration, the
+ * restored state is used and [initialValue] is ignored.
+ *
+ * @param initialValue the state the layout starts in, collapsed by default.
  */
 @Composable
 public fun rememberExpandableContentState(

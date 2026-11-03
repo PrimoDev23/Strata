@@ -29,9 +29,25 @@ public class CollapsibleHeaderContainerState internal constructor(
     internal val draggableState = AnchoredDraggableState(initialValue = initialValue)
     internal val transitionState = SeekableTransitionState(initialState = initialValue)
 
+    /**
+     * Whether the header has settled at its collapsed height.
+     *
+     * It stays `false` while the header is dragged or animated towards the collapsed height and
+     * only changes once the header has arrived, so it is safe to use for UI that should not flicker
+     * during a gesture. It is backed by snapshot state, so reading it in composition recomposes
+     * when it changes.
+     */
     public val isCollapsed: Boolean
         get() = draggableState.settledValue == DraggableLayoutState.Collapsed
 
+    /**
+     * Animates the header to its collapsed height.
+     *
+     * Suspends until the animation finishes. If it is interrupted, for example by a drag or another
+     * call to [expand] or [collapse], it is cancelled and the header stays where it currently is.
+     *
+     * @param animationSpec the [FiniteAnimationSpec] used to move the header.
+     */
     public suspend fun collapse(animationSpec: FiniteAnimationSpec<Float> = spring()) {
         draggableState.animateTo(
             targetValue = DraggableLayoutState.Collapsed,
@@ -39,6 +55,14 @@ public class CollapsibleHeaderContainerState internal constructor(
         )
     }
 
+    /**
+     * Animates the header to its expanded height.
+     *
+     * Suspends until the animation finishes. If it is interrupted, for example by a drag or another
+     * call to [expand] or [collapse], it is cancelled and the header stays where it currently is.
+     *
+     * @param animationSpec the [FiniteAnimationSpec] used to move the header.
+     */
     public suspend fun expand(animationSpec: FiniteAnimationSpec<Float> = spring()) {
         draggableState.animateTo(
             targetValue = DraggableLayoutState.Expanded,
@@ -63,9 +87,12 @@ public class CollapsibleHeaderContainerState internal constructor(
 }
 
 /**
- * Creates and remembers a [CollapsibleHeaderContainerState] that starts expanded.
+ * Creates and remembers a [CollapsibleHeaderContainerState].
  *
- * The settled state survives configuration changes and process death.
+ * The settled state survives configuration changes and process death. After a restoration, the
+ * restored state is used and [initialValue] is ignored.
+ *
+ * @param initialValue the state the header starts in, expanded by default.
  */
 @Composable
 public fun rememberCollapsibleHeaderContainerState(
