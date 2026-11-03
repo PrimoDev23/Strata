@@ -86,6 +86,7 @@ import dev.leonp.strata.draggable.common.DraggableLayoutTransitionEffect
 public fun SharedTransitionScope.ExpandableContent(
     modifier: Modifier = Modifier,
     state: ExpandableContentState = rememberExpandableContentState(),
+    enabled: Boolean = true,
     content: @Composable ExpandableContentScope.(DraggableLayoutState) -> Unit,
 ) {
     DraggableLayoutTransitionEffect(
@@ -114,6 +115,7 @@ public fun SharedTransitionScope.ExpandableContent(
                     .anchoredDraggable(
                         state = state.draggableState,
                         orientation = Orientation.Vertical,
+                        enabled = enabled,
                     )
                     .layoutId(ExpandableContentLayoutId.Current),
             ) {

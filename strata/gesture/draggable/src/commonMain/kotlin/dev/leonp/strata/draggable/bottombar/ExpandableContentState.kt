@@ -23,6 +23,9 @@ public class ExpandableContentState internal constructor(initialValue: Draggable
     internal val draggableState = AnchoredDraggableState(initialValue)
     internal val transitionState = SeekableTransitionState(initialValue)
 
+    public val isExpanded: Boolean
+        get() = draggableState.settledValue == DraggableLayoutState.Expanded
+
     /**
      * Animates the layout to [DraggableLayoutState.Expanded].
      *
@@ -91,7 +94,8 @@ public class ExpandableContentState internal constructor(initialValue: Draggable
  * The settled state survives configuration changes and process death.
  */
 @Composable
-public fun rememberExpandableContentState(): ExpandableContentState =
-    rememberSaveable(saver = ExpandableContentState.Saver) {
-        ExpandableContentState(initialValue = DraggableLayoutState.Collapsed)
-    }
+public fun rememberExpandableContentState(
+    initialValue: DraggableLayoutState = DraggableLayoutState.Collapsed,
+): ExpandableContentState = rememberSaveable(saver = ExpandableContentState.Saver) {
+    ExpandableContentState(initialValue = initialValue)
+}
