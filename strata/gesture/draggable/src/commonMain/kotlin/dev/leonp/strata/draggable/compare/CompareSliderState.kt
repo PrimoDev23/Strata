@@ -46,8 +46,9 @@ public class CompareSliderState(private val initialFraction: Float) {
     /** Moves the slider by the dragged distance. */
     internal val draggableState = DraggableState {
         val newOffset = horizontalOffset + it
+        val fraction = (newOffset + (width / 2)) / width
 
-        horizontalFraction = (newOffset + (width / 2)) / width
+        horizontalFraction = fraction.coerceIn(0f..1f)
     }
 
     /**
@@ -59,7 +60,7 @@ public class CompareSliderState(private val initialFraction: Float) {
      * @param fraction The new position, where `0f` is the left edge and `1f` the right edge.
      */
     public fun snapTo(fraction: Float) {
-        horizontalFraction = fraction
+        horizontalFraction = fraction.coerceIn(0f..1f)
     }
 
     /**
@@ -79,7 +80,7 @@ public class CompareSliderState(private val initialFraction: Float) {
         draggableState.drag(dragPriority = MutatePriority.Default) {
             animate(
                 initialValue = horizontalFraction,
-                targetValue = fraction,
+                targetValue = fraction.coerceIn(0f..1f),
                 animationSpec = animationSpec,
             ) { fraction, _ ->
                 horizontalFraction = fraction
@@ -87,12 +88,15 @@ public class CompareSliderState(private val initialFraction: Float) {
         }
     }
 
-    private fun calculateCenterBasedOffsetFromFraction(fraction: Float, width: Float): Float =
-        if (width.isNaN()) {
+    private fun calculateCenterBasedOffsetFromFraction(fraction: Float, width: Float): Float {
+        val centerX = width / 2f
+
+        return if (width.isNaN()) {
             0f
         } else {
-            fraction * width - (width / 2f)
-        }
+            fraction * width - centerX
+        }.coerceIn(-centerX..centerX)
+    }
 
     internal companion object {
         private const val FRACTION_KEY = "Fraction"

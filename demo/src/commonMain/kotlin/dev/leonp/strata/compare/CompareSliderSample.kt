@@ -173,6 +173,7 @@ internal fun CompareSliderSample(onBack: () -> Unit, modifier: Modifier = Modifi
                     )
                 },
                 thumb = { SliderThumb() },
+                contentDescription = null,
                 modifier = Modifier
                     .fillMaxWidth()
                     .aspectRatio(SCENE_ASPECT_RATIO)

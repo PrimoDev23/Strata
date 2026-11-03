@@ -15,6 +15,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.Layout
 import androidx.compose.ui.layout.layoutId
 import androidx.compose.ui.platform.LocalLayoutDirection
+import androidx.compose.ui.semantics.ProgressBarRangeInfo
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.disabled
+import androidx.compose.ui.semantics.progressBarRangeInfo
+import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.semantics.setProgress
 import androidx.compose.ui.unit.LayoutDirection
 
 /**
@@ -55,6 +61,7 @@ public fun CompareSlider(
     before: @Composable () -> Unit,
     after: @Composable () -> Unit,
     thumb: @Composable () -> Unit,
+    contentDescription: String?,
     modifier: Modifier = Modifier,
     state: CompareSliderState = rememberCompareSliderState(),
     sliderIndicatorStroke: SliderIndicatorStroke = SliderIndicatorStroke(),
@@ -82,7 +89,26 @@ public fun CompareSlider(
                         reverseDirection = LocalLayoutDirection.current == LayoutDirection.Rtl,
                         interactionSource = interactionSource,
                     )
-                    .layoutId(CompareSliderLayoutId.SliderThumb),
+                    .layoutId(CompareSliderLayoutId.SliderThumb)
+                    .semantics(mergeDescendants = true) {
+                        progressBarRangeInfo = ProgressBarRangeInfo(
+                            current = state.horizontalFraction,
+                            range = 0f..1f,
+                        )
+
+                        contentDescription?.let {
+                            this.contentDescription = it
+                        }
+
+                        if (!enabled) {
+                            disabled()
+                        } else {
+                            setProgress {
+                                state.snapTo(it)
+                                true
+                            }
+                        }
+                    },
             ) {
                 thumb()
             }
