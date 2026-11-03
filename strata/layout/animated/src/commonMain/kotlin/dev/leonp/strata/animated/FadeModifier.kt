@@ -7,8 +7,12 @@ import androidx.compose.ui.layout.MeasureResult
 import androidx.compose.ui.layout.MeasureScope
 import androidx.compose.ui.node.LayoutModifierNode
 import androidx.compose.ui.node.ModifierNodeElement
+import androidx.compose.ui.node.SemanticsModifierNode
 import androidx.compose.ui.node.invalidateMeasurement
+import androidx.compose.ui.node.invalidateSemantics
 import androidx.compose.ui.platform.InspectorInfo
+import androidx.compose.ui.semantics.SemanticsPropertyReceiver
+import androidx.compose.ui.semantics.hideFromAccessibility
 import androidx.compose.ui.unit.Constraints
 import kotlinx.coroutines.launch
 
@@ -49,7 +53,8 @@ internal class FadeElement(
 }
 
 /**
- * Fades the item in and out and holds a removed item at zero height until it faded out.
+ * Fades the item in and out and holds a removed item at zero height until it faded out. A removed
+ * item is hidden from accessibility services, so they never announce an item on its way out.
  *
  * Without [fadeSpecs] the item is shown at once, and a removed item is dropped right away.
  */
@@ -58,7 +63,8 @@ internal class FadeNode(
     var onRemovalFinish: () -> Unit,
     var fadeSpecs: AnimatedColumnScope.FadeSpecs?,
 ) : Modifier.Node(),
-    LayoutModifierNode {
+    LayoutModifierNode,
+    SemanticsModifierNode {
     private val animatable = Animatable(
         initialValue = if (removed || fadeSpecs == null) {
             1f
@@ -96,6 +102,12 @@ internal class FadeNode(
         }
     }
 
+    override fun SemanticsPropertyReceiver.applySemantics() {
+        if (removed) {
+            hideFromAccessibility()
+        }
+    }
+
     fun update(
         removed: Boolean,
         onRemovalFinish: () -> Unit,
@@ -110,6 +122,7 @@ internal class FadeNode(
 
         this.removed = removed
         invalidateMeasurement()
+        invalidateSemantics()
         animate()
     }
 

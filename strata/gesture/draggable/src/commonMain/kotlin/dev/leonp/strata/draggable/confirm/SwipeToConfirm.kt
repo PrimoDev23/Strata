@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Modifier
@@ -21,9 +22,17 @@ import androidx.compose.ui.graphics.isSpecified
 import androidx.compose.ui.layout.Layout
 import androidx.compose.ui.layout.layoutId
 import androidx.compose.ui.platform.LocalLayoutDirection
+import androidx.compose.ui.semantics.Role
+import androidx.compose.ui.semantics.disabled
+import androidx.compose.ui.semantics.hideFromAccessibility
+import androidx.compose.ui.semantics.onClick
+import androidx.compose.ui.semantics.role
+import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.semantics.stateDescription
 import androidx.compose.ui.unit.LayoutDirection
 import kotlinx.coroutines.flow.drop
 import kotlinx.coroutines.flow.filter
+import kotlinx.coroutines.launch
 
 /**
  * A track with a thumb that is slid to its end to confirm an action, so the action cannot be
@@ -33,6 +42,14 @@ import kotlinx.coroutines.flow.filter
  * a bounded height for that, for example through [Modifier.height]. Once released, the thumb
  * confirms if it was dragged further than [confirmationThreshold], no matter how fast it was
  * released, and snaps back otherwise.
+ *
+ * ## Accessibility
+ *
+ * The track is exposed to accessibility services as one button that is named by its [content], and
+ * the [thumb] is hidden from them. A swipe is hard or impossible to perform with a screen reader
+ * or a switch, so activating the button confirms right away, as if the thumb was dragged to the end.
+ * Once the thumb is confirmed, or while [enabled] is `false`, the button is announced as disabled
+ * and cannot be activated.
  *
  * @param thumb The draggable thumb.
  * @param modifier The modifier of the track. The track is clipped to [shape].
@@ -44,6 +61,9 @@ import kotlinx.coroutines.flow.filter
  *   between `0f` and `1f`.
  * @param contentPadding The space between the track and both the thumb and the [content].
  * @param colors The colors of the track, see [SwipeToConfirmDefaults.colors].
+ * @param confirmedStateDescription The text screen readers announce once the thumb is confirmed,
+ *   for example "Confirmed". It is not translated by the library, so pass a localized string. If
+ *   `null`, nothing is announced beyond the disabled state.
  * @param content The label of the track, drawn behind the thumb. It fills the whole track, so
  *   children can be centered with [BoxScope.align].
  */
@@ -58,6 +78,7 @@ public fun SwipeToConfirm(
     confirmationThreshold: Float = SwipeToConfirmDefaults.CONFIRMATION_THRESHOLD,
     contentPadding: PaddingValues = SwipeToConfirmDefaults.contentPadding,
     colors: SwipeToConfirmColors = SwipeToConfirmDefaults.colors(),
+    confirmedStateDescription: String? = null,
     content: @Composable BoxScope.() -> Unit,
 ) {
     val updatedOnConfirm by rememberUpdatedState(onConfirm)
@@ -77,13 +98,37 @@ public fun SwipeToConfirm(
         },
     )
 
+    val dragEnabled = enabled && !state.isConfirmed
+
+    val coroutineScope = rememberCoroutineScope()
     Layout(
         modifier = modifier
             .background(
                 color = colors.backgroundColor,
                 shape = shape,
             )
-            .clip(shape = shape),
+            .clip(shape = shape)
+            .semantics(mergeDescendants = true) {
+                role = Role.Button
+
+                if (!dragEnabled) {
+                    disabled()
+                } else {
+                    onClick(
+                        label = null,
+                        action = {
+                            coroutineScope.launch {
+                                state.confirm()
+                            }
+                            true
+                        },
+                    )
+                }
+
+                if (state.isConfirmed && confirmedStateDescription != null) {
+                    stateDescription = confirmedStateDescription
+                }
+            },
         measurePolicy = rememberSwipeToConfirmMeasurePolicy(state = state),
         content = {
             Box(
@@ -118,14 +163,15 @@ public fun SwipeToConfirm(
                     .anchoredDraggable(
                         state = state.draggableState,
                         orientation = Orientation.Horizontal,
-                        enabled = enabled &&
-                            state.draggableState.settledValue != SwipeState.Confirmed &&
-                            !state.draggableState.isAnimationRunning,
+                        enabled = dragEnabled,
                         reverseDirection = LocalLayoutDirection.current == LayoutDirection.Rtl,
                         flingBehavior = flingBehavior,
                     )
                     .padding(contentPadding)
-                    .layoutId(SwipeToConfirmLayoutId.Thumb),
+                    .layoutId(SwipeToConfirmLayoutId.Thumb)
+                    .semantics(mergeDescendants = false) {
+                        hideFromAccessibility()
+                    },
             ) {
                 thumb()
             }

@@ -28,10 +28,11 @@ import androidx.compose.runtime.setValue
 public class CompareSliderState(private val initialFraction: Float) {
     /**
      * The current position of the slider, where `0f` is the left edge and `1f` the right edge.
-     * It is read while measuring, so dragging relays out the slider without recomposing. Values
-     * outside of that range keep the slider at the closest edge.
+     * It is read while measuring, so dragging relays out the slider without recomposing. The value
+     * is always kept within that range, so dragging past an edge does not build up an overshoot
+     * that has to be dragged back first.
      */
-    public var horizontalFraction: Float by mutableFloatStateOf(initialFraction)
+    public var horizontalFraction: Float by mutableFloatStateOf(initialFraction.coerceIn(0f..1f))
         private set
 
     internal var width by mutableFloatStateOf(Float.NaN)
@@ -46,8 +47,9 @@ public class CompareSliderState(private val initialFraction: Float) {
     /** Moves the slider by the dragged distance. */
     internal val draggableState = DraggableState {
         val newOffset = horizontalOffset + it
+        val fraction = (newOffset + (width / 2)) / width
 
-        horizontalFraction = (newOffset + (width / 2)) / width
+        horizontalFraction = fraction.coerceIn(0f..1f)
     }
 
     /**
@@ -56,10 +58,11 @@ public class CompareSliderState(private val initialFraction: Float) {
      * This does not cancel a running [animateTo], which continues from the new position on its
      * next frame.
      *
-     * @param fraction The new position, where `0f` is the left edge and `1f` the right edge.
+     * @param fraction The new position, where `0f` is the left edge and `1f` the right edge. Values
+     * outside of that range are moved to the closest edge.
      */
     public fun snapTo(fraction: Float) {
-        horizontalFraction = fraction
+        horizontalFraction = fraction.coerceIn(0f..1f)
     }
 
     /**
@@ -70,6 +73,7 @@ public class CompareSliderState(private val initialFraction: Float) {
      * currently is.
      *
      * @param fraction The target position, where `0f` is the left edge and `1f` the right edge.
+     * Values outside of that range are moved to the closest edge.
      * @param animationSpec The [FiniteAnimationSpec] used to move the slider.
      */
     public suspend fun animateTo(
@@ -79,7 +83,7 @@ public class CompareSliderState(private val initialFraction: Float) {
         draggableState.drag(dragPriority = MutatePriority.Default) {
             animate(
                 initialValue = horizontalFraction,
-                targetValue = fraction,
+                targetValue = fraction.coerceIn(0f..1f),
                 animationSpec = animationSpec,
             ) { fraction, _ ->
                 horizontalFraction = fraction
@@ -87,12 +91,15 @@ public class CompareSliderState(private val initialFraction: Float) {
         }
     }
 
-    private fun calculateCenterBasedOffsetFromFraction(fraction: Float, width: Float): Float =
-        if (width.isNaN()) {
+    private fun calculateCenterBasedOffsetFromFraction(fraction: Float, width: Float): Float {
+        val centerX = width / 2f
+
+        return if (width.isNaN()) {
             0f
         } else {
-            fraction * width - (width / 2f)
-        }
+            fraction * width - centerX
+        }.coerceIn(-centerX..centerX)
+    }
 
     internal companion object {
         private const val FRACTION_KEY = "Fraction"

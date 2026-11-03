@@ -56,6 +56,7 @@ private fun CompareSliderPreview() {
                         ),
                 )
             },
+            contentDescription = "Compare before and after",
             modifier = Modifier.fillMaxSize(),
         )
     }

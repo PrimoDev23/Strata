@@ -61,10 +61,7 @@ private class CompareSliderMeasurePolicy(private val state: CompareSliderState) 
             width = width,
             height = constraints.maxHeight,
         ) {
-            val sliderCenter = ((width / 2f) + state.horizontalOffset).coerceIn(
-                minimumValue = 0f,
-                maximumValue = width.toFloat(),
-            )
+            val sliderCenter = width * state.horizontalFraction
 
             beforePlaceable.placeWithLayer(
                 x = 0,

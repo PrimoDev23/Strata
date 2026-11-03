@@ -2,6 +2,7 @@ package dev.leonp.strata.draggable.confirm
 
 import androidx.compose.foundation.gestures.AnchoredDraggableState
 import androidx.compose.foundation.gestures.animateTo
+import androidx.compose.foundation.gestures.snapTo
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Stable
 import androidx.compose.runtime.getValue
@@ -46,6 +47,14 @@ public class SwipeToConfirmState internal constructor(
                 to = SwipeState.Confirmed,
             )
         }
+
+    /**
+     * Moves the thumb to the end of the track without a drag, which confirms it. It is used by
+     * accessibility services, which cannot swipe.
+     */
+    internal suspend fun confirm() {
+        draggableState.snapTo(targetValue = SwipeState.Confirmed)
+    }
 
     /** Animates the thumb back to the start of the track. */
     public suspend fun reset() {

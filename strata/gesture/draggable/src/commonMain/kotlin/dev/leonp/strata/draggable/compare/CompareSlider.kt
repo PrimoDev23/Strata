@@ -15,6 +15,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.Layout
 import androidx.compose.ui.layout.layoutId
 import androidx.compose.ui.platform.LocalLayoutDirection
+import androidx.compose.ui.semantics.ProgressBarRangeInfo
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.disabled
+import androidx.compose.ui.semantics.progressBarRangeInfo
+import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.semantics.setProgress
 import androidx.compose.ui.unit.LayoutDirection
 
 /**
@@ -36,10 +42,22 @@ import androidx.compose.ui.unit.LayoutDirection
  * of both slots. The slider line spans the full height and the [thumb] is centered on it
  * vertically.
  *
+ * ## Accessibility
+ *
+ * The [thumb] is exposed to accessibility services as an adjustable range from `0f` to `1f`, so
+ * the position is announced and screen readers can move the slider without dragging it. While
+ * [enabled] is `false` the thumb is announced as disabled and cannot be adjusted that way either.
+ * The semantics of the content of the [thumb] are merged into this node, so describe the slider
+ * with [contentDescription] instead of giving the thumb its own description. [before] and [after]
+ * keep their own semantics.
+ *
  * @param before The content left of the slider.
  * @param after The content right of the slider.
  * @param thumb The handle in the middle of the slider line. Only the thumb reacts to drags, so
  * give it a size that is easy to hit.
+ * @param contentDescription The accessible name of the slider, for example "Compare before and
+ * after". It is not translated by the library, so pass a localized string. Pass `null` only if
+ * the thumb content already names the slider.
  * @param modifier The [Modifier] applied to the layout.
  * @param state The [CompareSliderState] holding the position of the slider. Hoist it to read or
  * change the position, for example with [CompareSliderState.animateTo].
@@ -55,6 +73,7 @@ public fun CompareSlider(
     before: @Composable () -> Unit,
     after: @Composable () -> Unit,
     thumb: @Composable () -> Unit,
+    contentDescription: String?,
     modifier: Modifier = Modifier,
     state: CompareSliderState = rememberCompareSliderState(),
     sliderIndicatorStroke: SliderIndicatorStroke = SliderIndicatorStroke(),
@@ -82,7 +101,26 @@ public fun CompareSlider(
                         reverseDirection = LocalLayoutDirection.current == LayoutDirection.Rtl,
                         interactionSource = interactionSource,
                     )
-                    .layoutId(CompareSliderLayoutId.SliderThumb),
+                    .layoutId(CompareSliderLayoutId.SliderThumb)
+                    .semantics(mergeDescendants = true) {
+                        progressBarRangeInfo = ProgressBarRangeInfo(
+                            current = state.horizontalFraction,
+                            range = 0f..1f,
+                        )
+
+                        contentDescription?.let {
+                            this.contentDescription = it
+                        }
+
+                        if (!enabled) {
+                            disabled()
+                        } else {
+                            setProgress {
+                                state.snapTo(it)
+                                true
+                            }
+                        }
+                    },
             ) {
                 thumb()
             }
