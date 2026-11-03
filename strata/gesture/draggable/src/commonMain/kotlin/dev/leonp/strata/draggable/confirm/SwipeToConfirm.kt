@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Modifier
@@ -21,9 +22,17 @@ import androidx.compose.ui.graphics.isSpecified
 import androidx.compose.ui.layout.Layout
 import androidx.compose.ui.layout.layoutId
 import androidx.compose.ui.platform.LocalLayoutDirection
+import androidx.compose.ui.semantics.Role
+import androidx.compose.ui.semantics.disabled
+import androidx.compose.ui.semantics.hideFromAccessibility
+import androidx.compose.ui.semantics.onClick
+import androidx.compose.ui.semantics.role
+import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.semantics.stateDescription
 import androidx.compose.ui.unit.LayoutDirection
 import kotlinx.coroutines.flow.drop
 import kotlinx.coroutines.flow.filter
+import kotlinx.coroutines.launch
 
 /**
  * A track with a thumb that is slid to its end to confirm an action, so the action cannot be
@@ -58,6 +67,7 @@ public fun SwipeToConfirm(
     confirmationThreshold: Float = SwipeToConfirmDefaults.CONFIRMATION_THRESHOLD,
     contentPadding: PaddingValues = SwipeToConfirmDefaults.contentPadding,
     colors: SwipeToConfirmColors = SwipeToConfirmDefaults.colors(),
+    confirmedStateDescription: String? = null,
     content: @Composable BoxScope.() -> Unit,
 ) {
     val updatedOnConfirm by rememberUpdatedState(onConfirm)
@@ -77,13 +87,37 @@ public fun SwipeToConfirm(
         },
     )
 
+    val dragEnabled = enabled && !state.isConfirmed
+
+    val coroutineScope = rememberCoroutineScope()
     Layout(
         modifier = modifier
             .background(
                 color = colors.backgroundColor,
                 shape = shape,
             )
-            .clip(shape = shape),
+            .clip(shape = shape)
+            .semantics(mergeDescendants = true) {
+                role = Role.Button
+
+                if (!dragEnabled) {
+                    disabled()
+                } else {
+                    onClick(
+                        label = null,
+                        action = {
+                            coroutineScope.launch {
+                                state.confirm()
+                            }
+                            true
+                        },
+                    )
+                }
+
+                if (state.isConfirmed && confirmedStateDescription != null) {
+                    stateDescription = confirmedStateDescription
+                }
+            },
         measurePolicy = rememberSwipeToConfirmMeasurePolicy(state = state),
         content = {
             Box(
@@ -118,14 +152,15 @@ public fun SwipeToConfirm(
                     .anchoredDraggable(
                         state = state.draggableState,
                         orientation = Orientation.Horizontal,
-                        enabled = enabled &&
-                            state.draggableState.settledValue != SwipeState.Confirmed &&
-                            !state.draggableState.isAnimationRunning,
+                        enabled = dragEnabled,
                         reverseDirection = LocalLayoutDirection.current == LayoutDirection.Rtl,
                         flingBehavior = flingBehavior,
                     )
                     .padding(contentPadding)
-                    .layoutId(SwipeToConfirmLayoutId.Thumb),
+                    .layoutId(SwipeToConfirmLayoutId.Thumb)
+                    .semantics(mergeDescendants = false) {
+                        hideFromAccessibility()
+                    },
             ) {
                 thumb()
             }
