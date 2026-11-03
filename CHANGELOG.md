@@ -11,6 +11,10 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 - `gesture-draggable`: `CompareSlider`, a layout that compares two slots by dragging a slider
   between them. Both slots keep their full size and are clipped at the slider.
+- `gesture-draggable`: `SwipeToConfirm`, a track with a thumb that is slid to its end to confirm an
+  action. The thumb confirms once it was dragged past `confirmationThreshold`, no matter how fast it
+  is released, and the track can draw a progress fill behind the thumb through
+  `SwipeToConfirmDefaults.colors`.
 
 ## [0.2.1] - 2026-10-31
 

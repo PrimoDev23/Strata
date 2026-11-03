@@ -14,6 +14,10 @@ enum class DemoComponent(val title: String, val description: String) {
         title = "Compare slider",
         description = "Two layouts side by side that are compared by dragging a slider between them.",
     ),
+    SwipeToConfirm(
+        title = "Swipe to confirm",
+        description = "A thumb that is slid along a track to confirm an action that must not happen by accident.",
+    ),
     AnimatedColumn(
         title = "Animated column",
         description = "A column that animates its children to their new position whenever the order changes.",

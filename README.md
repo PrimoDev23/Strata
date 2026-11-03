@@ -64,6 +64,7 @@
 | `AnimatableCollapsibleHeaderContainer` | The same container, with a transition between both headers that follows the drag. |
 | `ExpandableContent` | A bottom layout that is dragged from a compact bar into a full screen, like a mini player. |
 | `CompareSlider` | Two layouts side by side that are compared by dragging a slider between them, like a before and after image. |
+| `SwipeToConfirm` | A thumb that is slid to the end of a track to confirm an action that must not happen by accident. |
 | `AnimatedColumn` | A column that animates its items to their new position when the list is sorted, filtered or changed, and fades items in and out. |
 
 The collapsible headers and `ExpandableContent` settle in one of the two `DraggableLayoutState`s:
@@ -80,7 +81,7 @@ kotlin {
     sourceSets {
         commonMain.dependencies {
             // CollapsibleHeaderContainer, AnimatableCollapsibleHeaderContainer, ExpandableContent,
-            // CompareSlider
+            // CompareSlider, SwipeToConfirm
             implementation("dev.leonp.strata:gesture-draggable:0.2.1")
             // AnimatedColumn
             implementation("dev.leonp.strata:layout-animated:0.2.1")
@@ -246,6 +247,41 @@ Both slots are measured at the full size of the layout and only **clipped** at t
 are never scaled or squeezed. Elements inside a slot, such as a label in a corner, stay where they
 are while the slider moves. The slider starts in the middle, and its position survives
 configuration changes and process death.
+
+### Swipe to confirm
+
+`SwipeToConfirm` confirms an action once the `thumb` was dragged far enough along the track. The
+thumb is as high as the track, so give the track a height and the thumb an aspect ratio. A thumb
+that is released before `confirmationThreshold` snaps back, however fast it was released:
+
+```kotlin
+val state = rememberSwipeToConfirmState()
+
+SwipeToConfirm(
+    thumb = { PayThumb(modifier = Modifier.aspectRatio(1f)) },
+    modifier = Modifier
+        .fillMaxWidth()
+        .height(64.dp),
+    state = state,
+    onConfirm = { pay() },
+    confirmationThreshold = 0.7f,
+    colors = SwipeToConfirmDefaults.colors(
+        backgroundColor = MaterialTheme.colorScheme.secondaryContainer,
+        progressColor = MaterialTheme.colorScheme.primary.copy(alpha = 0.3f),
+    ),
+) {
+    Text(
+        text = "Slide to pay",
+        modifier = Modifier
+            .align(Alignment.Center)
+            .alpha(1f - state.progress),
+    )
+}
+```
+
+`state.progress` goes from `0f` to `1f` and drives the label. A confirmed track does not accept
+drags, call `state.reset()` to use it again. Without `colors`, the track draws neither a background
+nor a fill.
 
 ### 🎞️ Animating along the drag
 
