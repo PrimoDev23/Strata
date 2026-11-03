@@ -19,8 +19,8 @@ public class SwipeToConfirmState internal constructor(
 
     internal var thumbEndOffset by mutableFloatStateOf(0f)
 
-    public val settledValue: SwipeState
-        get() = draggableState.settledValue
+    public val isConfirmed: Boolean
+        get() = draggableState.settledValue == SwipeState.Confirmed
 
     public val offset: Float
         get() = draggableState.offset

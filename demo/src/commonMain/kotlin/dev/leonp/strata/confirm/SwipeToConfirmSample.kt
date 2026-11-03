@@ -9,7 +9,6 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.aspectRatio
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -35,7 +34,6 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.lerp
@@ -44,7 +42,7 @@ import androidx.compose.ui.unit.dp
 import dev.leonp.strata.common.BackButton
 import dev.leonp.strata.common.DemoIcons
 import dev.leonp.strata.draggable.confirm.SwipeToConfirm
-import dev.leonp.strata.draggable.confirm.SwipeToConfirmState
+import dev.leonp.strata.draggable.confirm.SwipeToConfirmDefaults
 import dev.leonp.strata.draggable.confirm.rememberSwipeToConfirmState
 
 private val PaidColor = Color(0xFF2E7D32)
@@ -205,15 +203,12 @@ private fun PaymentSlider(onPaid: () -> Unit, modifier: Modifier = Modifier) {
         thumb = { PaymentThumb() },
         modifier = modifier
             .fillMaxWidth()
-            .height(TrackHeight)
-            .clip(CircleShape)
-            .background(trackColor),
+            .height(TrackHeight),
         state = state,
         contentPadding = PaddingValues(all = TrackPadding),
         onConfirm = onPaid,
-        positionalThreshold = {
-            it * 0.7f
-        },
+        confirmationThreshold = 0.7f,
+        colors = SwipeToConfirmDefaults.colors(backgroundColor = trackColor),
     ) {
         Text(
             text = "Slide to pay $ORDER_TOTAL",
@@ -242,7 +237,6 @@ private fun PaymentThumb(modifier: Modifier = Modifier) {
                 elevation = 4.dp,
                 shape = CircleShape,
             )
-            .fillMaxHeight()
             .aspectRatio(1f)
             .background(
                 color = MaterialTheme.colorScheme.primary,
@@ -257,6 +251,3 @@ private fun PaymentThumb(modifier: Modifier = Modifier) {
         )
     }
 }
-
-/** The progress of the thumb, which is zero until the track is measured and has its anchors. */
-private fun SwipeToConfirmState.safeProgress(): Float = if (offset.isNaN()) 0f else progress

@@ -6,10 +6,8 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.aspectRatio
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -26,14 +24,11 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.key
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -44,12 +39,11 @@ import androidx.compose.ui.unit.dp
 import dev.leonp.strata.common.BackButton
 import dev.leonp.strata.common.DemoIcons
 import dev.leonp.strata.draggable.confirm.SwipeToConfirm
-import dev.leonp.strata.draggable.confirm.SwipeToConfirmState
+import dev.leonp.strata.draggable.confirm.SwipeToConfirmDefaults
 import dev.leonp.strata.draggable.confirm.rememberSwipeToConfirmState
 
 private val TrackHeight = 72.dp
 private val BadgeSize = 88.dp
-private val TrackPadding = 8.dp
 
 /** The opacity of the fill, low enough to keep the label readable while the fill passes behind it. */
 private const val FILL_ALPHA = 0.35f
@@ -181,35 +175,24 @@ private fun DoorStatus(isUnlocked: Boolean, modifier: Modifier = Modifier) {
 }
 
 /**
- * The track that unlocks the door. Its background stays neutral while `trackColor` fills the area
- * the thumb has covered, and [onUnlocked] is called once the thumb reached the end.
+ * The track that unlocks the door. Its background stays neutral while the progress color fills the
+ * area the thumb has covered, and [onUnlocked] is called once the thumb reached the end.
  */
 @Composable
 private fun UnlockSlider(onUnlocked: () -> Unit, modifier: Modifier = Modifier) {
     val state = rememberSwipeToConfirmState()
-    val progress = state.safeProgress()
-    val isUnlocked by remember(state) { derivedStateOf { state.safeProgress() >= 1f } }
-
-    val currentOnUnlocked by rememberUpdatedState(onUnlocked)
-
-    LaunchedEffect(isUnlocked) {
-        if (isUnlocked) {
-            currentOnUnlocked()
-        }
-    }
 
     SwipeToConfirm(
-        thumb = { UnlockThumb(isUnlocked = isUnlocked) },
-        trackColor = MaterialTheme.colorScheme.primary.copy(alpha = FILL_ALPHA),
+        thumb = { UnlockThumb(isUnlocked = state.isConfirmed) },
         modifier = modifier
             .fillMaxWidth()
-            .height(TrackHeight)
-            .background(
-                color = MaterialTheme.colorScheme.surfaceContainerHighest,
-                shape = CircleShape,
-            ),
+            .height(TrackHeight),
         state = state,
-        contentPadding = PaddingValues(all = TrackPadding),
+        onConfirm = onUnlocked,
+        colors = SwipeToConfirmDefaults.colors(
+            backgroundColor = MaterialTheme.colorScheme.surfaceContainerHighest,
+            progressColor = MaterialTheme.colorScheme.primary.copy(alpha = FILL_ALPHA),
+        ),
     ) {
         Text(
             text = "Slide to unlock",
@@ -217,7 +200,7 @@ private fun UnlockSlider(onUnlocked: () -> Unit, modifier: Modifier = Modifier) 
             color = MaterialTheme.colorScheme.onSurfaceVariant,
             modifier = Modifier
                 .align(Alignment.Center)
-                .alpha(1f - progress),
+                .alpha(1f - state.progress),
         )
     }
 }
@@ -230,7 +213,6 @@ private fun UnlockThumb(isUnlocked: Boolean, modifier: Modifier = Modifier) {
                 elevation = 4.dp,
                 shape = CircleShape,
             )
-            .fillMaxHeight()
             .aspectRatio(1f)
             .background(
                 color = MaterialTheme.colorScheme.primary,
@@ -245,6 +227,3 @@ private fun UnlockThumb(isUnlocked: Boolean, modifier: Modifier = Modifier) {
         )
     }
 }
-
-/** The progress of the thumb, which is zero until the track is measured and has its anchors. */
-private fun SwipeToConfirmState.safeProgress(): Float = if (offset.isNaN()) 0f else progress

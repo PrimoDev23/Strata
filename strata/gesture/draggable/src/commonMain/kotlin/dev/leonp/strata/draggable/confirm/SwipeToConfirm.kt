@@ -1,64 +1,73 @@
 package dev.leonp.strata.draggable.confirm
 
-import androidx.compose.foundation.gestures.AnchoredDraggableDefaults
+import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.Orientation
 import androidx.compose.foundation.gestures.anchoredDraggable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxScope
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberUpdatedState
+import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.drawWithContent
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.graphics.drawOutline
+import androidx.compose.ui.graphics.isSpecified
 import androidx.compose.ui.layout.Layout
 import androidx.compose.ui.layout.layoutId
 import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.unit.LayoutDirection
-import androidx.compose.ui.unit.dp
+import kotlinx.coroutines.flow.drop
+import kotlinx.coroutines.flow.filter
 
 @Composable
 public fun SwipeToConfirm(
     thumb: @Composable () -> Unit,
     modifier: Modifier = Modifier,
     state: SwipeToConfirmState = rememberSwipeToConfirmState(),
-    shape: Shape = CircleShape,
-    trackColor: Color? = null,
+    shape: Shape = SwipeToConfirmDefaults.shape,
     onConfirm: () -> Unit = {},
     enabled: Boolean = true,
-    positionalThreshold: (
-        totalDistance: Float,
-    ) -> Float = AnchoredDraggableDefaults.PositionalThreshold,
-    contentPadding: PaddingValues = PaddingValues(8.dp),
+    confirmationThreshold: Float = SwipeToConfirmDefaults.CONFIRMATION_THRESHOLD,
+    contentPadding: PaddingValues = SwipeToConfirmDefaults.contentPadding,
+    colors: SwipeToConfirmColors = SwipeToConfirmDefaults.colors(),
     content: @Composable BoxScope.() -> Unit,
 ) {
     val updatedOnConfirm by rememberUpdatedState(onConfirm)
-    LaunchedEffect(state.draggableState.settledValue) {
-        if (state.draggableState.settledValue == SwipeState.Confirmed) {
-            updatedOnConfirm()
-        }
+    LaunchedEffect(state.draggableState) {
+        snapshotFlow { state.draggableState.settledValue }
+            .drop(1)
+            .filter { it == SwipeState.Confirmed }
+            .collect {
+                updatedOnConfirm()
+            }
     }
 
     val flingBehavior = rememberSwipeToConfirmFlingBehavior(
         state = state,
-        positionalThreshold = positionalThreshold,
+        positionalThreshold = {
+            it * confirmationThreshold
+        },
     )
 
     Layout(
-        modifier = modifier.clip(shape = shape),
+        modifier = modifier
+            .background(
+                color = colors.backgroundColor,
+                shape = shape,
+            )
+            .clip(shape = shape),
         measurePolicy = rememberSwipeToConfirmMeasurePolicy(state = state),
         content = {
             Box(
                 modifier = Modifier
                     .then(
-                        other = trackColor?.let { color ->
+                        other = colors.progressColor.takeIf { it.isSpecified }?.let { color ->
                             Modifier.drawWithContent {
                                 drawContent()
 

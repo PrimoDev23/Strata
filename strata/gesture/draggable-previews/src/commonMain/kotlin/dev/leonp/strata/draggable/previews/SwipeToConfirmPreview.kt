@@ -5,7 +5,6 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.aspectRatio
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -16,10 +15,10 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import dev.leonp.strata.draggable.confirm.SwipeToConfirm
+import dev.leonp.strata.draggable.confirm.SwipeToConfirmDefaults
 import dev.leonp.strata.theme.StrataTheme
 
 @Preview
@@ -44,7 +43,6 @@ private fun SwipeToConfirmPreview() {
                     // The thumb is as high as the track, so it only needs an aspect ratio to be round
                     Box(
                         modifier = Modifier
-                            .fillMaxHeight()
                             .aspectRatio(1f)
                             .background(
                                 color = MaterialTheme.colorScheme.primary,
@@ -59,13 +57,14 @@ private fun SwipeToConfirmPreview() {
                         )
                     }
                 },
-                trackColor = MaterialTheme.colorScheme.secondaryContainer,
                 modifier = Modifier
                     .fillMaxWidth()
                     // The track needs a bounded height, because the thumb is stretched to it
-                    .height(64.dp)
-                    .clip(CircleShape)
-                    .background(MaterialTheme.colorScheme.secondaryContainer),
+                    .height(64.dp),
+                colors = SwipeToConfirmDefaults.colors(
+                    backgroundColor = MaterialTheme.colorScheme.secondaryContainer,
+                    progressColor = MaterialTheme.colorScheme.primary.copy(alpha = 0.3f),
+                ),
             ) {
                 Text(
                     text = "Slide to pay",
