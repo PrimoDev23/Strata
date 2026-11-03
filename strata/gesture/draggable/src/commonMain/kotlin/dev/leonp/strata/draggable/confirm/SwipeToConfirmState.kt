@@ -26,10 +26,14 @@ public class SwipeToConfirmState internal constructor(
         get() = draggableState.offset
 
     public val progress: Float
-        get() = draggableState.progress(
-            from = SwipeState.Start,
-            to = SwipeState.Confirmed,
-        )
+        get() = if (draggableState.offset.isNaN()) {
+            0f
+        } else {
+            draggableState.progress(
+                from = SwipeState.Start,
+                to = SwipeState.Confirmed,
+            )
+        }
 
     public suspend fun reset() {
         draggableState.animateTo(targetValue = SwipeState.Start)

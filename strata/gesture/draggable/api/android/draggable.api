@@ -45,6 +45,30 @@ public final class dev/leonp/strata/draggable/compare/CompareSliderKt {
 	public static final fun CompareSlider-9nDbdT8 (Lkotlin/jvm/functions/Function2;Lkotlin/jvm/functions/Function2;Lkotlin/jvm/functions/Function2;Landroidx/compose/ui/Modifier;FJLandroidx/compose/runtime/Composer;II)V
 }
 
+public final class dev/leonp/strata/draggable/confirm/SwipeState : java/lang/Enum {
+	public static final field Confirmed Ldev/leonp/strata/draggable/confirm/SwipeState;
+	public static final field Start Ldev/leonp/strata/draggable/confirm/SwipeState;
+	public static fun getEntries ()Lkotlin/enums/EnumEntries;
+	public static fun valueOf (Ljava/lang/String;)Ldev/leonp/strata/draggable/confirm/SwipeState;
+	public static fun values ()[Ldev/leonp/strata/draggable/confirm/SwipeState;
+}
+
+public final class dev/leonp/strata/draggable/confirm/SwipeToConfirmKt {
+	public static final fun SwipeToConfirm-nQjU3JI (Lkotlin/jvm/functions/Function2;Landroidx/compose/ui/Modifier;Ldev/leonp/strata/draggable/confirm/SwipeToConfirmState;Landroidx/compose/ui/graphics/Shape;Landroidx/compose/ui/graphics/Color;Lkotlin/jvm/functions/Function0;ZLkotlin/jvm/functions/Function1;Landroidx/compose/foundation/layout/PaddingValues;Lkotlin/jvm/functions/Function3;Landroidx/compose/runtime/Composer;II)V
+}
+
+public final class dev/leonp/strata/draggable/confirm/SwipeToConfirmState {
+	public static final field $stable I
+	public final fun getOffset ()F
+	public final fun getProgress ()F
+	public final fun getSettledValue ()Ldev/leonp/strata/draggable/confirm/SwipeState;
+	public final fun reset (Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+}
+
+public final class dev/leonp/strata/draggable/confirm/SwipeToConfirmStateKt {
+	public static final fun rememberSwipeToConfirmState (Landroidx/compose/runtime/Composer;I)Ldev/leonp/strata/draggable/confirm/SwipeToConfirmState;
+}
+
 public final class dev/leonp/strata/draggable/header/CollapsibleHeaderContainerKt {
 	public static final fun CollapsibleHeaderContainer (Lkotlin/jvm/functions/Function3;Landroidx/compose/ui/Modifier;Ldev/leonp/strata/draggable/header/common/CollapsibleHeaderContainerState;Lkotlin/jvm/functions/Function3;Landroidx/compose/foundation/layout/WindowInsets;Lkotlin/jvm/functions/Function3;Landroidx/compose/runtime/Composer;II)V
 }

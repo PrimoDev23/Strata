@@ -44,7 +44,8 @@ internal class SwipeToConfirmMeasurePolicy(private val state: SwipeToConfirmStat
         val contentPlaceable = measurables.getPlaceableById(
             layoutId = SwipeToConfirmLayoutId.Content,
             constraints = constraints.copy(
-                minWidth = thumbPlaceable.width,
+                // The content fills the track, so it can center its children within the whole track
+                minWidth = maxWidth,
                 maxWidth = maxWidth,
                 minHeight = thumbPlaceable.height,
                 maxHeight = maxHeight,

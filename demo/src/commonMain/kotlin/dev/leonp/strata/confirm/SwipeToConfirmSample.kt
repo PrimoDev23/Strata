@@ -26,14 +26,11 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.key
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -197,25 +194,15 @@ private fun PriceRow(
 @Composable
 private fun PaymentSlider(onPaid: () -> Unit, modifier: Modifier = Modifier) {
     val state = rememberSwipeToConfirmState()
-    val progress = state.safeProgress()
-    val isPaid by remember(state) { derivedStateOf { state.safeProgress() >= 1f } }
+    val progress = state.progress
     val trackColor = lerp(
         start = MaterialTheme.colorScheme.secondaryContainer,
         stop = PaidColor,
         fraction = progress,
     )
 
-    val currentOnPaid by rememberUpdatedState(onPaid)
-
-    LaunchedEffect(isPaid) {
-        if (isPaid) {
-            currentOnPaid()
-        }
-    }
-
     SwipeToConfirm(
         thumb = { PaymentThumb() },
-        trackColor = trackColor,
         modifier = modifier
             .fillMaxWidth()
             .height(TrackHeight)
@@ -223,6 +210,10 @@ private fun PaymentSlider(onPaid: () -> Unit, modifier: Modifier = Modifier) {
             .background(trackColor),
         state = state,
         contentPadding = PaddingValues(all = TrackPadding),
+        onConfirm = onPaid,
+        positionalThreshold = {
+            it * 0.7f
+        },
     ) {
         Text(
             text = "Slide to pay $ORDER_TOTAL",

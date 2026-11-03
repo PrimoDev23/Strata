@@ -115,6 +115,12 @@ enum class DemoSample(
         title = "Slide to pay",
         description = "Confirms a payment at the end of the checkout. The track turns green while the thumb moves.",
     ),
+    SwipeToConfirmTrackFill(
+        component = SwipeToConfirm,
+        category = Configuration,
+        title = "Track color as indicator",
+        description = "The track color fills the area behind the thumb, so no custom progress indicator is needed.",
+    ),
     AnimatedColumnReorder(
         component = AnimatedColumn,
         category = Animated,
