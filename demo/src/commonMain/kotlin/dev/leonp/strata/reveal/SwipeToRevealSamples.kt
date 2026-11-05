@@ -1,10 +1,12 @@
 package dev.leonp.strata.reveal
 
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -39,10 +41,15 @@ import androidx.compose.ui.unit.dp
 import dev.leonp.strata.common.BackButton
 import dev.leonp.strata.common.InfoCard
 import dev.leonp.strata.common.StateControls
+import dev.leonp.strata.draggable.reveal.RevealState
 import dev.leonp.strata.draggable.reveal.SwipeToReveal
+import dev.leonp.strata.draggable.reveal.SwipeToRevealGroup
 import dev.leonp.strata.draggable.reveal.SwipeToRevealState
+import dev.leonp.strata.draggable.reveal.rememberSwipeToRevealGroup
 import dev.leonp.strata.draggable.reveal.rememberSwipeToRevealState
 import kotlinx.coroutines.launch
+
+private const val ANIMATION_DURATION_MILLIS = 300
 
 private val MessageHeight = 72.dp
 private val ActionWidth = 88.dp
@@ -92,7 +99,18 @@ private val Inbox = listOf(
     ),
 )
 
-/** A mail list where every message is swiped to the left to archive or delete it. */
+/** Animates the content to [target] with the animation that all samples share. */
+private suspend fun SwipeToRevealState.moveTo(target: RevealState) {
+    animateTo(
+        targetValue = target,
+        animationSpec = tween(durationMillis = ANIMATION_DURATION_MILLIS),
+    )
+}
+
+/**
+ * A mail list where every message is swiped to the left to archive or delete it and to the right
+ * to pin it. Revealing one message hides the actions of all others.
+ */
 @Composable
 internal fun InboxSample(onBack: () -> Unit, modifier: Modifier = Modifier) {
     InboxScreen(
@@ -103,8 +121,8 @@ internal fun InboxSample(onBack: () -> Unit, modifier: Modifier = Modifier) {
 }
 
 /**
- * The same mail list with buttons that reveal and hide the actions of all messages from code and a
- * switch that disables swiping.
+ * The same mail list with buttons that reveal the start or end actions of all messages and hide them
+ * again from code, and a switch that disables swiping.
  */
 @Composable
 internal fun ControlledInboxSample(onBack: () -> Unit, modifier: Modifier = Modifier) {
@@ -124,7 +142,15 @@ private fun InboxScreen(onBack: () -> Unit, controlled: Boolean, modifier: Modif
 
     // Every message keeps its state, so the controls can reveal and hide the actions of all of them
     val states = Inbox.map { rememberSwipeToRevealState() }
-    val revealedCount = messages.count { message -> states[Inbox.indexOf(message)].isRevealed }
+    val pinned = remember { mutableStateListOf<Message>() }
+
+    // The controls reveal all messages at once, which would immediately be undone by a group
+    val group = rememberSwipeToRevealGroup().takeIf { !controlled }
+    val settledValues = messages.map { message -> states[Inbox.indexOf(message)].settledValue }
+    val startRevealedCount = settledValues.count { value ->
+        value == RevealState.StartActionsVisible
+    }
+    val endRevealedCount = settledValues.count { value -> value == RevealState.EndActionsVisible }
 
     Scaffold(
         modifier = modifier,
@@ -142,21 +168,31 @@ private fun InboxScreen(onBack: () -> Unit, controlled: Boolean, modifier: Modif
         ) {
             if (controlled) {
                 StateControls(
-                    settledText = "isRevealed = $revealedCount of ${messages.size}",
+                    settledText = "start = $startRevealedCount, end = $endRevealedCount " +
+                        "of ${messages.size}",
                     onExpand = {
                         messages.forEach { message ->
-                            coroutineScope.launch { states[Inbox.indexOf(message)].reveal() }
+                            val state = states[Inbox.indexOf(message)]
+                            coroutineScope.launch { state.moveTo(RevealState.EndActionsVisible) }
                         }
                     },
                     onCollapse = {
                         messages.forEach { message ->
-                            coroutineScope.launch { states[Inbox.indexOf(message)].hide() }
+                            val state = states[Inbox.indexOf(message)]
+                            coroutineScope.launch { state.moveTo(RevealState.NoActionsVisible) }
                         }
                     },
-                    expandLabel = "Reveal all",
+                    expandLabel = "End",
                     collapseLabel = "Hide all",
                     enabled = enabled,
                     onEnabledChange = { enabled = it },
+                    extraLabel = "Start",
+                    onExtra = {
+                        messages.forEach { message ->
+                            val state = states[Inbox.indexOf(message)]
+                            coroutineScope.launch { state.moveTo(RevealState.StartActionsVisible) }
+                        }
+                    },
                 )
             }
 
@@ -171,13 +207,23 @@ private fun InboxScreen(onBack: () -> Unit, controlled: Boolean, modifier: Modif
                         message = message,
                         state = state,
                         enabled = enabled,
+                        group = group,
+                        isPinned = message in pinned,
+                        onPin = {
+                            if (message in pinned) {
+                                pinned.remove(message)
+                            } else {
+                                pinned.add(message)
+                            }
+                            coroutineScope.launch { state.moveTo(RevealState.NoActionsVisible) }
+                        },
                         onArchive = {
                             // Hide first, so the message returns closed when it is restored
-                            coroutineScope.launch { state.hide() }
+                            coroutineScope.launch { state.moveTo(RevealState.NoActionsVisible) }
                             messages.remove(message)
                         },
                         onDelete = {
-                            coroutineScope.launch { state.hide() }
+                            coroutineScope.launch { state.moveTo(RevealState.NoActionsVisible) }
                             messages.remove(message)
                         },
                         modifier = Modifier.animateItem(),
@@ -205,27 +251,42 @@ private fun MessageRow(
     message: Message,
     state: SwipeToRevealState,
     enabled: Boolean,
+    group: SwipeToRevealGroup?,
+    isPinned: Boolean,
+    onPin: () -> Unit,
     onArchive: () -> Unit,
     onDelete: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
     SwipeToReveal(
-        actions = {
+        modifier = modifier.fillMaxWidth(),
+        startActions = {
             ActionButton(
-                text = "Archive",
-                containerColor = MaterialTheme.colorScheme.tertiary,
-                contentColor = MaterialTheme.colorScheme.onTertiary,
-                onClick = onArchive,
-            )
-            ActionButton(
-                text = "Delete",
-                containerColor = MaterialTheme.colorScheme.error,
-                contentColor = MaterialTheme.colorScheme.onError,
-                onClick = onDelete,
+                text = if (isPinned) "Unpin" else "Pin",
+                containerColor = MaterialTheme.colorScheme.primary,
+                contentColor = MaterialTheme.colorScheme.onPrimary,
+                onClick = onPin,
             )
         },
-        modifier = modifier.fillMaxWidth(),
+        endActions = {
+            // The actions slot has no layout of its own, so the buttons are arranged here
+            Row {
+                ActionButton(
+                    text = "Archive",
+                    containerColor = MaterialTheme.colorScheme.tertiary,
+                    contentColor = MaterialTheme.colorScheme.onTertiary,
+                    onClick = onArchive,
+                )
+                ActionButton(
+                    text = "Delete",
+                    containerColor = MaterialTheme.colorScheme.error,
+                    contentColor = MaterialTheme.colorScheme.onError,
+                    onClick = onDelete,
+                )
+            }
+        },
         state = state,
+        group = group,
         enabled = enabled,
     ) {
         // The content must be opaque, as it is drawn on top of the actions
@@ -237,7 +298,9 @@ private fun MessageRow(
                     maxLines = 1,
                 )
             },
-            overlineContent = { Text(text = message.sender) },
+            overlineContent = {
+                Text(text = if (isPinned) "${message.sender} · Pinned" else message.sender)
+            },
             leadingContent = { SenderAvatar(sender = message.sender) },
             colors = ListItemDefaults.colors(containerColor = MaterialTheme.colorScheme.background),
             modifier = Modifier
@@ -307,8 +370,9 @@ private fun Footer(
             )
         } else {
             InfoCard(
-                title = "Swipe to the left",
-                text = "The actions sit behind the message and are revealed as it moves aside. " +
+                title = "Swipe in either direction",
+                text = "Swipe to the left for Archive and Delete, to the right for Pin. " +
+                    "The actions sit behind the message and are revealed as it moves aside. " +
                     "A message that is released halfway settles at the closer position.",
             )
         }

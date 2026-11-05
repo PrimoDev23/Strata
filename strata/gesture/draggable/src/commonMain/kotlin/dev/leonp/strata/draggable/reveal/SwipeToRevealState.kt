@@ -1,12 +1,20 @@
 package dev.leonp.strata.draggable.reveal
 
+import androidx.compose.animation.core.FiniteAnimationSpec
 import androidx.compose.foundation.gestures.AnchoredDraggableState
 import androidx.compose.foundation.gestures.animateTo
+import androidx.compose.foundation.gestures.snapTo
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Stable
 import androidx.compose.runtime.saveable.mapSaver
 import androidx.compose.runtime.saveable.rememberSaveable
 
+/**
+ * Observes and controls a [SwipeToReveal].
+ *
+ * Create it with [rememberSwipeToRevealState]. Its [settledValue] survives configuration changes
+ * and process death.
+ */
 @Stable
 public class SwipeToRevealState internal constructor(initialRevealState: RevealState) {
     internal val draggableState: AnchoredDraggableState<RevealState> = AnchoredDraggableState(
@@ -14,33 +22,55 @@ public class SwipeToRevealState internal constructor(initialRevealState: RevealS
     )
 
     /**
-     * Whether the actions have settled revealed.
+     * The position the content has settled at.
      *
-     * It stays `false` while the content is dragged or animated towards the revealed position and
-     * only changes once it has arrived. It is backed by snapshot state, so reading it in composition
-     * recomposes when it changes.
+     * It only changes once the content has arrived at a new position, so it keeps its previous
+     * value while the content is dragged or animated. It is backed by snapshot state, so reading it
+     * in composition recomposes when it changes.
      */
-    public val isRevealed: Boolean
-        get() = draggableState.settledValue == RevealState.Revealed
+    public val settledValue: RevealState
+        get() = draggableState.settledValue
 
     /**
-     * Animates the content aside to reveal the actions.
+     * Whether the content has settled at a position that shows either the start or the end actions.
      *
-     * Suspends until the animation finishes. If it is interrupted, for example by a drag or another
-     * call to [reveal] or [hide], it is cancelled.
+     * Like [settledValue] it stays unchanged while the content is dragged or animated, and reading
+     * it in composition recomposes when it changes.
      */
-    public suspend fun reveal() {
-        draggableState.animateTo(RevealState.Revealed)
+    public val isRevealed: Boolean
+        get() = draggableState.settledValue != RevealState.NoActionsVisible
+
+    /**
+     * Animates the content to the position of [targetValue].
+     *
+     * Suspends until the animation finishes. If it is interrupted, for example by a drag, [snapTo]
+     * or another call to [animateTo], it is cancelled. Only pass positions whose actions are
+     * provided to [SwipeToReveal], as the content has no position to move to otherwise.
+     *
+     * @param targetValue The position to animate to.
+     * @param animationSpec The animation that moves the content.
+     */
+    public suspend fun animateTo(
+        targetValue: RevealState,
+        animationSpec: FiniteAnimationSpec<Float>,
+    ) {
+        draggableState.animateTo(
+            targetValue = targetValue,
+            animationSpec = animationSpec,
+        )
     }
 
     /**
-     * Animates the content back over the actions.
+     * Moves the content to the position of [targetValue] without an animation.
      *
-     * Suspends until the animation finishes. If it is interrupted, for example by a drag or another
-     * call to [reveal] or [hide], it is cancelled.
+     * Use it to reset the state, for example when the item it belongs to is replaced. It cancels a
+     * running drag or animation. Only pass positions whose actions are provided to
+     * [SwipeToReveal], as the content has no position to move to otherwise.
+     *
+     * @param targetValue The position to jump to.
      */
-    public suspend fun hide() {
-        draggableState.animateTo(RevealState.Hidden)
+    public suspend fun snapTo(targetValue: RevealState) {
+        draggableState.snapTo(targetValue = targetValue)
     }
 
     internal companion object {
@@ -57,9 +87,14 @@ public class SwipeToRevealState internal constructor(initialRevealState: RevealS
     }
 }
 
+/**
+ * Creates a [SwipeToRevealState] that starts with the actions hidden.
+ *
+ * The settled position is saved and restored across configuration changes and process death.
+ */
 @Composable
 public fun rememberSwipeToRevealState(): SwipeToRevealState = rememberSaveable(
     saver = SwipeToRevealState.Saver,
 ) {
-    SwipeToRevealState(initialRevealState = RevealState.Hidden)
+    SwipeToRevealState(initialRevealState = RevealState.NoActionsVisible)
 }

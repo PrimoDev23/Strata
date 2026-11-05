@@ -24,6 +24,9 @@ import androidx.compose.ui.unit.dp
  * @param collapseLabel the text of the collapse button.
  * @param enabled whether dragging is enabled, or `null` to hide the switch for it.
  * @param onEnabledChange called when the switch for [enabled] is toggled.
+ * @param extraLabel the text of an additional button between expand and collapse, or `null` to hide
+ * it.
+ * @param onExtra called when the additional button is clicked.
  */
 @Composable
 internal fun StateControls(
@@ -35,6 +38,8 @@ internal fun StateControls(
     collapseLabel: String = "Collapse",
     enabled: Boolean? = null,
     onEnabledChange: (Boolean) -> Unit = {},
+    extraLabel: String? = null,
+    onExtra: () -> Unit = {},
 ) {
     Column(
         modifier = modifier.padding(horizontal = 16.dp, vertical = 8.dp),
@@ -66,6 +71,16 @@ internal fun StateControls(
             ) {
                 Text(text = expandLabel)
             }
+
+            if (extraLabel != null) {
+                OutlinedButton(
+                    onClick = onExtra,
+                    modifier = Modifier.weight(1f),
+                ) {
+                    Text(text = extraLabel)
+                }
+            }
+
             OutlinedButton(
                 onClick = onCollapse,
                 modifier = Modifier.weight(1f),
