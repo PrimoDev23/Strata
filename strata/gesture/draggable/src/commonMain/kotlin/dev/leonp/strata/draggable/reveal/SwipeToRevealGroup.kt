@@ -1,6 +1,5 @@
 package dev.leonp.strata.draggable.reveal
 
-import androidx.compose.animation.core.tween
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Stable
 import androidx.compose.runtime.getValue
@@ -10,8 +9,6 @@ import androidx.compose.runtime.setValue
 import kotlin.uuid.Uuid
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
-
-private const val HIDE_ANIMATION_DURATION_MILLIS = 300
 
 /**
  * Coordinates multiple [SwipeToReveal]s so that at most one of them has its actions revealed.
@@ -42,7 +39,7 @@ public class SwipeToRevealGroup internal constructor() {
     /**
      * Hides every registered state except the one registered under [key].
      *
-     * The states are hidden one after another and the call suspends until the last animation
+     * The states are hidden at the same time and the call suspends until the last animation
      * finished.
      */
     internal suspend fun hideOther(key: Uuid) {
@@ -50,10 +47,7 @@ public class SwipeToRevealGroup internal constructor() {
             items.forEach { (itemKey, state) ->
                 if (key != itemKey) {
                     launch {
-                        state.animateTo(
-                            targetValue = RevealState.NoActionsVisible,
-                            animationSpec = tween(durationMillis = HIDE_ANIMATION_DURATION_MILLIS),
-                        )
+                        state.animateToDefault(targetValue = RevealState.NoActionsVisible)
                     }
                 }
             }

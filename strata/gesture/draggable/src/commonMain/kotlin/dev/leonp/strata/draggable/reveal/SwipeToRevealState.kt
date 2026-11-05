@@ -1,6 +1,7 @@
 package dev.leonp.strata.draggable.reveal
 
 import androidx.compose.animation.core.FiniteAnimationSpec
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.gestures.AnchoredDraggableState
 import androidx.compose.foundation.gestures.animateTo
 import androidx.compose.foundation.gestures.snapTo
@@ -8,6 +9,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Stable
 import androidx.compose.runtime.saveable.mapSaver
 import androidx.compose.runtime.saveable.rememberSaveable
+
+private const val DEFAULT_ANIMATION_DURATION_MILLIS = 300
 
 /**
  * Observes and controls a [SwipeToReveal].
@@ -57,6 +60,18 @@ public class SwipeToRevealState internal constructor(initialRevealState: RevealS
         draggableState.animateTo(
             targetValue = targetValue,
             animationSpec = animationSpec,
+        )
+    }
+
+    /**
+     * Animates the content to the position of [targetValue] with the animation the library uses for
+     * transitions it starts itself, for example from accessibility actions or a
+     * [SwipeToRevealGroup].
+     */
+    internal suspend fun animateToDefault(targetValue: RevealState) {
+        animateTo(
+            targetValue = targetValue,
+            animationSpec = tween(durationMillis = DEFAULT_ANIMATION_DURATION_MILLIS),
         )
     }
 

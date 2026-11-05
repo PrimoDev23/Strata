@@ -44,6 +44,7 @@ import dev.leonp.strata.common.StateControls
 import dev.leonp.strata.draggable.reveal.RevealState
 import dev.leonp.strata.draggable.reveal.SwipeToReveal
 import dev.leonp.strata.draggable.reveal.SwipeToRevealGroup
+import dev.leonp.strata.draggable.reveal.SwipeToRevealLabels
 import dev.leonp.strata.draggable.reveal.SwipeToRevealState
 import dev.leonp.strata.draggable.reveal.rememberSwipeToRevealGroup
 import dev.leonp.strata.draggable.reveal.rememberSwipeToRevealState
@@ -288,6 +289,12 @@ private fun MessageRow(
         state = state,
         group = group,
         enabled = enabled,
+        labels = SwipeToRevealLabels(
+            revealStartActions = if (isPinned) "Show unpin action" else "Show pin action",
+            revealEndActions = "Show archive and delete actions",
+            hideActions = "Hide actions",
+            revealedStateDescription = "Actions shown",
+        ),
     ) {
         // The content must be opaque, as it is drawn on top of the actions
         ListItem(
