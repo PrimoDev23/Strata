@@ -20,6 +20,8 @@ import androidx.compose.ui.unit.dp
  * @param settledText describes the settled state, for example `isCollapsed = true`.
  * @param onExpand called when the expand button is clicked.
  * @param onCollapse called when the collapse button is clicked.
+ * @param expandLabel the text of the expand button.
+ * @param collapseLabel the text of the collapse button.
  * @param enabled whether dragging is enabled, or `null` to hide the switch for it.
  * @param onEnabledChange called when the switch for [enabled] is toggled.
  */
@@ -29,6 +31,8 @@ internal fun StateControls(
     onExpand: () -> Unit,
     onCollapse: () -> Unit,
     modifier: Modifier = Modifier,
+    expandLabel: String = "Expand",
+    collapseLabel: String = "Collapse",
     enabled: Boolean? = null,
     onEnabledChange: (Boolean) -> Unit = {},
 ) {
@@ -60,13 +64,13 @@ internal fun StateControls(
                 onClick = onExpand,
                 modifier = Modifier.weight(1f),
             ) {
-                Text(text = "Expand")
+                Text(text = expandLabel)
             }
             OutlinedButton(
                 onClick = onCollapse,
                 modifier = Modifier.weight(1f),
             ) {
-                Text(text = "Collapse")
+                Text(text = collapseLabel)
             }
         }
     }

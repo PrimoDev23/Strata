@@ -18,6 +18,10 @@ enum class DemoComponent(val title: String, val description: String) {
         title = "Swipe to confirm",
         description = "A thumb that is slid along a track to confirm an action that must not happen by accident.",
     ),
+    SwipeToReveal(
+        title = "Swipe to reveal",
+        description = "Content that is swiped aside to reveal actions behind it, like in a mail list.",
+    ),
     AnimatedColumn(
         title = "Animated column",
         description = "A column that animates its children to their new position whenever the order changes.",

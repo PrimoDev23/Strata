@@ -8,6 +8,7 @@ import dev.leonp.strata.catalog.DemoComponent.CollapsibleHeader
 import dev.leonp.strata.catalog.DemoComponent.CompareSlider
 import dev.leonp.strata.catalog.DemoComponent.ExpandableContent
 import dev.leonp.strata.catalog.DemoComponent.SwipeToConfirm
+import dev.leonp.strata.catalog.DemoComponent.SwipeToReveal
 
 /** Every demo of the app, sorted into a [DemoComponent] and one of its [DemoCategory] sub menus. */
 enum class DemoSample(
@@ -132,6 +133,18 @@ enum class DemoSample(
         category = Configuration,
         title = "Track color as indicator",
         description = "The track color fills the area behind the thumb, so no custom progress indicator is needed.",
+    ),
+    SwipeToRevealInbox(
+        component = SwipeToReveal,
+        category = NonAnimated,
+        title = "Mail inbox",
+        description = "Swipe a message to the left to archive or delete it. The actions sit behind the message.",
+    ),
+    SwipeToRevealControlled(
+        component = SwipeToReveal,
+        category = Configuration,
+        title = "Controlled from code",
+        description = "Buttons reveal and hide the actions of all messages and a switch disables swiping.",
     ),
     AnimatedColumnReorder(
         component = AnimatedColumn,
