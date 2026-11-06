@@ -3,6 +3,14 @@
 Guidelines for working in Strata, a Kotlin Multiplatform (Android + iOS) Compose library of draggable,
 layered layouts. They are extracted from the existing code, so follow the surrounding code when in doubt.
 
+## Working with AI agents
+
+- AI agents do not edit code on their own initiative. By default they only propose changes in text
+  form (explanation, snippets, diffs) and wait.
+- Changes are implemented only after being explicitly told to, for example "implement this" or "apply
+  it". A question, a review request or a discussion is not an instruction to edit files.
+- An instruction covers only the change that was asked for. Further changes need a new instruction.
+
 ## Project layout
 
 - `strata/gesture/draggable`: published library (`CollapsibleHeaderContainer`,
