@@ -311,6 +311,7 @@ private fun MessageRow(
             leadingContent = { SenderAvatar(sender = message.sender) },
             colors = ListItemDefaults.colors(containerColor = MaterialTheme.colorScheme.background),
             modifier = Modifier
+                .revealSemantics()
                 .fillMaxWidth()
                 .height(MessageHeight),
         )

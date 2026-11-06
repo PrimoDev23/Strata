@@ -22,6 +22,9 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
   and `confirmedStateDescription` is announced once confirmed.
 - `SwipeToRevealState.reveal()`, `hide()` and `isRevealed` reveal and hide the actions of
   `SwipeToReveal` from code and tell whether they have settled revealed.
+- `SwipeToRevealContentScope.revealSemantics()` offers custom accessibility actions that reveal and
+  hide the actions of `SwipeToReveal`. Apply it to the root of the content, as content that merges
+  its own semantics is focused on its own by screen readers.
 - The demo has a mail inbox sample for `SwipeToReveal`, also controlled from code.
 - `CollapsibleHeaderContainerState.expand()`, `collapse()` and `isCollapsed` expand and collapse the
   header from code and tell whether it has settled collapsed.
