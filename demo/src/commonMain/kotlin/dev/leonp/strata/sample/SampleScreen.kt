@@ -26,6 +26,8 @@ import dev.leonp.strata.expandable.MusicPlayerSample
 import dev.leonp.strata.expandable.ScrollableExpandedContentSample
 import dev.leonp.strata.expandable.WithCollapsibleHeaderSample
 import dev.leonp.strata.reorder.ReorderSample
+import dev.leonp.strata.reveal.ControlledInboxSample
+import dev.leonp.strata.reveal.InboxSample
 
 /** Shows the demo of [sample]. */
 @Composable
@@ -126,6 +128,13 @@ private fun SampleContent(sample: DemoSample, onBack: () -> Unit) {
         )
 
         DemoSample.SwipeToConfirmTrackFill -> SwipeToConfirmTrackSample(
+            onBack = onBack,
+            modifier = sampleModifier,
+        )
+
+        DemoSample.SwipeToRevealInbox -> InboxSample(onBack = onBack, modifier = sampleModifier)
+
+        DemoSample.SwipeToRevealControlled -> ControlledInboxSample(
             onBack = onBack,
             modifier = sampleModifier,
         )
